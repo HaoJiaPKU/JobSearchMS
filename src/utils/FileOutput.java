@@ -22,7 +22,8 @@ public class FileOutput {
 	
 	public void initOutput(String outputPath) {
 		try {
-			this.t1 = new FileOutputStream(new File(outputPath));
+			File file = new File(outputPath);
+			this.t1 = new FileOutputStream(file);
 			try {
 				this.t2 = new OutputStreamWriter(this.t1, EncodingOutput);
 				this.t3 = new BufferedWriter(this.t2);
@@ -38,7 +39,9 @@ public class FileOutput {
 	
 	public void closeOutput() {
 		try {
-			this.t3.close();
+			if (this.t3 != null) {
+				this.t3.close();
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -10,23 +10,21 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import conf.ZhilianConf;
 import utils.FileOutput;
 import utils.HttpClientUtil;
 
-public class Zhillian {
+public class Zhilian {
 	
-	public static final String IndustryUrl = "http://sou.zhaopin.com/jobs/searchresult.ashx?bj=160000&in=210500&jl=%E5%8C%97%E4%BA%AC&sm=0&sg=ab99a48943284cd0a2ca8acac91b00d7&p=";
-	public static final String HostUrl = "http://jobs.zhaopin.com/";
-	public static final int MaxPageNumber = 90;
+	public Zhilian() {
+		
+	}
 	
-	public static final String DataDir = "recruit data/";
-	public static String saveDir = new String();
-	
-	public static String getIndexPage(String url) {
+	public String getIndexPage(String url) {
 		return HttpClientUtil.httpGetRequest(url);
 	}
 	
-	public static void parseIndexPage(String content) {
+	public void parseIndexPage(String content, String saveDir) {
 //		System.out.println(content);
 		Document doc = Jsoup.parse(content);
 		Elements tables = doc.select(".newlist");
@@ -85,17 +83,19 @@ public class Zhillian {
 				continue;
 			}
 			String date = td.text().toString();
-//			System.out.println(date);
-			getRecruitPage(link, saveDir + "/" + date + "-" + link.substring(HostUrl.length()));
+//			System.out.println(link);
+			getRecruitPage(link, saveDir + "/" + date + "-" + link.substring(ZhilianConf.getHosturl().length()));
 		}
 	}
 	
-	public static void getRecruitPage(String url, String path) {
+	public void getRecruitPage(String url, String path) {
 //		System.out.println(url);
 		String content = HttpClientUtil.httpGetRequest(url);
 		FileOutput fo = new FileOutput(path);
 		try {
-			fo.t3.write(content);
+			if (fo.t3 != null) {
+				fo.t3.write(content);
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -103,18 +103,19 @@ public class Zhillian {
 		fo.closeOutput();
 	}
 	
-	public static void batch() {
-		String curTime = getCurrentTime();
-		saveDir = DataDir + curTime;
-		File file = new File(saveDir);  
-		if (!file.exists() && !file.isDirectory()) {
-			file.mkdir();    
-		}
-		for (int i = 31; i <= MaxPageNumber; i ++) {
-//			System.out.println(IndustryUrl + String.valueOf(i));
-			String content = getIndexPage(IndustryUrl + String.valueOf(i));
-//			System.out.println(content);
-			parseIndexPage(content);
+	public void batch(ZhilianConf zc) {
+		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
+			String curTime = getCurrentTime();
+			String saveDir = zc.getDataDir() + "/" + zc.getIndustryDir().get(i)
+				+ "/" + curTime;
+			File file = new File(saveDir);
+			if (!file.exists() && !file.isDirectory()) {
+				file.mkdir();    
+			}
+			for (int j = 1; j <= zc.getMaxPageNumber(); j ++) {
+				String content = getIndexPage(zc.getIndustryUrl().get(i) + String.valueOf(j));
+				parseIndexPage(content, saveDir);
+			}
 		}
 	}
 	
@@ -127,6 +128,9 @@ public class Zhillian {
     }
 	
 	public static void main(String [] args) throws IOException {
-		batch();
+		ZhilianConf zc = new ZhilianConf();
+		zc.run();
+		Zhilian zl = new Zhilian();
+		zl.batch(zc);
 	}
 }
