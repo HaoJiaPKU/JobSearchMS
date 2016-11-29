@@ -16,7 +16,7 @@ public class ZhilianConf {
 	
 	public ZhilianConf() {
 		MaxPageNumber = 90;
-		dataDir = "recruit-data/";
+		dataDir = "1data/";
 		industryDir.add("互联网&电子商务");
 		industryUrl.add("http://sou.zhaopin.com/jobs/searchresult.ashx?bj=160000&in=210500&jl=%E5%8C%97%E4%BA%AC&sm=0&sg=ab99a48943284cd0a2ca8acac91b00d7&p=");
 	}
