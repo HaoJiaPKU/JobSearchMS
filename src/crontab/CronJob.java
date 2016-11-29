@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CronJob {
-	@Scheduled(cron = "0 0 2 * * ?")//Ã¿ÌìÒ¹¼ä2µãÖ´ĞĞ¶¨Ê±ÅÀÈ¡ÈÎÎñ
+	@Scheduled(cron = "35 0 * * * ?")//æ¯å¤©å¤œé—´2ç‚¹æ‰§è¡Œå®šæ—¶çˆ¬å–ä»»åŠ¡
 	public void CrawZhiLian() {
 		ZhilianConf zc = new ZhilianConf();
 		zc.run();
