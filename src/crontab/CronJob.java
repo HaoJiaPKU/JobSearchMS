@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CronJob {
-	@Scheduled(cron = "0 17 23 * * ?")//每天夜间1点执行定时爬取任务
+	@Scheduled(cron = "0/1 * * * * ?")//每天夜间1点执行定时爬取任务
 	public void CrawZhiLian() {
 		ZhilianConf zc = new ZhilianConf();
 		zc.run();

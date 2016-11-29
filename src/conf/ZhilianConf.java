@@ -16,13 +16,22 @@ public class ZhilianConf {
 	
 	public ZhilianConf() {
 		MaxPageNumber = 90;
-		dataDir = "1data/";
+		dataDir = "data";
 		industryDir.add("互联网&电子商务");
 		industryUrl.add("http://sou.zhaopin.com/jobs/searchresult.ashx?bj=160000&in=210500&jl=%E5%8C%97%E4%BA%AC&sm=0&sg=ab99a48943284cd0a2ca8acac91b00d7&p=");
+		
+		File file = new File(getDataDir());
+		if (!file.exists() && !file.isDirectory()) {
+			file.mkdirs();    
+		}
+		file = new File(getDataDir() + "/" + industryDir.get(0));
+		if (!file.exists() && !file.isDirectory()) {
+			file.mkdirs();    
+		}
 	}
 	
 	public void run() {
-		FileInput fi = new FileInput("conf/zhilian.conf");
+		FileInput fi = new FileInput("../webapps/conf/zhilian.conf");
 		if (fi.reader != null) {
 			String line = new String();
 			try {
