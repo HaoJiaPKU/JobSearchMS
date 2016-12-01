@@ -13,6 +13,7 @@ import org.jsoup.select.Elements;
 import conf.ZhilianConf;
 import utils.FileOutput;
 import utils.HttpClientUtil;
+import utils.TimeUtil;
 
 public class Zhilian {
 	
@@ -103,9 +104,9 @@ public class Zhilian {
 		fo.closeOutput();
 	}
 	
-	public void batch(ZhilianConf zc) {
+	public void getRecruitPageBatch(ZhilianConf zc) {
 		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
-			String curTime = getCurrentTime();
+			String curTime = TimeUtil.getCurrentTime();
 			String saveDir = zc.getDataDir() + "/" + zc.getIndustryDir().get(i)
 				+ "/" + curTime;
 			File file = new File(saveDir);
@@ -118,19 +119,11 @@ public class Zhilian {
 			}
 		}
 	}
-	
-	public static String getCurrentTime() {
-        String returnStr = null;
-        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        returnStr = f.format(date);
-        return returnStr;
-    }
-	
+		
 	public static void main(String [] args) throws IOException {
 		ZhilianConf zc = new ZhilianConf();
 		zc.run();
 		Zhilian zl = new Zhilian();
-		zl.batch(zc);
+		zl.getRecruitPageBatch(zc);
 	}
 }

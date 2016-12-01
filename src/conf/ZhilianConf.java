@@ -8,6 +8,7 @@ import utils.FileInput;
 
 public class ZhilianConf {
 	public static final String HostUrl = "http://jobs.zhaopin.com/";
+	public static final String ConfFile = "../../../../workspace/JobSearchMS/conf/zhilian.conf";
 	
 	public int MaxPageNumber = -1;
 	public String dataDir = new String();
@@ -31,7 +32,7 @@ public class ZhilianConf {
 	}
 	
 	public void run() {
-		FileInput fi = new FileInput("../webapps/conf/zhilian.conf");
+		FileInput fi = new FileInput(ConfFile);
 		if (fi.reader != null) {
 			String line = new String();
 			try {
