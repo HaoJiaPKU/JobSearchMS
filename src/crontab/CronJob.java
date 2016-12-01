@@ -11,11 +11,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class CronJob {
 	
-	@Scheduled(cron = "0 49 20 * * ?")
+	@Scheduled(cron = "10 6 1 * * ?")
 	public void CrawZhiLian() {
 		ZhilianConf zc = new ZhilianConf();
 		zc.run();
 		Zhilian zl = new Zhilian();
-		zl.getRecruitPageBatch(zc);
+//		zl.getRecruitPageBatch(zc);
+		zl.parseRecruitPageBatch(zc);
 	}
 }

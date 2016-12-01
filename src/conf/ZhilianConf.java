@@ -12,20 +12,28 @@ public class ZhilianConf {
 	
 	public int MaxPageNumber = -1;
 	public String dataDir = new String();
+	public String descriptionDir = new String();
 	public ArrayList<String> industryUrl = new ArrayList<String>();
 	public ArrayList<String> industryDir = new ArrayList<String>();
 	
 	public ZhilianConf() {
 		MaxPageNumber = 90;
 		dataDir = "data";
+		descriptionDir = "description";
+		makeDirs(getDataDir());
+		makeDirs(getDescriptionDir());
+		
+		industryDir.clear();
+		industryUrl.clear();
 		industryDir.add("互联网&电子商务");
 		industryUrl.add("http://sou.zhaopin.com/jobs/searchresult.ashx?bj=160000&in=210500&jl=%E5%8C%97%E4%BA%AC&sm=0&sg=ab99a48943284cd0a2ca8acac91b00d7&p=");
-		
-		File file = new File(getDataDir());
-		if (!file.exists() && !file.isDirectory()) {
-			file.mkdirs();    
-		}
-		file = new File(getDataDir() + "/" + industryDir.get(0));
+		makeDirs(getDataDir() + "/" + industryDir.get(0));
+		makeDirs(getDescriptionDir() + "/" + industryDir.get(0));
+	}
+	
+	public void makeDirs(String path) {
+		File file = new File(path);
+		System.out.println("make dir : " + file.getAbsolutePath());
 		if (!file.exists() && !file.isDirectory()) {
 			file.mkdirs();    
 		}
@@ -36,21 +44,20 @@ public class ZhilianConf {
 		if (fi.reader != null) {
 			String line = new String();
 			try {
+				line = fi.reader.readLine();
+				String workspace = line.trim();
+				
+				setDataDir(workspace + "/" + dataDir);
+				setDescriptionDir(workspace + "/" + descriptionDir);
+				makeDirs(getDataDir());
+				makeDirs(getDescriptionDir());
+				
 				industryDir.clear();
 				industryUrl.clear();
-				
-				line = fi.reader.readLine();
-				setDataDir(line.trim());
-				File file = new File(getDataDir());
-				if (!file.exists() && !file.isDirectory()) {
-					file.mkdirs();    
-				}
 				while((line = fi.reader.readLine()) != null) {
 					String args[] = line.trim().split("	+");
-					file = new File(getDataDir() + "/" + args[0].trim());
-					if (!file.exists() && !file.isDirectory()) {
-						file.mkdirs();    
-					}
+					makeDirs(getDataDir() + "/" + args[0].trim());
+					makeDirs(getDescriptionDir() + "/" + args[0].trim());
 					industryDir.add(args[0].trim());
 					industryUrl.add(args[1].trim());
 				}
@@ -89,6 +96,18 @@ public class ZhilianConf {
 		return HostUrl;
 	}
 	
+	public String getDescriptionDir() {
+		return descriptionDir;
+	}
+
+	public void setDescriptionDir(String descriptionDir) {
+		this.descriptionDir = descriptionDir;
+	}
+
+	public static String getConffile() {
+		return ConfFile;
+	}
+
 	public static void main(String []args) {
 		ZhilianConf zc = new ZhilianConf();
 		zc.run();

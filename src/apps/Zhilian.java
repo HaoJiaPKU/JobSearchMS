@@ -11,6 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import conf.ZhilianConf;
+import utils.FileInput;
 import utils.FileOutput;
 import utils.HttpClientUtil;
 import utils.TimeUtil;
@@ -19,6 +20,14 @@ public class Zhilian {
 	
 	public Zhilian() {
 		
+	}
+	
+	public void makeDirs(String path) {
+		File file = new File(path);
+		System.out.println("make dir : " + file.getAbsolutePath());
+		if (!file.exists() && !file.isDirectory()) {
+			file.mkdirs();    
+		}
 	}
 	
 	public String getIndexPage(String url) {
@@ -107,19 +116,73 @@ public class Zhilian {
 	public void getRecruitPageBatch(ZhilianConf zc) {
 		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
 			String curTime = TimeUtil.getCurrentTime();
-			String saveDir = zc.getDataDir() + "/" + zc.getIndustryDir().get(i)
+			String dataDir = zc.getDataDir() + "/" + zc.getIndustryDir().get(i)
 				+ "/" + curTime;
-			File file = new File(saveDir);
-			if (!file.exists() && !file.isDirectory()) {
-				file.mkdir();    
-			}
+			makeDirs(dataDir);
 			for (int j = 1; j <= zc.getMaxPageNumber(); j ++) {
 				String content = getIndexPage(zc.getIndustryUrl().get(i) + String.valueOf(j));
-				parseIndexPage(content, saveDir);
+				parseIndexPage(content, dataDir);
 			}
 		}
 	}
+	
+	public void parseRecruitPage(String inputPath, String outputPath) {
+		FileInput fi = new FileInput(inputPath);
+		FileOutput fo = new FileOutput(outputPath);
 		
+		String content = new String(), line = new String();
+		try {
+			while ((line = fi.reader.readLine()) != null) {
+				content += line;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		System.out.println(content);
+		Document doc = Jsoup.parse(content);
+		Elements divs = doc.select(".tab-cont-box");
+		if (divs != null) {
+			Element div = divs.first();
+			if (div != null) {
+				divs = div.select(".tab-inner-cont");
+				if (divs != null) {
+					div = divs.first();
+					if (div != null) {
+						try {
+							fo.t3.write(div.text());
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}
+		
+		fo.closeOutput();
+		fi.closeInput();
+	}
+	
+	public void parseRecruitPageBatch(ZhilianConf zc) {
+		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
+			String curTime = TimeUtil.getCurrentTime();
+			String descriptionDir = zc.getDescriptionDir()
+					+ "/" + zc.getIndustryDir().get(i)
+					+ "/" + curTime;
+			makeDirs(descriptionDir);
+			String dataDir = zc.getDataDir()
+					+ "/" + zc.getIndustryDir().get(i)
+					+ "/" + curTime;
+			makeDirs(dataDir);
+			File file = new File(dataDir);
+			for (File f : file.listFiles()) {
+				System.out.println("input file : " + f.getAbsolutePath());
+				parseRecruitPage(f.getAbsolutePath(), descriptionDir + "/" + f.getName());
+			}
+		}
+	}
+	
 	public static void main(String [] args) throws IOException {
 		ZhilianConf zc = new ZhilianConf();
 		zc.run();
