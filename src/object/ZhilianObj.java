@@ -1,7 +1,16 @@
 package object;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.mysql.cj.jdbc.PreparedStatement;
+
 public class ZhilianObj {
 
+	private String postitle = new String ();
 	private String posSalary = new String ();
 	private String posLocation = new String ();
 	private String posPublishDate = new String ();
@@ -10,6 +19,8 @@ public class ZhilianObj {
 	private String posDgree = new String ();
 	private String posRecruitNum = new String ();
 	private String posCategory = new String ();
+	private String posDescription = new String ();
+	private String posUrl = new String ();
 	
 	private String comScale = new String ();
 	private String comType = new String ();
@@ -17,13 +28,84 @@ public class ZhilianObj {
 	private String comHost = new String ();
 	private String comLocation = new String ();
 	
-	private String description = new String ();
+	private String source = "智联招聘";
+	private String snapshotUrl = new String ();
 	
-	public ZhilianObj () {
+	public ZhilianObj() {
 		
 	}
 	
+	public void saveZhilianObj() {
+		String url = "jdbc:mysql://162.105.30.30:3306/jobsearch?"
+				+ "user=root&password=seke1726&useUnicode=true&characterEncoding=UTF-8";
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn;
+			try {
+				conn = DriverManager.getConnection(url);
+				String sql = "insert into recruitment_("
+						+ "pos_title,"
+						+ "pos_salary,"
+						+ "pos_location,"
+						+ "pos_publish_date,"
+						+ "pos_type,"
+						+ "pos_experience,"
+						+ "pos_dgree,"
+						+ "pos_recruit_num,"
+						+ "pos_category,"
+						+ "pos_description,"
+						+ "pos_url,"
+						+ "com_scale,"
+						+ "com_type,"
+						+ "com_industry,"
+						+ "com_host,"
+						+ "com_location,"
+						+ "source)"
+						+ " values("
+						+ "'" + this.postitle + "',"
+						+ "'" + this.posSalary + "',"
+						+ "'" + this.posLocation + "',"
+						+ "'" + this.posPublishDate + "',"
+						+ "'" + this.posType + "',"
+						+ "'" + this.posExperience + "',"
+						+ "'" + this.posDgree + "',"
+						+ "'" + this.posRecruitNum + "',"
+						+ "'" + this.posCategory + "',"
+						+ "'" + this.posDescription + "',"
+						+ "'" + this.posUrl + "',"
+						+ "'" + this.comScale + "',"
+						+ "'" + this.comType + "',"
+						+ "'" + this.comIndustry + "',"
+						+ "'" + this.comHost + "',"
+						+ "'" + this.comLocation + "',"
+						+ "'" + this.source + "');";
+				System.out.println(sql);
+
+				java.sql.PreparedStatement stmt;
+				try {
+					stmt = conn.prepareStatement(sql);
+					try {
+						stmt.executeUpdate();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void printObj() {
+		System.out.println(this.postitle);
 		System.out.println(this.posSalary);
 		System.out.println(this.posLocation);
 		System.out.println(this.posPublishDate);
@@ -32,12 +114,17 @@ public class ZhilianObj {
 		System.out.println(this.posDgree);
 		System.out.println(this.posRecruitNum);
 		System.out.println(this.posCategory);
+		System.out.println(this.posDescription);
+		System.out.println(this.posUrl);
+		
 		System.out.println(this.comScale);
 		System.out.println(this.comType);
 		System.out.println(this.comIndustry);
 		System.out.println(this.comHost);
 		System.out.println(this.comLocation);
-		System.out.println(this.description);
+		
+		System.out.println(this.snapshotUrl);
+		System.out.println(this.source);
 		System.out.println();
 	}
 	
@@ -145,12 +232,48 @@ public class ZhilianObj {
 		this.comLocation = comLocation;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getPosDescription() {
+		return posDescription;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setPosDescription(String posDescription) {
+		this.posDescription = posDescription;
+	}
+
+	public String getPostitle() {
+		return postitle;
+	}
+
+	public void setPostitle(String postitle) {
+		this.postitle = postitle;
+	}
+
+	public String getPosUrl() {
+		return posUrl;
+	}
+
+	public void setPosUrl(String posUrl) {
+		this.posUrl = posUrl;
+	}
+
+
+	public String getSource() {
+		return source;
+	}
+	
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+	
+
+	public String getSnapshotUrl() {
+		return snapshotUrl;
+	}
+	
+
+	public void setSnapshotUrl(String snapshotUrl) {
+		this.snapshotUrl = snapshotUrl;
 	}
 
 	@Override
@@ -162,8 +285,8 @@ public class ZhilianObj {
 		result = prime * result + ((comLocation == null) ? 0 : comLocation.hashCode());
 		result = prime * result + ((comScale == null) ? 0 : comScale.hashCode());
 		result = prime * result + ((comType == null) ? 0 : comType.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((posCategory == null) ? 0 : posCategory.hashCode());
+		result = prime * result + ((posDescription == null) ? 0 : posDescription.hashCode());
 		result = prime * result + ((posDgree == null) ? 0 : posDgree.hashCode());
 		result = prime * result + ((posExperience == null) ? 0 : posExperience.hashCode());
 		result = prime * result + ((posLocation == null) ? 0 : posLocation.hashCode());
@@ -171,6 +294,10 @@ public class ZhilianObj {
 		result = prime * result + ((posRecruitNum == null) ? 0 : posRecruitNum.hashCode());
 		result = prime * result + ((posSalary == null) ? 0 : posSalary.hashCode());
 		result = prime * result + ((posType == null) ? 0 : posType.hashCode());
+		result = prime * result + ((posUrl == null) ? 0 : posUrl.hashCode());
+		result = prime * result + ((postitle == null) ? 0 : postitle.hashCode());
+		result = prime * result + ((snapshotUrl == null) ? 0 : snapshotUrl.hashCode());
+		result = prime * result + ((source == null) ? 0 : source.hashCode());
 		return result;
 	}
 
@@ -208,15 +335,15 @@ public class ZhilianObj {
 				return false;
 		} else if (!comType.equals(other.comType))
 			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
 		if (posCategory == null) {
 			if (other.posCategory != null)
 				return false;
 		} else if (!posCategory.equals(other.posCategory))
+			return false;
+		if (posDescription == null) {
+			if (other.posDescription != null)
+				return false;
+		} else if (!posDescription.equals(other.posDescription))
 			return false;
 		if (posDgree == null) {
 			if (other.posDgree != null)
@@ -253,8 +380,26 @@ public class ZhilianObj {
 				return false;
 		} else if (!posType.equals(other.posType))
 			return false;
+		if (posUrl == null) {
+			if (other.posUrl != null)
+				return false;
+		} else if (!posUrl.equals(other.posUrl))
+			return false;
+		if (postitle == null) {
+			if (other.postitle != null)
+				return false;
+		} else if (!postitle.equals(other.postitle))
+			return false;
+		if (snapshotUrl == null) {
+			if (other.snapshotUrl != null)
+				return false;
+		} else if (!snapshotUrl.equals(other.snapshotUrl))
+			return false;
+		if (source == null) {
+			if (other.source != null)
+				return false;
+		} else if (!source.equals(other.source))
+			return false;
 		return true;
 	}
-		
-	
 }

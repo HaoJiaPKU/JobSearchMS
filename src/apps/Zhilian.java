@@ -93,13 +93,16 @@ public class Zhilian {
 			}
 			String date = td.text().toString();
 //			System.out.println(link);
-			getRecruitPage(link, saveDir + "/" + date + "-" + link.substring(ZhilianConf.getHosturl().length()));
+			saveRecruitPage(link, saveDir + "/" + date + "-" + link.substring(ZhilianConf.getHosturl().length()));
 		}
 	}
 	
-	public void getRecruitPage(String url, String path) {
-//		System.out.println(url);
-		String content = HttpClientUtil.httpGetRequest(url);
+	public String getRcruitPage(String url) {
+		return HttpClientUtil.httpGetRequest(url);
+	}
+	
+	public void saveRecruitPage(String url, String path) {
+		String content = getRcruitPage(url);
 		FileOutput fo = new FileOutput(path);
 		try {
 			if (fo.t3 != null) {
@@ -112,7 +115,7 @@ public class Zhilian {
 		fo.closeOutput();
 	}
 	
-	public void getRecruitPageBatch(ZhilianConf zc) {
+	public void saveRecruitPageBatch(ZhilianConf zc) {
 		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
 			String curTime = TimeUtil.getCurrentTime();
 			String dataDir = zc.getDataDir() + "/" + zc.getIndustryDir().get(i)
@@ -154,7 +157,7 @@ public class Zhilian {
 						try {
 							String description = div.text().trim();
 							fo.t3.write(description);
-							zlobj.setDescription(description);
+							zlobj.setPosDescription(description);
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -207,12 +210,30 @@ public class Zhilian {
 			}
 		}
 		
+		divs = doc.select(".inner-left");
+		if (divs != null) {
+			Element div = divs.first();
+			if (div != null) {
+				Elements h1s = div.select("h1");
+				if (h1s != null) {
+					Element h1 = h1s.first();
+					if (h1 != null) {
+						zlobj.setPostitle(h1.text().trim());
+					}
+				}
+			}
+		}
+		
+		zlobj.setPosUrl(ZhilianConf.HostUrl
+				+ new File(inputPath).getName().substring(6));
+		
 		zlobj.printObj();
+		zlobj.saveZhilianObj();
 		
 		fo.closeOutput();
 		fi.closeInput();
 	}
-	
+		
 	public void parseRecruitPageBatch(ZhilianConf zc) {
 		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
 			String curTime = TimeUtil.getCurrentTime();
@@ -232,10 +253,5 @@ public class Zhilian {
 		}
 	}
 	
-	public static void main(String [] args) throws IOException {
-		ZhilianConf zc = new ZhilianConf();
-		zc.run();
-		Zhilian zl = new Zhilian();
-		zl.getRecruitPageBatch(zc);
-	}
+	public static void main(String [] args) throws IOException {}
 }

@@ -9,12 +9,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class CronJob {
 	
-	@Scheduled(cron = "10 24 13 * * ?")
+	@Scheduled(cron = "10 47 21 * * ?")
 	public void CrawZhiLian() {
 		ZhilianConf zc = new ZhilianConf();
 		zc.run();
 		Zhilian zl = new Zhilian();
-//		zl.getRecruitPageBatch(zc);
+		//把招聘页面保存到本地
+//		zl.saveRecruitPageBatch(zc);
+		//解析本地的招聘页面，保存到服务器的mysql
 		zl.parseRecruitPageBatch(zc);
 	}
 }
