@@ -2,8 +2,6 @@ package apps;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import conf.ZhilianConf;
+import object.ZhilianObj;
 import utils.FileInput;
 import utils.FileOutput;
 import utils.HttpClientUtil;
@@ -140,6 +139,9 @@ public class Zhilian {
 			e.printStackTrace();
 		}
 //		System.out.println(content);
+		
+		ZhilianObj zlobj = new ZhilianObj();
+		
 		Document doc = Jsoup.parse(content);
 		Elements divs = doc.select(".tab-cont-box");
 		if (divs != null) {
@@ -150,7 +152,9 @@ public class Zhilian {
 					div = divs.first();
 					if (div != null) {
 						try {
-							fo.t3.write(div.text());
+							String description = div.text().trim();
+							fo.t3.write(description);
+							zlobj.setDescription(description);
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -159,6 +163,51 @@ public class Zhilian {
 				}
 			}
 		}
+		
+		Elements uls = doc.select("ul.terminal-ul");
+		if (uls != null) {
+			for (Element ul : uls) {
+				if (ul != null) {
+					Elements lis = ul.select("li");
+					for (Element li : lis) {
+						if (li != null) {
+							String text = li.text().trim();
+							if (text.contains("职位月薪：")) {
+								zlobj.setPosSalary(text.replace("&nbsp;", "").substring(5).trim());
+							} else if (text.contains("工作地点：")) {
+								zlobj.setPosLocation(text.substring(5).trim());
+							} else if (text.contains("发布日期：")) {
+								zlobj.setPosPublishDate(text.substring(5).trim());
+							} else if (text.contains("工作性质：")) {
+								zlobj.setPosType(text.substring(5).trim());
+							} else if (text.contains("工作经验：")) {
+								zlobj.setPosExperience(text.substring(5).trim());
+							} else if (text.contains("最低学历：")) {
+								zlobj.setPosDgree(text.substring(5).trim());
+							} else if (text.contains("招聘人数：")) {
+								zlobj.setPosRecruitNum(text.substring(5).trim());
+							} else if (text.contains("职位类别：")) {
+								zlobj.setPosCategory(text.substring(5).trim());
+							} else if (text.contains("公司规模：")) {
+								zlobj.setComScale(text.substring(5).trim());
+							} else if (text.contains("公司性质：")) {
+								zlobj.setComType(text.substring(5).trim());
+							} else if (text.contains("公司行业：")) {
+								zlobj.setComIndustry(text.substring(5).trim());
+							} else if (text.contains("公司主页：")) {
+								zlobj.setComHost(text.substring(5).trim());
+							} else if (text.contains("公司地址：")) {
+								zlobj.setComLocation(text.substring(5).trim());
+							} else {
+								continue;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		zlobj.printObj();
 		
 		fo.closeOutput();
 		fi.closeInput();

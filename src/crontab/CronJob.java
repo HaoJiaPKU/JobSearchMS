@@ -3,15 +3,13 @@ package crontab;
 import apps.Zhilian;
 import conf.ZhilianConf;
 
-import java.io.File;
-
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CronJob {
 	
-	@Scheduled(cron = "10 6 1 * * ?")
+	@Scheduled(cron = "10 24 13 * * ?")
 	public void CrawZhiLian() {
 		ZhilianConf zc = new ZhilianConf();
 		zc.run();
