@@ -117,7 +117,7 @@ public class Zhilian {
 	
 	public void saveRecruitPageBatch(ZhilianConf zc) {
 		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
-			String curTime = TimeUtil.getCurrentTime();
+			String curTime = TimeUtil.getDate(0);
 			String dataDir = zc.getDataDir() + "/" + zc.getIndustryDir().get(i)
 				+ "/" + curTime;
 			makeDirs(dataDir);
@@ -236,7 +236,7 @@ public class Zhilian {
 		
 	public void parseRecruitPageBatch(ZhilianConf zc) {
 		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
-			String curTime = TimeUtil.getCurrentTime();
+			String curTime = TimeUtil.getDate(0);
 			String descriptionDir = zc.getDescriptionDir()
 					+ "/" + zc.getIndustryDir().get(i)
 					+ "/" + curTime;
