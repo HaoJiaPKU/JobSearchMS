@@ -7,8 +7,18 @@ import java.util.ArrayList;
 import utils.FileInput;
 
 public class ZhilianConf {
+	
 	public static final String HostUrl = "http://jobs.zhaopin.com/";
+	public static final String Source = "智联招聘";
+	
+	public static final String DateBaseUrl = "jdbc:mysql://162.105.30.30:3306/jobsearch?"
+			+ "user=root&password=seke1726&useUnicode=true&characterEncoding=UTF-8";
+	public static final String ClassName = "com.mysql.jdbc.Driver";
+	public static final String StoreTable = "recruitment_";
+	
 	public static final String ConfFile = "../../../../workspace/JobSearchMS/conf/zhilian.conf";
+	
+	public static final int ExpireDate = -90;
 	
 	public int MaxPageNumber = -1;
 	public String dataDir = new String();
@@ -71,27 +81,35 @@ public class ZhilianConf {
 	public int getMaxPageNumber() {
 		return MaxPageNumber;
 	}
+	
 	public void setMaxPageNumber(int maxPageNumber) {
 		MaxPageNumber = maxPageNumber;
 	}
+	
 	public String getDataDir() {
 		return dataDir;
 	}
+	
 	public void setDataDir(String dataDir) {
 		this.dataDir = dataDir;
 	}
+	
 	public ArrayList<String> getIndustryUrl() {
 		return industryUrl;
 	}
+	
 	public void setIndustryUrl(ArrayList<String> industryUrl) {
 		this.industryUrl = industryUrl;
 	}
+	
 	public ArrayList<String> getIndustryDir() {
 		return industryDir;
 	}
+	
 	public void setIndustryDir(ArrayList<String> industryDir) {
 		this.industryDir = industryDir;
 	}
+	
 	public static String getHosturl() {
 		return HostUrl;
 	}
@@ -104,8 +122,28 @@ public class ZhilianConf {
 		this.descriptionDir = descriptionDir;
 	}
 
+	public static String getSource() {
+		return Source;
+	}
+
+	public static String getDatebaseurl() {
+		return DateBaseUrl;
+	}
+
+	public static String getClassname() {
+		return ClassName;
+	}
+
+	public static String getStoretable() {
+		return StoreTable;
+	}
+
 	public static String getConffile() {
 		return ConfFile;
+	}
+
+	public static int getExpiredate() {
+		return ExpireDate;
 	}
 
 	public static void main(String []args) {

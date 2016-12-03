@@ -2,11 +2,10 @@ package object;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-import com.mysql.cj.jdbc.PreparedStatement;
+import conf.ZhilianConf;
 
 public class ZhilianObj {
 
@@ -28,22 +27,20 @@ public class ZhilianObj {
 	private String comHost = new String ();
 	private String comLocation = new String ();
 	
-	private String source = "智联招聘";
 	private String snapshotUrl = new String ();
 	
 	public ZhilianObj() {
 		
 	}
 	
-	public void saveZhilianObj() {
-		String url = "jdbc:mysql://162.105.30.30:3306/jobsearch?"
-				+ "user=root&password=seke1726&useUnicode=true&characterEncoding=UTF-8";
+	public void insertZhilianObj() {
+		String url = ZhilianConf.DateBaseUrl;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName(ZhilianConf.ClassName);
 			Connection conn;
 			try {
 				conn = DriverManager.getConnection(url);
-				String sql = "insert into recruitment_("
+				String sql = "insert into " + ZhilianConf.StoreTable + "("
 						+ "pos_title,"
 						+ "pos_salary,"
 						+ "pos_location,"
@@ -78,7 +75,44 @@ public class ZhilianObj {
 						+ "'" + this.comIndustry + "',"
 						+ "'" + this.comHost + "',"
 						+ "'" + this.comLocation + "',"
-						+ "'" + this.source + "');";
+						+ "'" + ZhilianConf.Source + "');";
+				System.out.println(sql);
+
+				PreparedStatement stmt;
+				try {
+					stmt = conn.prepareStatement(sql);
+					try {
+						stmt.executeUpdate();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void deleteZhilianObjs(String key, String value) {
+		String url = ZhilianConf.DateBaseUrl;
+		try {
+			Class.forName(ZhilianConf.ClassName);
+			Connection conn;
+			try {
+				conn = DriverManager.getConnection(url);
+				String sql = "delete from " + ZhilianConf.StoreTable + " where "
+						+ key + " = '"
+						+ value + "';";
 				System.out.println(sql);
 
 				java.sql.PreparedStatement stmt;
@@ -90,10 +124,12 @@ public class ZhilianObj {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					stmt.close();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				conn.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -124,7 +160,6 @@ public class ZhilianObj {
 		System.out.println(this.comLocation);
 		
 		System.out.println(this.snapshotUrl);
-		System.out.println(this.source);
 		System.out.println();
 	}
 	
@@ -257,16 +292,6 @@ public class ZhilianObj {
 	}
 
 
-	public String getSource() {
-		return source;
-	}
-	
-
-	public void setSource(String source) {
-		this.source = source;
-	}
-	
-
 	public String getSnapshotUrl() {
 		return snapshotUrl;
 	}
@@ -297,7 +322,6 @@ public class ZhilianObj {
 		result = prime * result + ((posUrl == null) ? 0 : posUrl.hashCode());
 		result = prime * result + ((postitle == null) ? 0 : postitle.hashCode());
 		result = prime * result + ((snapshotUrl == null) ? 0 : snapshotUrl.hashCode());
-		result = prime * result + ((source == null) ? 0 : source.hashCode());
 		return result;
 	}
 
@@ -395,11 +419,8 @@ public class ZhilianObj {
 				return false;
 		} else if (!snapshotUrl.equals(other.snapshotUrl))
 			return false;
-		if (source == null) {
-			if (other.source != null)
-				return false;
-		} else if (!source.equals(other.source))
-			return false;
 		return true;
 	}
+
+	
 }

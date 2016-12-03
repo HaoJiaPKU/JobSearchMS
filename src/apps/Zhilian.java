@@ -228,7 +228,7 @@ public class Zhilian {
 				+ new File(inputPath).getName().substring(6));
 		
 		zlobj.printObj();
-		zlobj.saveZhilianObj();
+		zlobj.insertZhilianObj();
 		
 		fo.closeOutput();
 		fi.closeInput();
@@ -251,6 +251,11 @@ public class Zhilian {
 				parseRecruitPage(f.getAbsolutePath(), descriptionDir + "/" + f.getName());
 			}
 		}
+	}
+	
+	public void expireRecruitObject() {
+		String date = TimeUtil.getDate(ZhilianConf.ExpireDate);
+		ZhilianObj.deleteZhilianObjs("pos_publish_date", date);
 	}
 	
 	public static void main(String [] args) throws IOException {}
