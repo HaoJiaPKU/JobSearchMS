@@ -14,7 +14,7 @@ public class ZhilianConf {
 	public static final String DateBaseUrl = "jdbc:mysql://162.105.30.30:3306/jobsearch?"
 			+ "user=root&password=seke1726&useUnicode=true&characterEncoding=UTF-8";
 	public static final String ClassName = "com.mysql.jdbc.Driver";
-	public static final String StoreTable = "recruitment_";
+	public static final String StoreTable = "recruitment_v1";
 	
 	public static final String ConfFile = "../../../../workspace/JobSearchMS/conf/zhilian.conf";
 	

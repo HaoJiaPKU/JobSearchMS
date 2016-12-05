@@ -3,7 +3,9 @@ package object;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import conf.ZhilianConf;
 
@@ -33,6 +35,9 @@ public class ZhilianObj {
 		
 	}
 	
+	/**
+	 * 将当前对象插入数据库
+	 * */
 	public void insertZhilianObj() {
 		String url = ZhilianConf.DateBaseUrl;
 		try {
@@ -103,6 +108,11 @@ public class ZhilianObj {
 		}
 	}
 	
+	/**
+	 * 删除指定对象
+	 * @param key 指定键
+	 * @param value 指定值
+	 * */
 	public static void deleteZhilianObjs(String key, String value) {
 		String url = ZhilianConf.DateBaseUrl;
 		try {
@@ -138,6 +148,51 @@ public class ZhilianObj {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 判断某个对象是否存在于数据库中
+	 * */
+	public boolean isExist() {
+		String url = ZhilianConf.DateBaseUrl;
+		try {
+			Class.forName(ZhilianConf.ClassName);
+			Connection conn;
+			try {
+				conn = DriverManager.getConnection(url);
+				String sql = "select * from " + ZhilianConf.StoreTable + " where "
+						+ "pos_publish_date ='" + this.posPublishDate + "' and "
+						+ "pos_url = '" + this.posUrl + "';";
+				System.out.println(sql);
+
+				Statement stmt = conn.createStatement();;
+				try {
+					ResultSet rs = stmt.executeQuery(sql);
+					try {
+						if (rs.next()) {
+							return true;
+						} else {
+							return false;
+						}
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	public void printObj() {
