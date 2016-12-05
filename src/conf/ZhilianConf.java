@@ -10,17 +10,10 @@ public class ZhilianConf {
 	
 	public static final String HostUrl = "http://jobs.zhaopin.com/";
 	public static final String Source = "智联招聘";
-	
-	public static final String DateBaseUrl = "jdbc:mysql://162.105.30.30:3306/jobsearch?"
-			+ "user=root&password=seke1726&useUnicode=true&characterEncoding=UTF-8";
-	public static final String ClassName = "com.mysql.jdbc.Driver";
-	public static final String StoreTable = "recruitment_v1";
-	
 	public static final String ConfFile = "../../../../workspace/JobSearchMS/conf/zhilian.conf";
+		public static final int ExpireDate = -90;
 	
-	public static final int ExpireDate = -90;
-	
-	public int MaxPageNumber = -1;
+	public int MaxPageNumber = 90;
 	public String dataDir = new String();
 	public String descriptionDir = new String();
 	public ArrayList<String> industryUrl = new ArrayList<String>();
@@ -124,18 +117,6 @@ public class ZhilianConf {
 
 	public static String getSource() {
 		return Source;
-	}
-
-	public static String getDatebaseurl() {
-		return DateBaseUrl;
-	}
-
-	public static String getClassname() {
-		return ClassName;
-	}
-
-	public static String getStoretable() {
-		return StoreTable;
 	}
 
 	public static String getConffile() {

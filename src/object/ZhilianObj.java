@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import conf.DatabaseConf;
 import conf.ZhilianConf;
 
 public class ZhilianObj {
@@ -39,13 +40,13 @@ public class ZhilianObj {
 	 * 将当前对象插入数据库
 	 * */
 	public void insertZhilianObj() {
-		String url = ZhilianConf.DateBaseUrl;
+		String url = DatabaseConf.getDatebaseurl();
 		try {
-			Class.forName(ZhilianConf.ClassName);
+			Class.forName(DatabaseConf.getClassname());
 			Connection conn;
 			try {
 				conn = DriverManager.getConnection(url);
-				String sql = "insert into " + ZhilianConf.StoreTable + "("
+				String sql = "insert into " + DatabaseConf.getStoretable() + "("
 						+ "pos_title,"
 						+ "pos_salary,"
 						+ "pos_location,"
@@ -114,13 +115,13 @@ public class ZhilianObj {
 	 * @param value 指定值
 	 * */
 	public static void deleteZhilianObjs(String key, String value) {
-		String url = ZhilianConf.DateBaseUrl;
+		String url = DatabaseConf.getDatebaseurl();
 		try {
-			Class.forName(ZhilianConf.ClassName);
+			Class.forName(DatabaseConf.getClassname());
 			Connection conn;
 			try {
 				conn = DriverManager.getConnection(url);
-				String sql = "delete from " + ZhilianConf.StoreTable + " where "
+				String sql = "delete from " + DatabaseConf.getStoretable() + " where "
 						+ key + " = '"
 						+ value + "';";
 				System.out.println(sql);
@@ -154,13 +155,13 @@ public class ZhilianObj {
 	 * 判断某个对象是否存在于数据库中
 	 * */
 	public boolean isExist() {
-		String url = ZhilianConf.DateBaseUrl;
+		String url = DatabaseConf.getDatebaseurl();
 		try {
-			Class.forName(ZhilianConf.ClassName);
+			Class.forName(DatabaseConf.getClassname());
 			Connection conn;
 			try {
 				conn = DriverManager.getConnection(url);
-				String sql = "select * from " + ZhilianConf.StoreTable + " where "
+				String sql = "select * from " + DatabaseConf.getStoretable() + " where "
 						+ "pos_publish_date ='" + this.posPublishDate + "' and "
 						+ "pos_url = '" + this.posUrl + "';";
 				System.out.println(sql);
