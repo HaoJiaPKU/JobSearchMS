@@ -284,6 +284,9 @@ public class Zhilian {
 			}
 		}
 		
+		//缩略文字部分
+		zlobj.setDisplayContent(zlobj.getPosDescription().substring(0, 100) + "...");
+		//职位链接部分
 		zlobj.setPosUrl(ZhilianConf.HostUrl
 				+ new File(inputPath).getName().substring(6));
 		

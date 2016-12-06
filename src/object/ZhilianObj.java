@@ -30,7 +30,10 @@ public class ZhilianObj {
 	private String comHost = new String ();
 	private String comLocation = new String ();
 	
+	private int hasTag = 0;	
+	private String source = new String ();
 	private String snapshotUrl = new String ();
+	private String displayContent = new String ();
 	
 	public ZhilianObj() {
 		
@@ -63,7 +66,10 @@ public class ZhilianObj {
 						+ "com_industry,"
 						+ "com_host,"
 						+ "com_location,"
-						+ "source)"
+						+ "has_tag,"
+						+ "source,"
+						+ "snapshot_url,"
+						+ "display_content)"
 						+ " values("
 						+ "'" + this.postitle + "',"
 						+ "'" + this.posSalary + "',"
@@ -81,7 +87,10 @@ public class ZhilianObj {
 						+ "'" + this.comIndustry + "',"
 						+ "'" + this.comHost + "',"
 						+ "'" + this.comLocation + "',"
-						+ "'" + ZhilianConf.Source + "');";
+						+ "'" + this.hasTag + "',"
+						+ "'" + ZhilianConf.Source + "',"
+						+ "'" + this.snapshotUrl + "',"
+						+ "'" + this.displayContent + "');";
 				System.out.println(sql);
 
 				PreparedStatement stmt;
@@ -347,14 +356,42 @@ public class ZhilianObj {
 		this.posUrl = posUrl;
 	}
 
-
 	public String getSnapshotUrl() {
 		return snapshotUrl;
 	}
 	
-
 	public void setSnapshotUrl(String snapshotUrl) {
 		this.snapshotUrl = snapshotUrl;
+	}
+
+	
+	public int getHasTag() {
+		return hasTag;
+	}
+
+	
+	public void setHasTag(int hasTag) {
+		this.hasTag = hasTag;
+	}
+
+	
+	public String getSource() {
+		return source;
+	}
+
+	
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	
+	public String getDisplayContent() {
+		return displayContent;
+	}
+
+	
+	public void setDisplayContent(String displayContent) {
+		this.displayContent = displayContent;
 	}
 
 	@Override
@@ -366,6 +403,8 @@ public class ZhilianObj {
 		result = prime * result + ((comLocation == null) ? 0 : comLocation.hashCode());
 		result = prime * result + ((comScale == null) ? 0 : comScale.hashCode());
 		result = prime * result + ((comType == null) ? 0 : comType.hashCode());
+		result = prime * result + ((displayContent == null) ? 0 : displayContent.hashCode());
+		result = prime * result + hasTag;
 		result = prime * result + ((posCategory == null) ? 0 : posCategory.hashCode());
 		result = prime * result + ((posDescription == null) ? 0 : posDescription.hashCode());
 		result = prime * result + ((posDgree == null) ? 0 : posDgree.hashCode());
@@ -378,6 +417,7 @@ public class ZhilianObj {
 		result = prime * result + ((posUrl == null) ? 0 : posUrl.hashCode());
 		result = prime * result + ((postitle == null) ? 0 : postitle.hashCode());
 		result = prime * result + ((snapshotUrl == null) ? 0 : snapshotUrl.hashCode());
+		result = prime * result + ((source == null) ? 0 : source.hashCode());
 		return result;
 	}
 
@@ -414,6 +454,13 @@ public class ZhilianObj {
 			if (other.comType != null)
 				return false;
 		} else if (!comType.equals(other.comType))
+			return false;
+		if (displayContent == null) {
+			if (other.displayContent != null)
+				return false;
+		} else if (!displayContent.equals(other.displayContent))
+			return false;
+		if (hasTag != other.hasTag)
 			return false;
 		if (posCategory == null) {
 			if (other.posCategory != null)
@@ -475,8 +522,11 @@ public class ZhilianObj {
 				return false;
 		} else if (!snapshotUrl.equals(other.snapshotUrl))
 			return false;
+		if (source == null) {
+			if (other.source != null)
+				return false;
+		} else if (!source.equals(other.source))
+			return false;
 		return true;
 	}
-
-	
 }
