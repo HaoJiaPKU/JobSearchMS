@@ -8,7 +8,8 @@ public class DatabaseConf {
 	private static final String StoreTable = "recruitment_v1";
 	
 	private static final int ExpireDate = -90;
-	private static final int OnWorkingDate = 0;
+	private static final int CrawlDate = 0;
+	private static final int ParseDate = 0;
 	
 	public static String getDatebaseurl() {
 		return DateBaseUrl;
@@ -26,7 +27,12 @@ public class DatabaseConf {
 		return ExpireDate;
 	}
 
-	public static int getOnworkingdate() {
-		return OnWorkingDate;
+	
+	public static int getCrawldate() {
+		return CrawlDate;
+	}
+
+	public static int getParsedate() {
+		return ParseDate;
 	}
 }

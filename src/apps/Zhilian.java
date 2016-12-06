@@ -154,7 +154,7 @@ public class Zhilian {
 			}
 			String date = td.text().toString();
 //			System.out.println(link);
-			saveRecruitPage(link, saveDir + "/" + date + "-" + link.substring(ZhilianConf.getHosturl().length()));
+			crawlRecruitPage(link, saveDir + "/" + date + "-" + link.substring(ZhilianConf.getHosturl().length()));
 		}
 	}
 	
@@ -162,7 +162,7 @@ public class Zhilian {
 		return HttpClientUtil.httpGetRequest(url);
 	}
 	
-	public void saveRecruitPage(String url, String path) {
+	public void crawlRecruitPage(String url, String path) {
 		String content = getRcruitPage(url);
 		FileOutput fo = new FileOutput(path);
 		try {
@@ -176,9 +176,9 @@ public class Zhilian {
 		fo.closeOutput();
 	}
 	
-	public void saveRecruitPageBatch(ZhilianConf zc) {
+	public void crawlRecruitPageBatch(ZhilianConf zc) {
 		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
-			String date = TimeUtil.getDate(DatabaseConf.getOnworkingdate());
+			String date = TimeUtil.getDate(DatabaseConf.getCrawldate());
 			String dataDir = zc.getDataDir() + "/" + zc.getIndustryDir().get(i)
 				+ "/" + date;
 			makeDirs(dataDir);
@@ -304,7 +304,7 @@ public class Zhilian {
 		
 	public void parseRecruitPageBatch(ZhilianConf zc) {
 		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
-			String date = TimeUtil.getDate(DatabaseConf.getOnworkingdate());
+			String date = TimeUtil.getDate(DatabaseConf.getParsedate());
 			String descriptionDir = zc.getDescriptionDir()
 					+ "/" + zc.getIndustryDir().get(i)
 					+ "/" + date;
