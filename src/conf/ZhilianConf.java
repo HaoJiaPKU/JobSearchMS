@@ -11,8 +11,7 @@ public class ZhilianConf {
 	public static final String HostUrl = "http://jobs.zhaopin.com/";
 	public static final String Source = "智联招聘";
 	public static final String ConfFile = "../../../../workspace/JobSearchMS/conf/zhilian.conf";
-		public static final int ExpireDate = -90;
-	
+		
 	public int MaxPageNumber = 90;
 	public String dataDir = new String();
 	public String descriptionDir = new String();
@@ -121,10 +120,6 @@ public class ZhilianConf {
 
 	public static String getConffile() {
 		return ConfFile;
-	}
-
-	public static int getExpiredate() {
-		return ExpireDate;
 	}
 
 	public static void main(String []args) {

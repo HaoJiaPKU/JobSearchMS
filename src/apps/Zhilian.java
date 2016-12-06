@@ -9,6 +9,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import conf.DatabaseConf;
 import conf.ZhilianConf;
 import object.ZhilianObj;
 import utils.FileInput;
@@ -177,9 +178,9 @@ public class Zhilian {
 	
 	public void saveRecruitPageBatch(ZhilianConf zc) {
 		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
-			String curTime = TimeUtil.getDate(0);
+			String date = TimeUtil.getDate(DatabaseConf.getOnworkingdate());
 			String dataDir = zc.getDataDir() + "/" + zc.getIndustryDir().get(i)
-				+ "/" + curTime;
+				+ "/" + date;
 			makeDirs(dataDir);
 			for (int j = 1; j <= zc.getMaxPageNumber(); j ++) {
 				String content = getIndexPage(zc.getIndustryUrl().get(i) + String.valueOf(j));
@@ -284,8 +285,11 @@ public class Zhilian {
 			}
 		}
 		
+		String posDescription = zlobj.getPosDescription();
+		int descriptionLen = posDescription.length();
+		descriptionLen = (descriptionLen >= 100 ? 100 : descriptionLen);
 		//缩略文字部分
-		zlobj.setDisplayContent(zlobj.getPosDescription().substring(0, 100) + "...");
+		zlobj.setDisplayContent(zlobj.getPosDescription().substring(0, descriptionLen) + "...");
 		//职位链接部分
 		zlobj.setPosUrl(ZhilianConf.HostUrl
 				+ new File(inputPath).getName().substring(6));
@@ -300,14 +304,14 @@ public class Zhilian {
 		
 	public void parseRecruitPageBatch(ZhilianConf zc) {
 		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
-			String curTime = TimeUtil.getDate(0);
+			String date = TimeUtil.getDate(DatabaseConf.getOnworkingdate());
 			String descriptionDir = zc.getDescriptionDir()
 					+ "/" + zc.getIndustryDir().get(i)
-					+ "/" + curTime;
+					+ "/" + date;
 			makeDirs(descriptionDir);
 			String dataDir = zc.getDataDir()
 					+ "/" + zc.getIndustryDir().get(i)
-					+ "/" + curTime;
+					+ "/" + date;
 			makeDirs(dataDir);
 			File file = new File(dataDir);
 			for (File f : file.listFiles()) {
@@ -321,7 +325,7 @@ public class Zhilian {
 	}
 	
 	public void expireRecruitObject() {
-		String date = TimeUtil.getDate(ZhilianConf.ExpireDate);
+		String date = TimeUtil.getDate(DatabaseConf.getExpiredate());
 		ZhilianObj.deleteZhilianObjs("pos_publish_date", date);
 	}
 	
