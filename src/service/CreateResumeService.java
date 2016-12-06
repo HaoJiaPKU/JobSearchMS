@@ -13,6 +13,8 @@ import org.apache.lucene.store.FSDirectory;
 
 import com.chenlb.mmseg4j.analysis.SimpleAnalyzer;
 
+import conf.DatabaseConf;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -87,9 +89,8 @@ public class CreateResumeService {
 	private void indexMysql(final IndexWriter writer) {
 
 		try {
-			String url = "jdbc:mysql://162.105.30.30:3306/jobsearch?"
-					+ "user=root&password=seke1726&useUnicode=true&characterEncoding=UTF-8";
-			Class.forName("com.mysql.jdbc.Driver");
+			String url = DatabaseConf.getDatebaseurl();
+			Class.forName(DatabaseConf.getClassname());
 			Connection conn = DriverManager.getConnection(url);
 
 			String sql = "select * from resume";

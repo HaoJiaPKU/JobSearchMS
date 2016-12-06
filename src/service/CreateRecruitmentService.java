@@ -22,6 +22,8 @@ import org.apache.lucene.store.FSDirectory;
 
 import com.chenlb.mmseg4j.analysis.SimpleAnalyzer;
 
+import conf.DatabaseConf;
+
 public class CreateRecruitmentService {
 	
 	public void create() {
@@ -51,12 +53,11 @@ public class CreateRecruitmentService {
 	private void indexMysql(final IndexWriter writer) {
 
 		try {
-			String url = "jdbc:mysql://162.105.30.30:3306/jobsearch?"
-					+ "user=root&password=seke1726&useUnicode=true&characterEncoding=UTF-8";
-			Class.forName("com.mysql.jdbc.Driver");
+			String url = DatabaseConf.getDatebaseurl();
+			Class.forName(DatabaseConf.getClassname());
 			Connection conn = DriverManager.getConnection(url);
 
-			String sql = "select * from recruitment_bbs";
+			String sql = "select * from " + DatabaseConf.getStoretable();
 
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
@@ -65,8 +66,25 @@ public class CreateRecruitmentService {
 				doc.add(new LongField("id", Long.parseLong(rs.getString("id")), Field.Store.YES));
 				doc.add(new StringField("source", rs.getString("source"),
 						Field.Store.YES));
-				doc.add(new TextField("content", rs.getString("content"),
+				doc.add(new TextField("display_content", rs.getString("display_content"),
 						Field.Store.NO));
+				String content = rs.getString("pos_title")
+						+ " " + rs.getString("pos_salary")
+						+ " " + rs.getString("pos_publish_date")
+						+ " " + rs.getString("pos_location")
+						+ " " + rs.getString("pos_type")
+						+ " " + rs.getString("pos_experience")
+						+ " " + rs.getString("pos_degree")
+						+ " " + rs.getString("pos_recruit_num")
+						+ " " + rs.getString("pos_category")
+						+ " " + rs.getString("pos_description")
+						+ " " + rs.getString("pos_url")
+						+ " " + rs.getString("com_scale")
+						+ " " + rs.getString("com_type")
+						+ " " + rs.getString("com_industry")
+						+ " " + rs.getString("com_host")
+						+ " " + rs.getString("com_location");
+				doc.add(new TextField("content", content, Field.Store.NO));
 				writer.addDocument(doc);
 			}
 
@@ -76,11 +94,13 @@ public class CreateRecruitmentService {
 				Document doc = new Document();
 				doc.add(new TextField("id", rs.getString("id"), Field.Store.YES));
 				doc.add(new TextField("source", "jobpopo", Field.Store.YES));
-				String content = rs.getString("business") + " "
-						+ rs.getString("city") + " " + rs.getString("company")
-						+ " " + rs.getString("degree") + " "
-						+ rs.getString("description") + " "
-						+ rs.getString("position") + " " + rs.getString("type");
+				String content = rs.getString("business")
+						+ " " + rs.getString("city")
+						+ " " + rs.getString("company")
+						+ " " + rs.getString("degree")
+						+ " " + rs.getString("description")
+						+ " " + rs.getString("position")
+						+ " " + rs.getString("type");
 				doc.add(new TextField("content", content, Field.Store.NO));
 				writer.addDocument(doc);
 			}

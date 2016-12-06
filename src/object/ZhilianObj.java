@@ -18,7 +18,7 @@ public class ZhilianObj {
 	private String posPublishDate = new String ();
 	private String posType = new String ();
 	private String posExperience = new String ();
-	private String posDgree = new String ();
+	private String posDegree = new String ();
 	private String posRecruitNum = new String ();
 	private String posCategory = new String ();
 	private String posDescription = new String ();
@@ -56,7 +56,7 @@ public class ZhilianObj {
 						+ "pos_publish_date,"
 						+ "pos_type,"
 						+ "pos_experience,"
-						+ "pos_dgree,"
+						+ "pos_degree,"
 						+ "pos_recruit_num,"
 						+ "pos_category,"
 						+ "pos_description,"
@@ -77,7 +77,7 @@ public class ZhilianObj {
 						+ "'" + this.posPublishDate + "',"
 						+ "'" + this.posType + "',"
 						+ "'" + this.posExperience + "',"
-						+ "'" + this.posDgree + "',"
+						+ "'" + this.posDegree + "',"
 						+ "'" + this.posRecruitNum + "',"
 						+ "'" + this.posCategory + "',"
 						+ "'" + this.posDescription + "',"
@@ -212,7 +212,7 @@ public class ZhilianObj {
 		System.out.println(this.posPublishDate);
 		System.out.println(this.posType);
 		System.out.println(this.posExperience);
-		System.out.println(this.posDgree);
+		System.out.println(this.posDegree);
 		System.out.println(this.posRecruitNum);
 		System.out.println(this.posCategory);
 		System.out.println(this.posDescription);
@@ -268,12 +268,12 @@ public class ZhilianObj {
 		this.posExperience = posExperience;
 	}
 	
-	public String getPosDgree() {
-		return posDgree;
+	public String getPosDegree() {
+		return posDegree;
 	}
 	
-	public void setPosDgree(String posDgree) {
-		this.posDgree = posDgree;
+	public void setPosDegree(String posDegree) {
+		this.posDegree = posDegree;
 	}
 	
 	public String getPosRecruitNum() {
@@ -407,7 +407,7 @@ public class ZhilianObj {
 		result = prime * result + hasTag;
 		result = prime * result + ((posCategory == null) ? 0 : posCategory.hashCode());
 		result = prime * result + ((posDescription == null) ? 0 : posDescription.hashCode());
-		result = prime * result + ((posDgree == null) ? 0 : posDgree.hashCode());
+		result = prime * result + ((posDegree == null) ? 0 : posDegree.hashCode());
 		result = prime * result + ((posExperience == null) ? 0 : posExperience.hashCode());
 		result = prime * result + ((posLocation == null) ? 0 : posLocation.hashCode());
 		result = prime * result + ((posPublishDate == null) ? 0 : posPublishDate.hashCode());
@@ -472,10 +472,10 @@ public class ZhilianObj {
 				return false;
 		} else if (!posDescription.equals(other.posDescription))
 			return false;
-		if (posDgree == null) {
-			if (other.posDgree != null)
+		if (posDegree == null) {
+			if (other.posDegree != null)
 				return false;
-		} else if (!posDgree.equals(other.posDgree))
+		} else if (!posDegree.equals(other.posDegree))
 			return false;
 		if (posExperience == null) {
 			if (other.posExperience != null)

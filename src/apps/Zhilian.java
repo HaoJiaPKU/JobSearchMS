@@ -247,7 +247,7 @@ public class Zhilian {
 							} else if (text.contains("工作经验：")) {
 								zlobj.setPosExperience(text.substring(5).trim());
 							} else if (text.contains("最低学历：")) {
-								zlobj.setPosDgree(text.substring(5).trim());
+								zlobj.setPosDegree(text.substring(5).trim());
 							} else if (text.contains("招聘人数：")) {
 								zlobj.setPosRecruitNum(text.substring(5).trim());
 							} else if (text.contains("职位类别：")) {
