@@ -1,4 +1,4 @@
-package servlet;
+package cn.edu.pku.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import service.CreateResumeService;
+import cn.edu.pku.service.CreateRecruitmentService;
 
-public class CreateResumeIndex extends HttpServlet {
+public class CreateRecruitmentIndex extends HttpServlet {
 
 	/**
 	 * 
@@ -20,7 +20,7 @@ public class CreateResumeIndex extends HttpServlet {
 	/**
 	 * Constructor of the object.
 	 */
-	public CreateResumeIndex() {
+	public CreateRecruitmentIndex() {
 		super();
 	}
 
@@ -73,8 +73,9 @@ public class CreateResumeIndex extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		CreateResumeService service = new CreateResumeService();
-		service.create51Job();
+		response.setContentType("text/html");
+		CreateRecruitmentService service = new CreateRecruitmentService();
+		service.create();
 		response.sendRedirect("index.jsp");
 	}
 

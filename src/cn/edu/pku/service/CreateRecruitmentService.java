@@ -1,4 +1,4 @@
-package service;
+package cn.edu.pku.service;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -22,7 +22,7 @@ import org.apache.lucene.store.FSDirectory;
 
 import com.chenlb.mmseg4j.analysis.SimpleAnalyzer;
 
-import conf.DatabaseConf;
+import cn.edu.pku.conf.DatabaseConf;
 
 public class CreateRecruitmentService {
 	

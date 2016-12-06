@@ -1,4 +1,4 @@
-package utils;
+package cn.edu.pku.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

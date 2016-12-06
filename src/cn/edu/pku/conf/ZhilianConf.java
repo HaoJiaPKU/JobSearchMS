@@ -1,10 +1,10 @@
-package conf;
+package cn.edu.pku.conf;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import utils.FileInput;
+import cn.edu.pku.util.FileInput;
 
 public class ZhilianConf {
 	

@@ -1,4 +1,4 @@
-package service;
+package cn.edu.pku.service;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
@@ -13,7 +13,7 @@ import org.apache.lucene.store.FSDirectory;
 
 import com.chenlb.mmseg4j.analysis.SimpleAnalyzer;
 
-import conf.DatabaseConf;
+import cn.edu.pku.conf.DatabaseConf;
 
 import java.io.BufferedReader;
 import java.io.File;

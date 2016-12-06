@@ -1,10 +1,10 @@
-package crontab;
-
-import apps.Zhilian;
-import conf.ZhilianConf;
+package cn.edu.pku.crontab;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import cn.edu.pku.apps.Zhilian;
+import cn.edu.pku.conf.ZhilianConf;
 
 @Component
 public class CronJob {

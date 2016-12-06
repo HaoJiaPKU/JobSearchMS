@@ -1,4 +1,4 @@
-package object;
+package cn.edu.pku.object;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,8 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import conf.DatabaseConf;
-import conf.ZhilianConf;
+import cn.edu.pku.conf.DatabaseConf;
+import cn.edu.pku.conf.ZhilianConf;
 
 public class ZhilianObj {
 
@@ -171,7 +171,6 @@ public class ZhilianObj {
 			try {
 				conn = DriverManager.getConnection(url);
 				String sql = "select * from " + DatabaseConf.getStoretable() + " where "
-						+ "pos_publish_date ='" + this.posPublishDate + "' and "
 						+ "pos_url = '" + this.posUrl + "';";
 				System.out.println(sql);
 

@@ -1,4 +1,4 @@
-package utils;
+package cn.edu.pku.util;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;  

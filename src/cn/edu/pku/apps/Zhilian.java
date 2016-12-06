@@ -1,4 +1,4 @@
-package apps;
+package cn.edu.pku.apps;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,13 +9,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import conf.DatabaseConf;
-import conf.ZhilianConf;
-import object.ZhilianObj;
-import utils.FileInput;
-import utils.FileOutput;
-import utils.HttpClientUtil;
-import utils.TimeUtil;
+import cn.edu.pku.conf.DatabaseConf;
+import cn.edu.pku.conf.ZhilianConf;
+import cn.edu.pku.object.ZhilianObj;
+import cn.edu.pku.util.FileInput;
+import cn.edu.pku.util.FileOutput;
+import cn.edu.pku.util.HttpClientUtil;
+import cn.edu.pku.util.TimeUtil;
 
 public class Zhilian {
 	

@@ -1,4 +1,4 @@
-package conf;
+package cn.edu.pku.conf;
 
 public class DatabaseConf {
 
