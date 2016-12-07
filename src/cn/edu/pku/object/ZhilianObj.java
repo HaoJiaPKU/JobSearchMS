@@ -171,7 +171,8 @@ public class ZhilianObj {
 			try {
 				conn = DriverManager.getConnection(url);
 				String sql = "select * from " + DatabaseConf.getStoretable() + " where "
-						+ "pos_url = '" + this.posUrl + "';";
+						 + "pos_publish_date ='" + this.posPublishDate + "' and "
+						 + "pos_url = '" + this.posUrl + "';";
 				System.out.println(sql);
 
 				Statement stmt = conn.createStatement();;
