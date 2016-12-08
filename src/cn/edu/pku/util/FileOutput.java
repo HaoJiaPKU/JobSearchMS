@@ -23,7 +23,6 @@ public class FileOutput {
 	public void initOutput(String outputPath) {
 		try {
 			File file = new File(outputPath);
-			System.out.println("output file : " + file.getAbsolutePath());
 			this.t1 = new FileOutputStream(file);
 			try {
 				this.t2 = new OutputStreamWriter(this.t1, EncodingOutput);

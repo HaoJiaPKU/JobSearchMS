@@ -16,6 +16,13 @@ public class TimeUtil {
         return f.format(date);
 	}
 	
+	public static String getCurrentTime(String dateFormat) {
+		Calendar canlendar = Calendar.getInstance();
+        SimpleDateFormat f = new SimpleDateFormat(dateFormat);
+        Date date = canlendar.getTime();
+        return f.format(date);
+	}
+	
 	public static int compareDate(String date1, String date2) {
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
 		Date a = new Date();

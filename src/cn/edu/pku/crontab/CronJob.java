@@ -5,34 +5,48 @@ import org.springframework.stereotype.Component;
 
 import cn.edu.pku.apps.Zhilian;
 import cn.edu.pku.conf.ZhilianConf;
+import cn.edu.pku.util.TimeUtil;
 
 @Component
 public class CronJob {
 	
-	@Scheduled(cron = "0 0 1 * * ?")
-	public void crawZhiLian() {
+	//过期n天前的数据，当前n为90
+	@Scheduled(cron = "0 10 0 * * ?")
+	public void expireZhiLian() {
+		System.out.println("info:	数据过期	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		ZhilianConf zc = new ZhilianConf();
 		zc.run();
 		Zhilian zl = new Zhilian();
-		//把招聘页面保存到本地
-		zl.crawlRecruitPageBatch(zc);
+		zl.expireRecruitObject();
+		System.out.println("info:	数据过期	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 	}
 	
+	//爬取招聘页面保存到本地
+	@Scheduled(cron = "0 20 0 * * ?")
+	public void crawZhiLian() {
+		System.out.println("info:	数据抓取	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+		ZhilianConf zc = new ZhilianConf();
+		zc.run();
+		Zhilian zl = new Zhilian();
+		zl.crawlRecruitPageBatch(zc);
+		System.out.println("info:	数据抓取	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+	}
+	
+	//解析本地的招聘页面，保存到服务器的mysql，重复数据不保存
 	@Scheduled(cron = "30 32 11 * * ?")
 	public void parseZhiLian() {
+		System.out.println("info:	数据保存	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		ZhilianConf zc = new ZhilianConf();
 		zc.run();
 		Zhilian zl = new Zhilian();
-		//解析本地的招聘页面，保存到服务器的mysql，重复数据不保存
 		zl.parseRecruitPageBatch(zc);
+		System.out.println("info:	数据保存	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 	}
 	
-	@Scheduled(cron = "0 30 0 * * ?")
-	public void expireZhiLian() {
-		ZhilianConf zc = new ZhilianConf();
-		zc.run();
-		Zhilian zl = new Zhilian();
-		//过期n天前的数据，当前n为90
-		zl.expireRecruitObject();
-	}
 }

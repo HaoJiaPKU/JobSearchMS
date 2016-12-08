@@ -35,7 +35,6 @@ public class ZhilianConf {
 	
 	public void makeDirs(String path) {
 		File file = new File(path);
-		System.out.println("make dir : " + file.getAbsolutePath());
 		if (!file.exists() && !file.isDirectory()) {
 			file.mkdirs();    
 		}

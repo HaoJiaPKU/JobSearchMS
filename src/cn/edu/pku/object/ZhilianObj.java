@@ -91,7 +91,6 @@ public class ZhilianObj {
 						+ "'" + ZhilianConf.Source + "',"
 						+ "'" + this.snapshotUrl + "',"
 						+ "'" + this.displayContent + "');";
-				System.out.println(sql);
 
 				PreparedStatement stmt;
 				try {
@@ -133,7 +132,6 @@ public class ZhilianObj {
 				String sql = "delete from " + DatabaseConf.getStoretable() + " where "
 						+ key + " = '"
 						+ value + "';";
-				System.out.println(sql);
 
 				java.sql.PreparedStatement stmt;
 				try {
@@ -173,7 +171,6 @@ public class ZhilianObj {
 				String sql = "select * from " + DatabaseConf.getStoretable() + " where "
 						 + "pos_publish_date ='" + this.posPublishDate + "' and "
 						 + "pos_url = '" + this.posUrl + "';";
-				System.out.println(sql);
 
 				Statement stmt = conn.createStatement();;
 				try {

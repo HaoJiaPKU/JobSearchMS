@@ -78,11 +78,9 @@ public class CreateRecruitmentService {
 						+ " " + rs.getString("pos_recruit_num")
 						+ " " + rs.getString("pos_category")
 						+ " " + rs.getString("pos_description")
-						+ " " + rs.getString("pos_url")
 						+ " " + rs.getString("com_scale")
 						+ " " + rs.getString("com_type")
 						+ " " + rs.getString("com_industry")
-						+ " " + rs.getString("com_host")
 						+ " " + rs.getString("com_location");
 				doc.add(new TextField("content", content, Field.Store.NO));
 				writer.addDocument(doc);

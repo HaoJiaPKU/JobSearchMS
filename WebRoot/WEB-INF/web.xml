@@ -9,16 +9,12 @@
     <param-value>classpath*:applicationContext*.xml</param-value>
   </context-param>
   <servlet>
-    <description>This is the description of my J2EE component</description>
-    <display-name>This is the display name of my J2EE component</display-name>
     <servlet-name>CreateRecruitmentIndex</servlet-name>
-    <servlet-class>servlet.CreateRecruitmentIndex</servlet-class>
+    <servlet-class>cn.edu.pku.servlet.CreateRecruitmentIndex</servlet-class>
   </servlet>
   <servlet>
-    <description>This is the description of my J2EE component</description>
-    <display-name>This is the display name of my J2EE component</display-name>
     <servlet-name>CreateResumeIndex</servlet-name>
-    <servlet-class>servlet.CreateResumeIndex</servlet-class>
+    <servlet-class>cn.edu.pku.servlet.CreateResumeIndex</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>CreateRecruitmentIndex</servlet-name>

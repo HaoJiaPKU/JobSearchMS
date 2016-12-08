@@ -49,7 +49,6 @@ public class Zhilian {
 			e1.printStackTrace();
 		}
 		File file = new File("../../myFile/智联招聘 训练集_pro");
-		System.out.println(file.getAbsolutePath());
 		for (File f : file.listFiles()) {
 			if (f.getName().contains(".DS_Store")) {
 				continue;
@@ -84,7 +83,6 @@ public class Zhilian {
 	
 	public void makeDirs(String path) {
 		File file = new File(path);
-		System.out.println("make dir : " + file.getAbsolutePath());
 		if (!file.exists() && !file.isDirectory()) {
 			file.mkdirs();    
 		}
@@ -95,7 +93,6 @@ public class Zhilian {
 	}
 	
 	public void parseIndexPage(String content, String saveDir) {
-//		System.out.println(content);
 		Document doc = Jsoup.parse(content);
 		Elements tables = doc.select(".newlist");
 		if (tables == null) {
@@ -142,7 +139,6 @@ public class Zhilian {
 			if (a == null) {
 				continue;
 			}
-//			String title = a.text().toString();
 			String link = a.attr("href").toString();
 			tds = tr.select("td");
 			if (tds == null) {
@@ -153,7 +149,6 @@ public class Zhilian {
 				continue;
 			}
 			String date = td.text().toString();
-//			System.out.println(link);
 			crawlRecruitPage(link, saveDir + "/" + date + "-" + link.substring(ZhilianConf.getHosturl().length()));
 		}
 	}
@@ -202,7 +197,6 @@ public class Zhilian {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		System.out.println(content);
 		
 		ZhilianObj zlobj = new ZhilianObj();
 		
@@ -318,7 +312,6 @@ public class Zhilian {
 				if (f.getName().contains(".DS_Store")) {
 					continue;
 				}
-				System.out.println("input file : " + f.getAbsolutePath());
 				parseRecruitPage(f.getAbsolutePath(), descriptionDir + "/" + f.getName());
 			}
 		}
