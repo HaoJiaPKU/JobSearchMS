@@ -69,16 +69,11 @@ public class CreateRecruitmentService {
 				doc.add(new TextField("display_content", rs.getString("display_content"),
 						Field.Store.NO));
 				String content = rs.getString("pos_title")
-						+ " " + rs.getString("pos_salary")
-						+ " " + rs.getString("pos_publish_date")
 						+ " " + rs.getString("pos_location")
 						+ " " + rs.getString("pos_type")
-						+ " " + rs.getString("pos_experience")
 						+ " " + rs.getString("pos_degree")
-						+ " " + rs.getString("pos_recruit_num")
 						+ " " + rs.getString("pos_category")
 						+ " " + rs.getString("pos_description")
-						+ " " + rs.getString("com_scale")
 						+ " " + rs.getString("com_type")
 						+ " " + rs.getString("com_industry")
 						+ " " + rs.getString("com_location");

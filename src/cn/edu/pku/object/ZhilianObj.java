@@ -4,8 +4,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import cn.edu.pku.conf.DatabaseConf;
 import cn.edu.pku.conf.ZhilianConf;
@@ -116,7 +123,47 @@ public class ZhilianObj {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * 删除指定对象
+	 * @param key 指定键
+	 * @param value 指定值
+	 * */
+	public static void deleteZhilianObjs(Long id) {
+		String url = DatabaseConf.getDatebaseurl();
+		try {
+			Class.forName(DatabaseConf.getClassname());
+			Connection conn;
+			try {
+				conn = DriverManager.getConnection(url);
+				String sql = "delete from " + DatabaseConf.getStoretable()
+					+ " where id = " + id + ";";
+
+				PreparedStatement stmt;
+				try {
+					stmt = conn.prepareStatement(sql);
+					try {
+						stmt.executeUpdate();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * 删除指定对象
 	 * @param key 指定键
@@ -129,11 +176,12 @@ public class ZhilianObj {
 			Connection conn;
 			try {
 				conn = DriverManager.getConnection(url);
-				String sql = "delete from " + DatabaseConf.getStoretable() + " where "
+				String sql = "delete from " + DatabaseConf.getStoretable()
+						+ " where "
 						+ key + " = '"
 						+ value + "';";
 
-				java.sql.PreparedStatement stmt;
+				PreparedStatement stmt;
 				try {
 					stmt = conn.prepareStatement(sql);
 					try {
@@ -200,6 +248,148 @@ public class ZhilianObj {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	/**
+	 * 将结果保存为list，因为:
+	 * 1.ResultSet可能有最大数量限制；
+	 * 2.需要在遍历的同时删除，以便节省空间;
+	 * */
+	private static List convertList(ResultSet rs) throws SQLException{
+		List list = new ArrayList();
+		ResultSetMetaData md = rs.getMetaData();//获取键名
+		int columnCount = md.getColumnCount();//获取行的数量
+		while (rs.next()) {
+			Map rowData = new HashMap();//声明Map
+			for (int i = 1; i <= columnCount; i ++) {
+				rowData.put(md.getColumnName(i), rs.getObject(i));//获取键名及值
+			}
+			list.add(rowData);
+		}
+		return list;
+	}
+	
+	/**
+	 * 删除数据库中的重复数据，仅以URL作为判断标准，时间不同的情况下保留最近的数据
+	 * 如果在某条数据处住，直接删除数据，可能存在使线程挂起的字符，暂时不明原因
+	 * */
+	public static void removeDuplicateObject() {
+		HashMap<String, String> map = new HashMap<String, String>();
+//		HashSet<Long> set = new HashSet<Long>();
+		List list = new ArrayList<>();
+		
+		String url = DatabaseConf.getDatebaseurl();
+		try {
+			Class.forName(DatabaseConf.getClassname());
+			Connection conn;
+			try {
+				conn = DriverManager.getConnection(url);
+				String sql = "select id, pos_url, pos_publish_date from "
+						+ DatabaseConf.getStoretable() + ";";
+
+				PreparedStatement stmt;
+				try {
+					stmt = conn.prepareStatement(sql);
+					ResultSet rs = stmt.executeQuery(sql);
+					try {
+						System.out.println(rs.getFetchSize());
+						list = convertList(rs);
+						System.out.println(list.size());
+						
+//						while (rs.next()) {
+//							System.out.println(rs.getString("id"));
+//							String key = rs.getString("pos_url");
+//							String value = rs.getString("pos_publish_date")
+//									+ " " + rs.getString("id");
+//							if (!map.containsKey(key)) {
+////								System.out.println("!key");
+//								map.put(key, value);
+//							} else {
+////								System.out.println("key");
+//								String preValue = map.get(key);
+//								if (preValue.compareTo(value) < 0) {
+////									System.out.println("发生替换");
+//									set.add(Long.parseLong(preValue.substring(11)));
+//									map.remove(key);
+//									map.put(key, value);
+//								} else {
+////									System.out.println("不发生替换");
+//									set.add(Long.parseLong(rs.getString("id")));
+//								}
+//							}
+//						}
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		  
+		Iterator it = list.iterator();   
+		while(it.hasNext()) {   
+		    Map hm = (Map)it.next();
+		    String key = hm.get("pos_url").toString().substring(24);
+		    String value = hm.get("pos_publish_date").toString();
+		    String id = hm.get("id").toString();
+		    value = value + " " + id;
+//		    System.out.println(key + " " + value);
+			if (!map.containsKey(key)) {
+				map.put(key, value);
+			} else {
+				String preValue = map.get(key);
+				if (preValue.compareTo(value) < 0) {
+					deleteZhilianObjs(Long.parseLong(preValue.substring(11)));
+//					set.add(Long.parseLong(preValue.substring(11)));
+					map.remove(key);
+					map.put(key, value);
+				} else {
+					deleteZhilianObjs(Long.parseLong(id));
+//					set.add(Long.parseLong(id));
+				}
+			}
+		}  
+		
+//		System.out.println(list.size());
+//		for (int i = 0; i < list.size(); i ++) {
+//			System.out.println(i);
+//			System.out.println(list.get(i));
+//			String key = list.get(i).get("pos_url");
+//			System.out.println(key);
+//			String value = list.get(i).get("pos_publish_date");
+//			System.out.println(value);
+//			String temp = ((HashMap<String, String>)(list.get(i))).get("id");
+//			System.out.println(temp);
+//			value = value + " " + temp;
+//			System.out.println(key + " " + value);
+//			if (!map.containsKey(key)) {
+//				map.put(key, value);
+//			} else {
+//				String preValue = map.get(key);
+//				if (preValue.compareTo(value) < 0) {
+//					set.add(Long.parseLong(preValue.substring(11)));
+//					map.remove(key);
+//					map.put(key, value);
+//				} else {
+//					set.add(Long.parseLong(list.get(i).get("id")));
+//				}
+//			}
+//		}
+		
+//		for (Long id : set) {
+//			deleteZhilianObjs(id);
+//		}
 	}
 	
 	public void printObj() {

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import cn.edu.pku.apps.Zhilian;
 import cn.edu.pku.conf.ZhilianConf;
+import cn.edu.pku.service.CreateRecruitmentService;
 import cn.edu.pku.util.TimeUtil;
 
 @Component
@@ -37,7 +38,7 @@ public class CronJob {
 	}
 	
 	//解析本地的招聘页面，保存到服务器的mysql，重复数据不保存
-	@Scheduled(cron = "30 32 11 * * ?")
+	@Scheduled(cron = "0 0 2 * * ?")
 	public void parseZhiLian() {
 		System.out.println("info:	数据保存	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
@@ -46,6 +47,28 @@ public class CronJob {
 		Zhilian zl = new Zhilian();
 		zl.parseRecruitPageBatch(zc);
 		System.out.println("info:	数据保存	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+	}
+	
+	//删除重复数据
+	@Scheduled(cron = "0 0 9 * * ?")
+	public void removeDuplicate() {
+		System.out.println("info:	删除重复数据	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+		Zhilian zl = new Zhilian();
+		zl.removeDuplicateObject();
+		System.out.println("info:	删除重复数据	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+	}
+	
+	//构建索引
+	@Scheduled(cron = "0 30 9 * * ?")
+	public void makeIndex() {
+		System.out.println("info:	构建索引	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+		CreateRecruitmentService service = new CreateRecruitmentService();
+		service.create();
+		System.out.println("info:	构建索引	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 	}
 	
