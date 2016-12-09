@@ -122,9 +122,7 @@ public class ZhilianObj {
 					stmt = conn.prepareStatement(sql);
 					ResultSet rs = stmt.executeQuery(sql);
 					try {
-						System.out.println(rs.getFetchSize());
 						list = convertList(rs);
-						System.out.println(list.size());
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -168,7 +166,7 @@ public class ZhilianObj {
 	}
 		
 	/**
-	 * 将当前对象插入数据库
+	 * 将数据库视图缓存对象插入数据库
 	 * */
 	public static void insertZhilianObjs() {
 		String url = DatabaseConf.getDatebaseurl();
@@ -249,9 +247,8 @@ public class ZhilianObj {
 	}
 
 	/**
-	 * 删除指定对象
-	 * @param key 指定键
-	 * @param value 指定值
+	 * 删除指定对象，同时会删除关联表里相同id的数据
+	 * @param id 指定id
 	 * */
 	public static void deleteZhilianObj(Long id) {
 		String url = DatabaseConf.getDatebaseurl();
@@ -324,18 +321,22 @@ public class ZhilianObj {
 	}
 
 	/**
-	 * 删除指定对象
+	 * 删除指定对象，需要注意删除关联表里相同id的数据
 	 * @param key 指定键
 	 * @param value 指定值
 	 * */
 	public static void deleteZhilianObjs(String key, String value) {
+		List list = new ArrayList<>();
+		
 		String url = DatabaseConf.getDatebaseurl();
 		try {
 			Class.forName(DatabaseConf.getClassname());
 			Connection conn;
 			try {
 				conn = DriverManager.getConnection(url);
-				String sql = "delete from " + DatabaseConf.getPositiontable()
+				
+				String sql = "select id from "
+						+ DatabaseConf.getPositiontable() + " "
 						+ " where "
 						+ key + " = '"
 						+ value + "';";
@@ -343,8 +344,9 @@ public class ZhilianObj {
 				PreparedStatement stmt;
 				try {
 					stmt = conn.prepareStatement(sql);
+					ResultSet rs = stmt.executeQuery(sql);
 					try {
-						stmt.executeUpdate();
+						list = convertList(rs);
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -362,6 +364,17 @@ public class ZhilianObj {
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		
+		HashSet<Long> removeItemsId = new HashSet<Long> ();
+		Iterator it = list.iterator();  
+		while(it.hasNext()) {   
+		    Map hm = (Map)it.next();
+		    String id = hm.get("id").toString();
+		    removeItemsId.add(Long.parseLong(id));
+		} 
+		for (Long id : removeItemsId) {
+			deleteZhilianObj(id);
 		}
 	}
 
@@ -486,9 +499,9 @@ public class ZhilianObj {
 					stmt = conn.prepareStatement(sql);
 					ResultSet rs = stmt.executeQuery(sql);
 					try {
-						System.out.println(rs.getFetchSize());
+//						System.out.println(rs.getFetchSize());
 						list = convertList(rs);
-						System.out.println(list.size());
+//						System.out.println(list.size());
 						
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
@@ -531,6 +544,9 @@ public class ZhilianObj {
 		}
 	}
 	
+	/**
+	 * 打印数据对象
+	 * */
 	public void printObj() {
 		System.out.println(this.postitle);
 		System.out.println(this.posSalary);
@@ -553,6 +569,8 @@ public class ZhilianObj {
 		System.out.println(this.snapshotUrl);
 		System.out.println();
 	}
+	
+	
 	
 	public String getPosSalary() {
 		return posSalary;
