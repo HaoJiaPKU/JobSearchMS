@@ -57,7 +57,7 @@ public class CreateRecruitmentService {
 			Class.forName(DatabaseConf.getClassname());
 			Connection conn = DriverManager.getConnection(url);
 
-			String sql = "select * from " + DatabaseConf.getStoretable();
+			String sql = "select * from " + DatabaseConf.getPositiontable();
 
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);

@@ -56,7 +56,7 @@ public class ZhilianObj {
 			Connection conn;
 			try {
 				conn = DriverManager.getConnection(url);
-				String sql = "insert into " + DatabaseConf.getStoretable() + "("
+				String sql = "insert into " + DatabaseConf.getPositiontable() + "("
 						+ "pos_title,"
 						+ "pos_salary,"
 						+ "pos_location,"
@@ -136,7 +136,7 @@ public class ZhilianObj {
 			Connection conn;
 			try {
 				conn = DriverManager.getConnection(url);
-				String sql = "delete from " + DatabaseConf.getStoretable()
+				String sql = "delete from " + DatabaseConf.getPositiontable()
 					+ " where id = " + id + ";";
 
 				PreparedStatement stmt;
@@ -153,6 +153,41 @@ public class ZhilianObj {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+				sql = "delete from " + DatabaseConf.getPositiontagtable()
+				+ " where recruitment_id = " + id + ";";
+
+				try {
+					stmt = conn.prepareStatement(sql);
+					try {
+						stmt.executeUpdate();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				sql = "delete from " + DatabaseConf.getRelevancetable()
+				+ " where recruitment_id = " + id + ";";
+
+				try {
+					stmt = conn.prepareStatement(sql);
+					try {
+						stmt.executeUpdate();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				conn.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -176,7 +211,7 @@ public class ZhilianObj {
 			Connection conn;
 			try {
 				conn = DriverManager.getConnection(url);
-				String sql = "delete from " + DatabaseConf.getStoretable()
+				String sql = "delete from " + DatabaseConf.getPositiontable()
 						+ " where "
 						+ key + " = '"
 						+ value + "';";
@@ -216,7 +251,7 @@ public class ZhilianObj {
 			Connection conn;
 			try {
 				conn = DriverManager.getConnection(url);
-				String sql = "select * from " + DatabaseConf.getStoretable() + " where "
+				String sql = "select * from " + DatabaseConf.getPositiontable() + " where "
 						 + "pos_publish_date ='" + this.posPublishDate + "' and "
 						 + "pos_url = '" + this.posUrl + "';";
 
@@ -285,7 +320,7 @@ public class ZhilianObj {
 			try {
 				conn = DriverManager.getConnection(url);
 				String sql = "select id, pos_url, pos_publish_date from "
-						+ DatabaseConf.getStoretable() + ";";
+						+ DatabaseConf.getPositiontable() + ";";
 
 				PreparedStatement stmt;
 				try {
