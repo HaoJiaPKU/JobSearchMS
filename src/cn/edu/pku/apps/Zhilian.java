@@ -288,15 +288,17 @@ public class Zhilian {
 		zlobj.setPosUrl(ZhilianConf.HostUrl
 				+ new File(inputPath).getName().substring(6));
 		
-		if (!zlobj.isExist()) {
-			zlobj.insertZhilianObj();
-		}
+//		if (!zlobj.isExist()) {
+//			zlobj.insertZhilianObj();
+//		}
+		zlobj.preStore();
 		
 		fo.closeOutput();
 		fi.closeInput();
 	}
 		
 	public void parseRecruitPageBatch(ZhilianConf zc) {
+		ZhilianObj.loadVirtualView();
 		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
 			String date = TimeUtil.getDate(DatabaseConf.getParsedate());
 			String descriptionDir = zc.getDescriptionDir()
@@ -312,9 +314,12 @@ public class Zhilian {
 				if (f.getName().contains(".DS_Store")) {
 					continue;
 				}
-				parseRecruitPage(f.getAbsolutePath(), descriptionDir + "/" + f.getName());
+				parseRecruitPage(f.getAbsolutePath(),
+						descriptionDir + "/" + f.getName());
 			}
 		}
+		ZhilianObj.excuteStore();
+		ZhilianObj.clearVirtualView();
 	}
 	
 	public void expireRecruitObject() {

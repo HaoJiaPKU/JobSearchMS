@@ -24,8 +24,6 @@ public class DatabaseConf {
 	public static String getPositiontable() {
 		return PositionTable;
 	}
-
-	
 	
 	public static String getPositiontagtable() {
 		return PositionTagTable;
@@ -38,7 +36,6 @@ public class DatabaseConf {
 	public static int getExpiredate() {
 		return ExpireDate;
 	}
-
 	
 	public static int getCrawldate() {
 		return CrawlDate;

@@ -42,10 +42,131 @@ public class ZhilianObj {
 	private String snapshotUrl = new String ();
 	private String displayContent = new String ();
 	
+	private static HashMap<String, String> virtualView = new HashMap<String, String>();
+	private static HashMap<String, ZhilianObj> addSet = new HashMap<String, ZhilianObj>();
+	
 	public ZhilianObj() {
 		
 	}
 	
+	public ZhilianObj(String postitle, String posSalary, String posLocation, String posPublishDate, String posType,
+			String posExperience, String posDegree, String posRecruitNum, String posCategory, String posDescription,
+			String posUrl, String comScale, String comType, String comIndustry, String comHost, String comLocation,
+			int hasTag, String source, String snapshotUrl, String displayContent) {
+		super();
+		this.postitle = postitle;
+		this.posSalary = posSalary;
+		this.posLocation = posLocation;
+		this.posPublishDate = posPublishDate;
+		this.posType = posType;
+		this.posExperience = posExperience;
+		this.posDegree = posDegree;
+		this.posRecruitNum = posRecruitNum;
+		this.posCategory = posCategory;
+		this.posDescription = posDescription;
+		this.posUrl = posUrl;
+		this.comScale = comScale;
+		this.comType = comType;
+		this.comIndustry = comIndustry;
+		this.comHost = comHost;
+		this.comLocation = comLocation;
+		this.hasTag = hasTag;
+		this.source = source;
+		this.snapshotUrl = snapshotUrl;
+		this.displayContent = displayContent;
+	}
+
+	public ZhilianObj(ZhilianObj z) {
+		this.postitle = z.postitle;
+		this.posSalary = z.posSalary;
+		this.posLocation = z.posLocation;
+		this.posPublishDate = z.posPublishDate;
+		this.posType = z.posType;
+		this.posExperience = z.posExperience;
+		this.posDegree = z.posDegree;
+		this.posRecruitNum = z.posRecruitNum;
+		this.posCategory = z.posCategory;
+		this.posDescription = z.posDescription;
+		this.posUrl = z.posUrl;
+		this.comScale = z.comScale;
+		this.comType = z.comType;
+		this.comIndustry = z.comIndustry;
+		this.comHost = z.comHost;
+		this.comLocation = z.comLocation;
+		this.hasTag = z.hasTag;
+		this.source = z.source;
+		this.snapshotUrl = z.snapshotUrl;
+		this.displayContent = z.displayContent;
+	}
+	
+	/**
+	 * 加载数据库视图缓存
+	 * */
+	public static void loadVirtualView() {
+		virtualView.clear();
+		addSet.clear();
+		
+		List list = new ArrayList<>();
+		
+		String url = DatabaseConf.getDatebaseurl();
+		try {
+			Class.forName(DatabaseConf.getClassname());
+			Connection conn;
+			try {
+				conn = DriverManager.getConnection(url);
+				String sql = "select id, pos_url, pos_publish_date from "
+						+ DatabaseConf.getPositiontable() + ";";
+
+				PreparedStatement stmt;
+				try {
+					stmt = conn.prepareStatement(sql);
+					ResultSet rs = stmt.executeQuery(sql);
+					try {
+						System.out.println(rs.getFetchSize());
+						list = convertList(rs);
+						System.out.println(list.size());
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Iterator it = list.iterator();  
+		while(it.hasNext()) {   
+		    Map hm = (Map)it.next();
+		    String key = hm.get("pos_url").toString().substring(24);
+		    String value = hm.get("pos_publish_date").toString();
+		    String id = hm.get("id").toString();
+		    value = value + " " + id;
+		    if (value.length() <= 10) {
+		    	deleteZhilianObj(Long.parseLong(id));
+		    	continue;
+		    }
+		    virtualView.put(key, value);
+		}  
+	}
+	
+	/**
+	 * 清除数据库视图缓存
+	 * */
+	public static void clearVirtualView() {
+		virtualView.clear();
+		addSet.clear();
+	}
+		
 	/**
 	 * 将当前对象插入数据库
 	 * */
@@ -129,7 +250,7 @@ public class ZhilianObj {
 	 * @param key 指定键
 	 * @param value 指定值
 	 * */
-	public static void deleteZhilianObjs(Long id) {
+	public static void deleteZhilianObj(Long id) {
 		String url = DatabaseConf.getDatebaseurl();
 		try {
 			Class.forName(DatabaseConf.getClassname());
@@ -284,6 +405,43 @@ public class ZhilianObj {
 		}
 		return false;
 	}
+		
+	/**
+	 * 数据对象预存储到数据库缓存，同时判断数据库与当前数据是否过期
+	 * */
+	public void preStore() {
+		String key = this.posUrl.substring(ZhilianConf.HostUrl.length());
+		String value = this.posPublishDate + " 0000000000";
+		System.out.println(key + " " + value);
+		if (!virtualView.containsKey(key)) {
+			virtualView.put(key, value);
+			addSet.put(key, new ZhilianObj(this));
+		} else {
+			String preValue = virtualView.get(key);
+			if (preValue.compareTo(value) < 0) {
+				long index = Long.parseLong(preValue.substring(11));
+				if (index == 0) {
+					virtualView.remove(key);
+					addSet.remove(key);
+				} else {
+					deleteZhilianObj(index);
+					virtualView.remove(key);
+				}
+				virtualView.put(key, value);
+				addSet.put(key, new ZhilianObj(this));
+			}
+		}
+	}
+	
+	/**
+	 * 执行数据对象到数据库的插入操作
+	 * */
+	public static void excuteStore() {
+		for(String key : addSet.keySet()) {
+			addSet.get(key).insertZhilianObj();
+		}
+		clearVirtualView();
+	}
 	
 	/**
 	 * 将结果保存为list，因为:
@@ -331,28 +489,6 @@ public class ZhilianObj {
 						list = convertList(rs);
 						System.out.println(list.size());
 						
-//						while (rs.next()) {
-//							System.out.println(rs.getString("id"));
-//							String key = rs.getString("pos_url");
-//							String value = rs.getString("pos_publish_date")
-//									+ " " + rs.getString("id");
-//							if (!map.containsKey(key)) {
-////								System.out.println("!key");
-//								map.put(key, value);
-//							} else {
-////								System.out.println("key");
-//								String preValue = map.get(key);
-//								if (preValue.compareTo(value) < 0) {
-////									System.out.println("发生替换");
-//									set.add(Long.parseLong(preValue.substring(11)));
-//									map.remove(key);
-//									map.put(key, value);
-//								} else {
-////									System.out.println("不发生替换");
-//									set.add(Long.parseLong(rs.getString("id")));
-//								}
-//							}
-//						}
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -375,56 +511,23 @@ public class ZhilianObj {
 		Iterator it = list.iterator();   
 		while(it.hasNext()) {   
 		    Map hm = (Map)it.next();
-		    String key = hm.get("pos_url").toString().substring(24);
+		    String key = hm.get("pos_url").toString().substring(ZhilianConf.HostUrl.length());
 		    String value = hm.get("pos_publish_date").toString();
 		    String id = hm.get("id").toString();
 		    value = value + " " + id;
-//		    System.out.println(key + " " + value);
 			if (!map.containsKey(key)) {
 				map.put(key, value);
 			} else {
 				String preValue = map.get(key);
 				if (preValue.compareTo(value) < 0) {
-					deleteZhilianObjs(Long.parseLong(preValue.substring(11)));
-//					set.add(Long.parseLong(preValue.substring(11)));
+					deleteZhilianObj(Long.parseLong(preValue.substring(11)));
 					map.remove(key);
 					map.put(key, value);
 				} else {
-					deleteZhilianObjs(Long.parseLong(id));
-//					set.add(Long.parseLong(id));
+					deleteZhilianObj(Long.parseLong(id));
 				}
 			}
-		}  
-		
-//		System.out.println(list.size());
-//		for (int i = 0; i < list.size(); i ++) {
-//			System.out.println(i);
-//			System.out.println(list.get(i));
-//			String key = list.get(i).get("pos_url");
-//			System.out.println(key);
-//			String value = list.get(i).get("pos_publish_date");
-//			System.out.println(value);
-//			String temp = ((HashMap<String, String>)(list.get(i))).get("id");
-//			System.out.println(temp);
-//			value = value + " " + temp;
-//			System.out.println(key + " " + value);
-//			if (!map.containsKey(key)) {
-//				map.put(key, value);
-//			} else {
-//				String preValue = map.get(key);
-//				if (preValue.compareTo(value) < 0) {
-//					set.add(Long.parseLong(preValue.substring(11)));
-//					map.remove(key);
-//					map.put(key, value);
-//				} else {
-//					set.add(Long.parseLong(list.get(i).get("id")));
-//				}
-//			}
-//		}
-		
-//		for (Long id : set) {
-//			deleteZhilianObjs(id);
-//		}
+		}
 	}
 	
 	public void printObj() {
