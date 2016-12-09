@@ -170,69 +170,72 @@ public class ZhilianObj {
 	/**
 	 * 将当前对象插入数据库
 	 * */
-	public void insertZhilianObj() {
+	public static void insertZhilianObjs() {
 		String url = DatabaseConf.getDatebaseurl();
 		try {
 			Class.forName(DatabaseConf.getClassname());
 			Connection conn;
 			try {
 				conn = DriverManager.getConnection(url);
-				String sql = "insert into " + DatabaseConf.getPositiontable() + "("
-						+ "pos_title,"
-						+ "pos_salary,"
-						+ "pos_location,"
-						+ "pos_publish_date,"
-						+ "pos_type,"
-						+ "pos_experience,"
-						+ "pos_degree,"
-						+ "pos_recruit_num,"
-						+ "pos_category,"
-						+ "pos_description,"
-						+ "pos_url,"
-						+ "com_scale,"
-						+ "com_type,"
-						+ "com_industry,"
-						+ "com_host,"
-						+ "com_location,"
-						+ "has_tag,"
-						+ "source,"
-						+ "snapshot_url,"
-						+ "display_content)"
-						+ " values("
-						+ "'" + this.postitle + "',"
-						+ "'" + this.posSalary + "',"
-						+ "'" + this.posLocation + "',"
-						+ "'" + this.posPublishDate + "',"
-						+ "'" + this.posType + "',"
-						+ "'" + this.posExperience + "',"
-						+ "'" + this.posDegree + "',"
-						+ "'" + this.posRecruitNum + "',"
-						+ "'" + this.posCategory + "',"
-						+ "'" + this.posDescription + "',"
-						+ "'" + this.posUrl + "',"
-						+ "'" + this.comScale + "',"
-						+ "'" + this.comType + "',"
-						+ "'" + this.comIndustry + "',"
-						+ "'" + this.comHost + "',"
-						+ "'" + this.comLocation + "',"
-						+ "'" + this.hasTag + "',"
-						+ "'" + ZhilianConf.Source + "',"
-						+ "'" + this.snapshotUrl + "',"
-						+ "'" + this.displayContent + "');";
-
-				PreparedStatement stmt;
-				try {
-					stmt = conn.prepareStatement(sql);
+				for (String key : addSet.keySet()) {
+					ZhilianObj zlobj = addSet.get(key);
+					String sql = "insert into " + DatabaseConf.getPositiontable() + "("
+							+ "pos_title,"
+							+ "pos_salary,"
+							+ "pos_location,"
+							+ "pos_publish_date,"
+							+ "pos_type,"
+							+ "pos_experience,"
+							+ "pos_degree,"
+							+ "pos_recruit_num,"
+							+ "pos_category,"
+							+ "pos_description,"
+							+ "pos_url,"
+							+ "com_scale,"
+							+ "com_type,"
+							+ "com_industry,"
+							+ "com_host,"
+							+ "com_location,"
+							+ "has_tag,"
+							+ "source,"
+							+ "snapshot_url,"
+							+ "display_content)"
+							+ " values("
+							+ "'" + zlobj.postitle + "',"
+							+ "'" + zlobj.posSalary + "',"
+							+ "'" + zlobj.posLocation + "',"
+							+ "'" + zlobj.posPublishDate + "',"
+							+ "'" + zlobj.posType + "',"
+							+ "'" + zlobj.posExperience + "',"
+							+ "'" + zlobj.posDegree + "',"
+							+ "'" + zlobj.posRecruitNum + "',"
+							+ "'" + zlobj.posCategory + "',"
+							+ "'" + zlobj.posDescription + "',"
+							+ "'" + zlobj.posUrl + "',"
+							+ "'" + zlobj.comScale + "',"
+							+ "'" + zlobj.comType + "',"
+							+ "'" + zlobj.comIndustry + "',"
+							+ "'" + zlobj.comHost + "',"
+							+ "'" + zlobj.comLocation + "',"
+							+ "'" + zlobj.hasTag + "',"
+							+ "'" + ZhilianConf.Source + "',"
+							+ "'" + zlobj.snapshotUrl + "',"
+							+ "'" + zlobj.displayContent + "');";
+	
+					PreparedStatement stmt;
 					try {
-						stmt.executeUpdate();
+						stmt = conn.prepareStatement(sql);
+						try {
+							stmt.executeUpdate();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						stmt.close();
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					stmt.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 				conn.close();
 			} catch (SQLException e) {
@@ -437,9 +440,7 @@ public class ZhilianObj {
 	 * 执行数据对象到数据库的插入操作
 	 * */
 	public static void excuteStore() {
-		for(String key : addSet.keySet()) {
-			addSet.get(key).insertZhilianObj();
-		}
+		insertZhilianObjs();
 		clearVirtualView();
 	}
 	
