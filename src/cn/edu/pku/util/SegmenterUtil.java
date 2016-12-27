@@ -34,7 +34,6 @@ public class SegmenterUtil {
 		//System.out.println(segmenter.classifyToString("今天天气不错啊"));
 	}
 	
-	
 	public static void loadStopword() {
 		FileInput fi = new FileInput(StopwordFile);
 		String line = new String ();

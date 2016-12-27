@@ -21,10 +21,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <form action="CreateRecruitmentIndex" method="post">
+    <form action="index/createPositionIndex" method="post">
     	<button type="submit">重新创建招聘信息索引</button>
     </form>
-    <form action="CreateResumeIndex" method="post">
+    <form action="index/createResumeIndex" method="post">
     	<button type="submit">重新创建简历信息索引</button>
     </form>
   </body>

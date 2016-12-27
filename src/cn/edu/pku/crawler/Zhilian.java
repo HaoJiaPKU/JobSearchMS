@@ -1,4 +1,4 @@
-package cn.edu.pku.apps;
+package cn.edu.pku.crawler;
 
 import java.io.File;
 import java.io.IOException;

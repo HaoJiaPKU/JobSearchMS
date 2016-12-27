@@ -3,8 +3,8 @@ package cn.edu.pku.crontab;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import cn.edu.pku.apps.Zhilian;
 import cn.edu.pku.conf.ZhilianConf;
+import cn.edu.pku.crawler.Zhilian;
 import cn.edu.pku.service.CreateRecruitmentService;
 import cn.edu.pku.util.TimeUtil;
 
