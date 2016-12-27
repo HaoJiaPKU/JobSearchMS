@@ -1,17 +1,31 @@
 package cn.edu.pku.crontab;
 
+import javax.annotation.Resource;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import cn.edu.pku.conf.ZhilianConf;
 import cn.edu.pku.crawler.Zhilian;
 import cn.edu.pku.service.CreateRecruitmentService;
+import cn.edu.pku.service.PositionIndexService;
 import cn.edu.pku.util.TimeUtil;
 
 @Component
 public class CronJob {
 	
-	@Scheduled(cron = "0 10 0 * * ?")
+	PositionIndexService positionIndexservice;
+
+	public PositionIndexService getPositionIndexservice() {
+		return positionIndexservice;
+	}
+
+	@Resource
+	public void setPositionIndexservice(PositionIndexService positionIndexservice) {
+		this.positionIndexservice = positionIndexservice;
+	}
+
+	@Scheduled(cron = "0 29 20 * * ?")
 	public void zhiLianJob() {
 		ZhilianConf zc = new ZhilianConf();
 		zc.run();
@@ -48,8 +62,7 @@ public class CronJob {
 		//构建索引
 		System.out.println("info:	构建索引	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		CreateRecruitmentService service = new CreateRecruitmentService();
-		service.create();
+		positionIndexservice.create();
 		System.out.println("info:	构建索引	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 	}
