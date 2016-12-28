@@ -30,6 +30,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Unused Class
+ * */
+
 public class CreateResumeService {
 
 	public void create51Job() {

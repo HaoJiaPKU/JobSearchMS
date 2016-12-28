@@ -322,9 +322,10 @@ public class Zhilian {
 		ZhilianObj.clearVirtualView();
 	}
 	
+	//过期不一定要删除数据
 	public void expireRecruitObject() {
-		String date = TimeUtil.getDate(DatabaseConf.getExpiredate());
-		ZhilianObj.deleteZhilianObjs("pos_publish_date", date);
+//		String date = TimeUtil.getDate(DatabaseConf.getExpiredate());
+//		ZhilianObj.deleteZhilianObjs("pos_publish_date", date);
 	}
 	
 	public void removeDuplicateObject() {

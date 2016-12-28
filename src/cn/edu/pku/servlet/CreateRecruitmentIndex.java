@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.edu.pku.service.CreateRecruitmentService;
 
+/**
+ * Unused Class
+ * */
+
 public class CreateRecruitmentIndex extends HttpServlet {
 
 	/**

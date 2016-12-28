@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.edu.pku.service.CreateResumeService;
 
+/**
+ * Unused Class
+ * */
+
 public class CreateResumeIndex extends HttpServlet {
 
 	/**

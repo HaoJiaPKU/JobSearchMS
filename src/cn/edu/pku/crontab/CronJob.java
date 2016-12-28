@@ -25,15 +25,15 @@ public class CronJob {
 		this.positionIndexservice = positionIndexservice;
 	}
 
-	@Scheduled(cron = "0 29 20 * * ?")
+	@Scheduled(cron = "0 10 0 * * ?")
 	public void zhiLianJob() {
 		ZhilianConf zc = new ZhilianConf();
 		zc.run();
+		Zhilian zl = new Zhilian();
 		
 		//过期n天前的数据，当前n为90
 		System.out.println("info:	数据过期	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		Zhilian zl = new Zhilian();
 		zl.expireRecruitObject();
 		System.out.println("info:	数据过期	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));

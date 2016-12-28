@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import com.chenlb.mmseg4j.analysis.SimpleAnalyzer;
 
 import cn.edu.pku.conf.DatabaseConf;
+import cn.edu.pku.util.TimeUtil;
 
 @Service
 public class PositionIndexServiceImpl implements PositionIndexService{
@@ -61,7 +62,13 @@ public class PositionIndexServiceImpl implements PositionIndexService{
 			Class.forName(DatabaseConf.getClassname());
 			Connection conn = DriverManager.getConnection(url);
 
-			String sql = "select * from " + DatabaseConf.getPositiontable();
+			String sql = "select "
+					+ "* "
+					+ "from "
+					+ DatabaseConf.getPositiontable()
+					+ " where "
+					+ "pos_publish_date > '"
+					+ TimeUtil.getDate(DatabaseConf.getExpiredate()) + "';";
 
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);

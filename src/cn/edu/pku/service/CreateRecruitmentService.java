@@ -24,6 +24,10 @@ import com.chenlb.mmseg4j.analysis.SimpleAnalyzer;
 
 import cn.edu.pku.conf.DatabaseConf;
 
+/**
+ * Unused Class
+ * */
+
 public class CreateRecruitmentService {
 	
 	public void create() {

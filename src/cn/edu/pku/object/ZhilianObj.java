@@ -16,6 +16,7 @@ import java.util.Map;
 
 import cn.edu.pku.conf.DatabaseConf;
 import cn.edu.pku.conf.ZhilianConf;
+import cn.edu.pku.util.TimeUtil;
 
 public class ZhilianObj {
 
@@ -43,7 +44,7 @@ public class ZhilianObj {
 	private String displayContent = new String ();
 	
 	private static HashMap<String, String> virtualView = new HashMap<String, String>();
-	private static HashMap<String, ZhilianObj> addSet = new HashMap<String, ZhilianObj>();
+	private static HashMap<String, ZhilianObj> newData = new HashMap<String, ZhilianObj>();
 	
 	public ZhilianObj() {
 		
@@ -104,7 +105,7 @@ public class ZhilianObj {
 	 * */
 	public static void loadVirtualView() {
 		virtualView.clear();
-		addSet.clear();
+		newData.clear();
 		
 		List list = new ArrayList<>();
 		
@@ -114,8 +115,13 @@ public class ZhilianObj {
 			Connection conn;
 			try {
 				conn = DriverManager.getConnection(url);
-				String sql = "select id, pos_url, pos_publish_date from "
-						+ DatabaseConf.getPositiontable() + ";";
+				String sql = "select "
+						+ "id, pos_url, pos_publish_date "
+						+ "from "
+						+ DatabaseConf.getPositiontable() + " "
+						+ " where "
+						+ "pos_publish_date > '"
+						+ TimeUtil.getDate(DatabaseConf.getExpiredate()) + "';";
 
 				PreparedStatement stmt;
 				try {
@@ -162,7 +168,7 @@ public class ZhilianObj {
 	 * */
 	public static void clearVirtualView() {
 		virtualView.clear();
-		addSet.clear();
+		newData.clear();
 	}
 		
 	/**
@@ -175,9 +181,10 @@ public class ZhilianObj {
 			Connection conn;
 			try {
 				conn = DriverManager.getConnection(url);
-				for (String key : addSet.keySet()) {
-					ZhilianObj zlobj = addSet.get(key);
-					String sql = "insert into " + DatabaseConf.getPositiontable() + "("
+				for (String key : newData.keySet()) {
+					ZhilianObj zlobj = newData.get(key);
+					String sql = "insert into "
+							+ DatabaseConf.getPositiontable() + "("
 							+ "pos_title,"
 							+ "pos_salary,"
 							+ "pos_location,"
@@ -257,8 +264,10 @@ public class ZhilianObj {
 			Connection conn;
 			try {
 				conn = DriverManager.getConnection(url);
-				String sql = "delete from " + DatabaseConf.getPositiontable()
-					+ " where id = " + id + ";";
+				String sql = "delete from "
+						+ DatabaseConf.getPositiontable()
+						+ " where "
+						+ "id = " + id + ";";
 
 				PreparedStatement stmt;
 				try {
@@ -275,8 +284,10 @@ public class ZhilianObj {
 					e.printStackTrace();
 				}
 				
-				sql = "delete from " + DatabaseConf.getPositiontagtable()
-				+ " where recruitment_id = " + id + ";";
+				sql = "delete from "
+						+ DatabaseConf.getPositiontagtable()
+						+ " where "
+						+ "recruitment_id = " + id + ";";
 
 				try {
 					stmt = conn.prepareStatement(sql);
@@ -292,8 +303,10 @@ public class ZhilianObj {
 					e.printStackTrace();
 				}
 				
-				sql = "delete from " + DatabaseConf.getRelevancetable()
-				+ " where recruitment_id = " + id + ";";
+				sql = "delete from "
+						+ DatabaseConf.getRelevancetable()
+						+ " where "
+						+ "recruitment_id = " + id + ";";
 
 				try {
 					stmt = conn.prepareStatement(sql);
@@ -335,9 +348,14 @@ public class ZhilianObj {
 			try {
 				conn = DriverManager.getConnection(url);
 				
-				String sql = "select id from "
+				String sql = "select "
+						+ "id "
+						+ "from "
 						+ DatabaseConf.getPositiontable() + " "
 						+ " where "
+						+ "pos_publish_date > '"
+						+ TimeUtil.getDate(DatabaseConf.getExpiredate()) + "'"
+						+ " and "
 						+ key + " = '"
 						+ value + "';";
 
@@ -380,6 +398,7 @@ public class ZhilianObj {
 
 	/**
 	 * 判断某个对象是否存在于数据库中
+	 * Warn : 代价太高建议不要使用
 	 * */
 	public boolean isExist() {
 		String url = DatabaseConf.getDatebaseurl();
@@ -388,9 +407,14 @@ public class ZhilianObj {
 			Connection conn;
 			try {
 				conn = DriverManager.getConnection(url);
-				String sql = "select * from " + DatabaseConf.getPositiontable() + " where "
-						 + "pos_publish_date ='" + this.posPublishDate + "' and "
-						 + "pos_url = '" + this.posUrl + "';";
+				String sql = "select "
+						+ "* "
+						+ "from "
+						+ DatabaseConf.getPositiontable()
+						+ " where "
+						+ "pos_publish_date ='" + this.posPublishDate + "' "
+						+ "and "
+						+ "pos_url = '" + this.posUrl + "';";
 
 				Statement stmt = conn.createStatement();;
 				try {
@@ -431,20 +455,20 @@ public class ZhilianObj {
 		System.out.println(key + " " + value);
 		if (!virtualView.containsKey(key)) {
 			virtualView.put(key, value);
-			addSet.put(key, new ZhilianObj(this));
+			newData.put(key, new ZhilianObj(this));
 		} else {
 			String preValue = virtualView.get(key);
 			if (preValue.compareTo(value) < 0) {
 				long index = Long.parseLong(preValue.substring(11));
 				if (index == 0) {
 					virtualView.remove(key);
-					addSet.remove(key);
+					newData.remove(key);
 				} else {
 					deleteZhilianObj(index);
 					virtualView.remove(key);
 				}
 				virtualView.put(key, value);
-				addSet.put(key, new ZhilianObj(this));
+				newData.put(key, new ZhilianObj(this));
 			}
 		}
 	}
@@ -491,8 +515,13 @@ public class ZhilianObj {
 			Connection conn;
 			try {
 				conn = DriverManager.getConnection(url);
-				String sql = "select id, pos_url, pos_publish_date from "
-						+ DatabaseConf.getPositiontable() + ";";
+				String sql = "select "
+						+ "id, pos_url, pos_publish_date "
+						+ "from "
+						+ DatabaseConf.getPositiontable() + " "
+						+ " where "
+						+ "pos_publish_date > '"
+						+ TimeUtil.getDate(DatabaseConf.getExpiredate()) + "';";
 
 				PreparedStatement stmt;
 				try {
