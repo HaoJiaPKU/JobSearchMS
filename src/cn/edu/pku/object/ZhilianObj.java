@@ -117,9 +117,12 @@ public class ZhilianObj {
 				conn = DriverManager.getConnection(url);
 				String sql = "select "
 						+ "id, pos_url, pos_publish_date "
-						+ "from "
+						+ " from "
 						+ DatabaseConf.getPositiontable() + " "
 						+ " where "
+						+ "source = '"
+						+ ZhilianConf.getSource() + "' "
+						+ " and "
 						+ "pos_publish_date > '"
 						+ TimeUtil.getDate(DatabaseConf.getExpiredate()) + "';";
 
@@ -350,9 +353,12 @@ public class ZhilianObj {
 				
 				String sql = "select "
 						+ "id "
-						+ "from "
+						+ " from "
 						+ DatabaseConf.getPositiontable() + " "
 						+ " where "
+						+ "source = '"
+						+ ZhilianConf.getSource() + "' "
+						+ " and "
 						+ "pos_publish_date > '"
 						+ TimeUtil.getDate(DatabaseConf.getExpiredate()) + "'"
 						+ " and "
@@ -409,11 +415,14 @@ public class ZhilianObj {
 				conn = DriverManager.getConnection(url);
 				String sql = "select "
 						+ "* "
-						+ "from "
+						+ " from "
 						+ DatabaseConf.getPositiontable()
 						+ " where "
+						+ "source = '"
+						+ ZhilianConf.getSource() + "' "
+						+ " and "
 						+ "pos_publish_date ='" + this.posPublishDate + "' "
-						+ "and "
+						+ " and "
 						+ "pos_url = '" + this.posUrl + "';";
 
 				Statement stmt = conn.createStatement();;
@@ -517,9 +526,12 @@ public class ZhilianObj {
 				conn = DriverManager.getConnection(url);
 				String sql = "select "
 						+ "id, pos_url, pos_publish_date "
-						+ "from "
+						+ " from "
 						+ DatabaseConf.getPositiontable() + " "
 						+ " where "
+						+ "source = '"
+						+ ZhilianConf.getSource() + "' "
+						+ " and "
 						+ "pos_publish_date > '"
 						+ TimeUtil.getDate(DatabaseConf.getExpiredate()) + "';";
 

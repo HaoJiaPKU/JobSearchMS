@@ -64,7 +64,7 @@ public class PositionIndexServiceImpl implements PositionIndexService{
 
 			String sql = "select "
 					+ "* "
-					+ "from "
+					+ " from "
 					+ DatabaseConf.getPositiontable()
 					+ " where "
 					+ "pos_publish_date > '"
