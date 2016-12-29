@@ -209,14 +209,8 @@ public class Zhilian {
 				if (divs != null) {
 					div = divs.first();
 					if (div != null) {
-						try {
-							String description = div.text().trim();
-							fo.t3.write(description);
-							zlobj.setPosDescription(description);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						String description = div.text().trim();
+						zlobj.setPosDescription(description);
 					}
 				}
 			}
@@ -292,6 +286,16 @@ public class Zhilian {
 //			zlobj.insertZhilianObj();
 //		}
 		zlobj.preStore();
+		
+		try {
+			fo.t3.write(zlobj.getPostitle()
+					+ "	" + zlobj.getPosPublishDate()
+					+ "	" + zlobj.getPosCategory()
+					+ "	" + zlobj.getPosDescription());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		fo.closeOutput();
 		fi.closeInput();
