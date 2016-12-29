@@ -328,8 +328,8 @@ public class Zhilian {
 //		ZhilianObj.deleteZhilianObjs("pos_publish_date", date);
 	}
 	
-	public void removeDuplicateObject() {
-		ZhilianObj.removeDuplicateObject();
+	public void removeDuplicate() {
+		ZhilianObj.removeDuplicate();
 	}
 	
 	public static void main(String [] args) throws IOException {}

@@ -67,7 +67,7 @@ public class CronJob {
 		//删除重复数据
 		System.out.println("info:	删除重复数据	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		zl.removeDuplicateObject();
+		zl.removeDuplicate();
 		System.out.println("info:	删除重复数据	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 	}

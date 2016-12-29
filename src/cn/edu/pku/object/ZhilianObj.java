@@ -43,7 +43,9 @@ public class ZhilianObj {
 	private String snapshotUrl = new String ();
 	private String displayContent = new String ();
 	
+	//pos_url, pos_publish_date + " " + id
 	private static HashMap<String, String> virtualView = new HashMap<String, String>();
+	//pos_url, pos_publish_date + " " + "-1"
 	private static HashMap<String, ZhilianObj> newData = new HashMap<String, ZhilianObj>();
 	
 	public ZhilianObj() {
@@ -159,7 +161,7 @@ public class ZhilianObj {
 		    String id = hm.get("id").toString();
 		    value = value + " " + id;
 		    if (value.length() <= 10) {
-		    	deleteZhilianObj(Long.parseLong(id));
+		    	delete(Long.parseLong(id));
 		    	continue;
 		    }
 		    virtualView.put(key, value);
@@ -177,7 +179,7 @@ public class ZhilianObj {
 	/**
 	 * 将数据库视图缓存对象插入数据库
 	 * */
-	public static void insertZhilianObjs() {
+	public static void insertVirtualViewData() {
 		String url = DatabaseConf.getDatebaseurl();
 		try {
 			Class.forName(DatabaseConf.getClassname());
@@ -257,10 +259,52 @@ public class ZhilianObj {
 	}
 
 	/**
+	 * 更新对象
+	 * */
+	public static void update(Long id, String key, String value) {
+		String url = DatabaseConf.getDatebaseurl();
+		try {
+			Class.forName(DatabaseConf.getClassname());
+			Connection conn;
+			try {
+				conn = DriverManager.getConnection(url);
+				String sql = "update "
+						+ DatabaseConf.getPositiontable()
+						+ " set "
+						+ key + "='" + value + "' "
+						+ " where "
+						+ "id = " + id + ";";
+
+				PreparedStatement stmt;
+				try {
+					stmt = conn.prepareStatement(sql);
+					try {
+						stmt.executeUpdate();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}				
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * 删除指定对象，同时会删除关联表里相同id的数据
 	 * @param id 指定id
 	 * */
-	public static void deleteZhilianObj(Long id) {
+	public static void delete(Long id) {
 		String url = DatabaseConf.getDatebaseurl();
 		try {
 			Class.forName(DatabaseConf.getClassname());
@@ -341,7 +385,7 @@ public class ZhilianObj {
 	 * @param key 指定键
 	 * @param value 指定值
 	 * */
-	public static void deleteZhilianObjs(String key, String value) {
+	public static void delete(String key, String value) {
 		List list = new ArrayList<>();
 		
 		String url = DatabaseConf.getDatebaseurl();
@@ -398,7 +442,7 @@ public class ZhilianObj {
 		    removeItemsId.add(Long.parseLong(id));
 		} 
 		for (Long id : removeItemsId) {
-			deleteZhilianObj(id);
+			delete(id);
 		}
 	}
 
@@ -460,25 +504,31 @@ public class ZhilianObj {
 	 * */
 	public void preStore() {
 		String key = this.posUrl.substring(ZhilianConf.HostUrl.length());
-		String value = this.posPublishDate + " 0000000000";
+		String value = this.posPublishDate + " -1";//-1为了后面的index判断
 		System.out.println(key + " " + value);
+		//如果没有当前的数据，直接加入到试图缓存和待插入的新数据中
 		if (!virtualView.containsKey(key)) {
 			virtualView.put(key, value);
 			newData.put(key, new ZhilianObj(this));
-		} else {
+		} else {//存在当前的数据
 			String preValue = virtualView.get(key);
+			//如果历史数据的日期在当前数据之前
 			if (preValue.compareTo(value) < 0) {
-				long index = Long.parseLong(preValue.substring(11));
-				if (index == 0) {
+				long id = Long.parseLong(preValue.substring(11));
+				//如果是新插入的数据，即数据库中没有这条数据，只需要更新视图缓存和待插入数据
+				if (id == -1) {//-1
 					virtualView.remove(key);
 					newData.remove(key);
+					virtualView.put(key, value);
+					newData.put(key, new ZhilianObj(this));
+				//如果是原有历史数据，需要更新数据库和视图缓存
 				} else {
-					deleteZhilianObj(index);
+					update(id, "pos_publish_date", value.substring(0, 10));
 					virtualView.remove(key);
+					virtualView.put(key, value);
 				}
-				virtualView.put(key, value);
-				newData.put(key, new ZhilianObj(this));
 			}
+			//如果历史数据的日期在当前数据之后，什么也不做
 		}
 	}
 	
@@ -486,7 +536,7 @@ public class ZhilianObj {
 	 * 执行数据对象到数据库的插入操作
 	 * */
 	public static void excuteStore() {
-		insertZhilianObjs();
+		insertVirtualViewData();
 		clearVirtualView();
 	}
 	
@@ -513,7 +563,7 @@ public class ZhilianObj {
 	 * 删除数据库中的重复数据，仅以URL作为判断标准，时间不同的情况下保留最近的数据
 	 * 如果在某条数据处住，直接删除数据，可能存在使线程挂起的字符，暂时不明原因
 	 * */
-	public static void removeDuplicateObject() {
+	public static void removeDuplicate() {
 		HashMap<String, String> map = new HashMap<String, String>();
 //		HashSet<Long> set = new HashSet<Long>();
 		List list = new ArrayList<>();
@@ -575,11 +625,11 @@ public class ZhilianObj {
 			} else {
 				String preValue = map.get(key);
 				if (preValue.compareTo(value) < 0) {
-					deleteZhilianObj(Long.parseLong(preValue.substring(11)));
+					delete(Long.parseLong(preValue.substring(11)));
 					map.remove(key);
 					map.put(key, value);
 				} else {
-					deleteZhilianObj(Long.parseLong(id));
+					delete(Long.parseLong(id));
 				}
 			}
 		}
