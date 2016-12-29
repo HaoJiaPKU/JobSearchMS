@@ -24,10 +24,10 @@ public class CronJob {
 		this.positionIndexservice = positionIndexservice;
 	}
 
-	@Scheduled(cron = "0 10 0 * * ?")
+	@Scheduled(cron = "0 0 8 * * ?")
 	public void IndexJob() {
 		//执行智联招聘数据的处理
-		zhiLianJob();
+//		zhiLianJob();
 		
 		//构建索引
 		System.out.println("info:	开始 构建索引	"
