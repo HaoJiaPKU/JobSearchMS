@@ -12,11 +12,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import cn.edu.pku.conf.DatabaseConf;
-import cn.edu.pku.conf.ZhilianConf;
+import cn.edu.pku.util.FileInput;
 import cn.edu.pku.util.FileOutput;
-import cn.edu.pku.util.TimeUtil;
+import cn.edu.pku.util.SegmenterUtil;
 
 public class AbstractObj {
 
