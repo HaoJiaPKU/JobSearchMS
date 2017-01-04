@@ -210,7 +210,22 @@ public class Zhilian {
 					div = divs.first();
 					if (div != null) {
 						String description = div.text().trim();
-						zlobj.setPosDescription(description);
+						
+						if (description == null
+								|| description.length() == 0
+								|| description.equals("")) {
+							fo.closeOutput();
+							fi.closeInput();
+							return;
+						}
+						
+						//删除职位描述部分的工作地址
+						int index = description.indexOf("工作地址：");
+						if (index != -1) {
+							zlobj.setPosDescription(description.substring(0, index));
+						} else {
+							zlobj.setPosDescription(description);
+						}
 					}
 				}
 			}
@@ -259,6 +274,7 @@ public class Zhilian {
 			}
 		}
 		
+		//职位标题部分
 		divs = doc.select(".inner-left");
 		if (divs != null) {
 			Element div = divs.first();
@@ -282,9 +298,7 @@ public class Zhilian {
 		zlobj.setPosUrl(ZhilianConf.HostUrl
 				+ new File(inputPath).getName().substring(6));
 		
-//		if (!zlobj.isExist()) {
-//			zlobj.insertZhilianObj();
-//		}
+		//存储到数据库视图缓存
 		zlobj.preStore();
 		
 		try {

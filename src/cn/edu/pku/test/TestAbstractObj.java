@@ -14,12 +14,18 @@ public class TestAbstractObj {
 				"计算机软件",
 				"互联网/电子商务",
 				"IT服务(系统/数据/维护)",
-				"计算机硬件"};
+				"计算机硬件",
+				
+				"基金/证券/期货/投资",
+				"保险",
+				"银行",
+				
+				"专业服务/咨询(财会/法律/人力资源等)"};
 		String[] keys = {
 				"pos_title",
 				"pos_category",
 				"pos_description"};
-		AbstractObj.FeildsToText("../lda-model/test.txt",
+		AbstractObj.FeildsToText("../processing/text.txt",
 				sources,
 				date,
 				industries,

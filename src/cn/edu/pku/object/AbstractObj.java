@@ -9,6 +9,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -142,14 +143,33 @@ public class AbstractObj {
 		}
 		
 		int counter = 0;
+		HashSet<String> dup = new HashSet<String> ();
 		FileOutput fo = new FileOutput(outputPath);
 		try {
 			if (fo.t3 != null) {
-				Iterator it = list.iterator();  
+				Iterator it = list.iterator();
 				while(it.hasNext()) {   
 				    Map hm = (Map)it.next();
+				    String content = new String();
 				    for (int i = 0; i < fields.length; i ++) {
-				    	fo.t3.write(hm.get(fields[i]).toString() + "	");
+				    	if (fields[i].equals("pos_description")) {
+					    	String str = hm.get(fields[i]).toString();
+					    	content += str;
+				    	}
+				    }
+				    if (dup.contains(content)) {
+				    	continue;
+				    }
+				    dup.add(content);
+				    for (int i = 0; i < fields.length; i ++) {
+				    	String str = hm.get(fields[i]).toString();
+				    	//这里是一个补丁，由于之前处理的数据没有考虑职位描述最后可能接额外的工作地址
+				    	int index = str.indexOf("工作地址：");
+				    	if (index != -1) {
+				    		fo.t3.write(str.substring(0, index) + "	");
+				    	} else {
+				    		fo.t3.write(str + "	");
+				    	}
 				    }
 				    fo.t3.newLine();
 				    counter ++;

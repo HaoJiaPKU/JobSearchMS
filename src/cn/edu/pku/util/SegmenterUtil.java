@@ -207,7 +207,9 @@ public class SegmenterUtil {
 					fo.t3.write(tokens[i] + " ");
 				}
 				fo.t3.newLine();
-				System.out.println(++ counter);
+				if (++ counter % 1000 == 0) {
+					System.out.println(counter + " results");
+				}
 //				if (counter >= 10) {
 //					break;
 //				}
