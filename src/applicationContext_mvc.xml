@@ -21,20 +21,9 @@
 	
 	<!-- @Autowired,@Resource,@PostConstruct,@PreDestroy,@PersistenceContext,@Required -->
 	<context:annotation-config /> 
-	<context:component-scan base-package="cn.edu.pku.service" />
-	<context:component-scan base-package="cn.edu.pku.crontab" />
+	<context:component-scan base-package="cn.edu.pku.controller" />	
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
     <mvc:annotation-driven />
-	
-	<!-- aop 配置 -->
-    <aop:config>
-    	<aop:pointcut expression="execution(* cn.edu.pku.service.*.*(..))" id="allMethods"/>
-    </aop:config>
-	
-	<!-- Jobs -->
-	<task:annotation-driven scheduler="scheduler" executor="executor" /> 
-	<task:executor id="executor" pool-size="10"/>
-	<task:scheduler id="scheduler" pool-size="10" />
 
 </beans>

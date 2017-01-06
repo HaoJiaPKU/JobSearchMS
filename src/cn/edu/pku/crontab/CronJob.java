@@ -23,19 +23,6 @@ public class CronJob {
 	public void setPositionIndexservice(PositionIndexService positionIndexservice) {
 		this.positionIndexservice = positionIndexservice;
 	}
-
-	@Scheduled(cron = "0 0 8 * * ?")
-	public void IndexJob() {
-		//执行智联招聘数据的处理
-//		zhiLianJob();
-		
-		//构建索引
-		System.out.println("info:	开始 构建索引	"
-				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		positionIndexservice.create();
-		System.out.println("info:	完成 构建索引	"
-				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-	}
 	
 	public void zhiLianJob() {
 		ZhilianConf zc = new ZhilianConf();
@@ -51,25 +38,38 @@ public class CronJob {
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		*/
 		
-		//爬取招聘页面保存到本地
-		System.out.println("info:	开始 数据抓取	"
-				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		zl.crawlRecruitPageBatch(zc);
-		System.out.println("info:	完成 数据抓取	"
-				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		
-		//解析本地的招聘页面，保存到服务器的mysql，重复数据不保存
-		System.out.println("info:	开始 数据保存	"
-				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		zl.parseRecruitPageBatch(zc);
-		System.out.println("info:	完成 数据保存	"
-				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+//		//爬取招聘页面保存到本地
+//		System.out.println("info:	开始 数据抓取	"
+//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+//		zl.crawlRecruitPageBatch(zc);
+//		System.out.println("info:	完成 数据抓取	"
+//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+//		
+//		//解析本地的招聘页面，保存到服务器的mysql，重复数据不保存
+//		System.out.println("info:	开始 数据保存	"
+//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+//		zl.parseRecruitPageBatch(zc);
+//		System.out.println("info:	完成 数据保存	"
+//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		
 		//删除重复数据
 		System.out.println("info:	开始 删除重复数据	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		zl.removeDuplicate();
 		System.out.println("info:	完成 删除重复数据	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+	}
+	
+	@Scheduled(cron = "10 22 23 * * ?")
+	public void IndexJob() {
+		//执行智联招聘数据的处理
+		zhiLianJob();
+		
+		//构建索引
+		System.out.println("info:	开始 构建索引	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+		positionIndexservice.create();
+		System.out.println("info:	完成 构建索引	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 	}
 }
