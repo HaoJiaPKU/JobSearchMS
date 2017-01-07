@@ -318,6 +318,7 @@ public class Zhilian {
 	public void parseRecruitPageBatch(ZhilianConf zc) {
 		ZhilianObj.loadVirtualView();
 		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
+			System.out.println("parsing into " + zc.getIndustryDir().get(i));
 			String date = TimeUtil.getDate(DatabaseConf.getParsedate());
 			String descriptionDir = zc.getDescriptionDir()
 					+ "/" + zc.getIndustryDir().get(i)

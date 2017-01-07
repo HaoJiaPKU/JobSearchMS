@@ -7,8 +7,8 @@ public class TestSegmenterUtil {
 	public static void testSegmentation() {
 		int[] indices = {2};
 		SegmenterUtil.segmentation(
-				"../processing/text.txt",
-				"../processing/tokens.dat",
+				"../processing/text",
+				"../processing/tokens",
 				indices);
 	}
 	

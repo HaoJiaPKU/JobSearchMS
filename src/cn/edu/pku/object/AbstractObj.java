@@ -53,7 +53,7 @@ public class AbstractObj {
 	 * @param industries 行业类别
 	 * @param fields 数据域
 	 * */
-	public static void FeildsToText(String outputPath,
+	public static void FeildsToText(String outputPath, String outputSeperator,
 			String[] sources,
 			String[] date,
 			String[] industries,
@@ -163,13 +163,17 @@ public class AbstractObj {
 				    dup.add(content);
 				    for (int i = 0; i < fields.length; i ++) {
 				    	String str = hm.get(fields[i]).toString();
-				    	//这里是一个补丁，由于之前处理的数据没有考虑职位描述最后可能接额外的工作地址
-				    	int index = str.indexOf("工作地址：");
+				    	//这里是一个补丁，由于之前处理的数据没有考虑职位描述
+				    	//最后可能接额外的工作地址、公司网址
+				    	int index = str.indexOf("公司网址：");
 				    	if (index != -1) {
-				    		fo.t3.write(str.substring(0, index) + "	");
-				    	} else {
-				    		fo.t3.write(str + "	");
+				    		str = str.substring(0, index);
 				    	}
+				    	index = str.indexOf("工作地址：");
+				    	if (index != -1) {
+				    		str = str.substring(0, index);
+				    	}
+				    	fo.t3.write(str + outputSeperator);
 				    }
 				    fo.t3.newLine();
 				    counter ++;

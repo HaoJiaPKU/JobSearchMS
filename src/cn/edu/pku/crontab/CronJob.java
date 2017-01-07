@@ -38,19 +38,19 @@ public class CronJob {
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		*/
 		
-//		//爬取招聘页面保存到本地
-//		System.out.println("info:	开始 数据抓取	"
-//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-//		zl.crawlRecruitPageBatch(zc);
-//		System.out.println("info:	完成 数据抓取	"
-//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-//		
-//		//解析本地的招聘页面，保存到服务器的mysql，重复数据不保存
-//		System.out.println("info:	开始 数据保存	"
-//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-//		zl.parseRecruitPageBatch(zc);
-//		System.out.println("info:	完成 数据保存	"
-//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+		//爬取招聘页面保存到本地
+		System.out.println("info:	开始 数据抓取	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+		zl.crawlRecruitPageBatch(zc);
+		System.out.println("info:	完成 数据抓取	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+		
+		//解析本地的招聘页面，保存到服务器的mysql，重复数据不保存
+		System.out.println("info:	开始 数据保存	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+		zl.parseRecruitPageBatch(zc);
+		System.out.println("info:	完成 数据保存	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		
 		//删除重复数据
 		System.out.println("info:	开始 删除重复数据	"
@@ -60,7 +60,7 @@ public class CronJob {
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 	}
 	
-	@Scheduled(cron = "10 22 23 * * ?")
+	@Scheduled(cron = "30 51 4 * * ?")
 	public void IndexJob() {
 		//执行智联招聘数据的处理
 		zhiLianJob();

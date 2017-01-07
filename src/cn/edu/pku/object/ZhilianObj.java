@@ -21,9 +21,14 @@ import cn.edu.pku.util.TimeUtil;
 public class ZhilianObj extends AbstractObj {
 
 	//pos_url, pos_publish_date + " " + id
-	private static HashMap<String, String> virtualView = new HashMap<String, String>();
+	private static HashMap<String, String> virtualView
+		= new HashMap<String, String>();
 	//pos_url, pos_publish_date + " " + "-1"
-	private static HashMap<String, ZhilianObj> newData = new HashMap<String, ZhilianObj>();
+	private static HashMap<String, ZhilianObj> newData 
+		= new HashMap<String, ZhilianObj>();
+	//pos_url, pos_publish_date + " " + id
+	private static HashMap<String, String> updateData
+		= new HashMap<String, String>();
 	
 	public ZhilianObj() {
 		super();
@@ -85,6 +90,7 @@ public class ZhilianObj extends AbstractObj {
 	public static void loadVirtualView() {
 		virtualView.clear();
 		newData.clear();
+		updateData.clear();
 		
 		List list = new ArrayList<>();
 		
@@ -151,6 +157,7 @@ public class ZhilianObj extends AbstractObj {
 	public static void clearVirtualView() {
 		virtualView.clear();
 		newData.clear();
+		updateData.clear();
 	}
 		
 	/**
@@ -158,6 +165,7 @@ public class ZhilianObj extends AbstractObj {
 	 * */
 	public static void insertVirtualViewData() {
 		String url = DatabaseConf.getDatebaseurl();
+		int counter = 0;
 		try {
 			Class.forName(DatabaseConf.getClassname());
 			Connection conn;
@@ -214,6 +222,9 @@ public class ZhilianObj extends AbstractObj {
 						stmt = conn.prepareStatement(sql);
 						try {
 							stmt.executeUpdate();
+							if (++ counter % 1000 == 0) {
+								System.out.println(counter + " pieces of data inserted");
+							}
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -235,6 +246,61 @@ public class ZhilianObj extends AbstractObj {
 		}
 	}
 
+	/**
+	 * 将待更新数据视图缓存更新到数据库
+	 * */
+	public static void updateDatebase() {
+		String url = DatabaseConf.getDatebaseurl();
+		int counter = 0;
+		try {
+			Class.forName(DatabaseConf.getClassname());
+			Connection conn;
+			try {
+				conn = DriverManager.getConnection(url);
+//				System.out.println("connection set up");
+				for (String key : updateData.keySet()) {
+					String str = updateData.get(key);
+//					System.out.println(str);
+					String pos_publish_date = str.substring(0, 10);
+//					System.out.println(pos_publish_date);
+					Long id = Long.parseLong(str.substring(10).trim());
+//					System.out.println(id);
+					String sql = "update "
+							+ DatabaseConf.getPositiontable()
+							+ " set "
+							+ "pos_publish_date ='" + pos_publish_date + "' "
+							+ " where "
+							+ "id = " + id + ";";
+//					System.out.println(sql);
+					PreparedStatement stmt;
+					try {
+						stmt = conn.prepareStatement(sql);
+						try {
+							stmt.executeUpdate();
+							if (++ counter % 1000 == 0) {
+								System.out.println(counter + " pieces of data updated");
+							}
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						stmt.close();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * 更新对象
 	 * */
@@ -482,7 +548,7 @@ public class ZhilianObj extends AbstractObj {
 	public void preStore() {
 		String key = this.posUrl.substring(ZhilianConf.HostUrl.length());
 		String value = this.posPublishDate + " -1";//-1为了后面的index判断
-		System.out.println(key + " " + value);
+//		System.out.println(key + " " + value);
 		//如果没有当前的数据，直接加入到试图缓存和待插入的新数据中
 		if (!virtualView.containsKey(key)) {
 			virtualView.put(key, value);
@@ -491,6 +557,7 @@ public class ZhilianObj extends AbstractObj {
 			String preValue = virtualView.get(key);
 			//如果历史数据的日期在当前数据之前
 			if (preValue.compareTo(value) < 0) {
+				//获得数据id
 				long id = Long.parseLong(preValue.substring(11));
 				//如果是新插入的数据，即数据库中没有这条数据，只需要更新视图缓存和待插入数据
 				if (id == -1) {//-1
@@ -498,11 +565,16 @@ public class ZhilianObj extends AbstractObj {
 					newData.remove(key);
 					virtualView.put(key, value);
 					newData.put(key, new ZhilianObj(this));
-				//如果是原有历史数据，需要更新数据库和视图缓存
+				//如果是原有历史数据，需要更新待更新数据视图和数据库视图缓存
 				} else {
-					update(id, "pos_publish_date", value.substring(0, 10));
+					//更新待更新数据视图
+					if (updateData.containsKey(key)) {
+						updateData.remove(key);
+					}
+					updateData.put(key, this.posPublishDate + " " + id);
+					//update(id, "pos_publish_date", value.substring(0, 10));
 					virtualView.remove(key);
-					virtualView.put(key, value);
+					virtualView.put(key, this.posPublishDate + " " + id);
 				}
 			}
 			//如果历史数据的日期在当前数据之后，什么也不做
@@ -513,6 +585,9 @@ public class ZhilianObj extends AbstractObj {
 	 * 执行数据对象到数据库的插入操作
 	 * */
 	public static void excuteStore() {
+		System.out.println("update database: " + updateData.size());
+		updateDatebase();
+		System.out.println("insert new data: " + newData.size());
 		insertVirtualViewData();
 		clearVirtualView();
 	}

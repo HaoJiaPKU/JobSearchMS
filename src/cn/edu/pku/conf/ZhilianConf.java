@@ -12,14 +12,14 @@ public class ZhilianConf {
 	public static final String Source = "智联招聘";
 	public static final String ConfFile = "../../../../workspace/JobSearchMS/conf/zhilian.conf";
 		
-	public int MaxPageNumber = 90;
+	public int MaxPageNumber = 10;
 	public String dataDir = new String();
 	public String descriptionDir = new String();
 	public ArrayList<String> industryUrl = new ArrayList<String>();
 	public ArrayList<String> industryDir = new ArrayList<String>();
 	
 	public ZhilianConf() {
-		MaxPageNumber = 90;
+		MaxPageNumber = 0;
 		dataDir = "data";
 		descriptionDir = "description";
 		makeDirs(getDataDir());
