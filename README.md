@@ -1,1 +1,1 @@
-# JobSearchMS
+# jrs-backend
