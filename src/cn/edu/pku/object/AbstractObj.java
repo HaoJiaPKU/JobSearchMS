@@ -52,12 +52,15 @@ public class AbstractObj {
 	 * @param data 数据时间范围
 	 * @param industries 行业类别
 	 * @param fields 数据域
+	 * @param maxLimit 提取的数据最大数目
 	 * */
 	public static void FeildsToText(String outputPath, String outputSeperator,
 			String[] sources,
 			String[] date,
 			String[] industries,
-			String[] fields) {
+			String[] fields,
+			int maxLimit
+			) {
 		
 		String sql = "select ";
 		
@@ -123,6 +126,7 @@ public class AbstractObj {
 					ResultSet rs = stmt.executeQuery(sql);
 					try {
 						list = convertList(rs);
+//						System.out.println(list.size());
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -142,17 +146,23 @@ public class AbstractObj {
 			e.printStackTrace();
 		}
 		
+		if (maxLimit == -1) {
+			maxLimit = 0x7fffffff;
+		}
 		int counter = 0;
 		HashSet<String> dup = new HashSet<String> ();
 		FileOutput fo = new FileOutput(outputPath);
 		try {
 			if (fo.t3 != null) {
 				Iterator it = list.iterator();
-				while(it.hasNext()) {   
+				while(it.hasNext()) {
+					if (counter >= maxLimit) {
+						break;
+					}
 				    Map hm = (Map)it.next();
 				    String content = new String();
 				    for (int i = 0; i < fields.length; i ++) {
-				    	if (fields[i].equals("pos_description")) {
+				    	if (fields[i].equals(fields[fields.length - 1])) {
 					    	String str = hm.get(fields[i]).toString();
 					    	content += str;
 				    	}
