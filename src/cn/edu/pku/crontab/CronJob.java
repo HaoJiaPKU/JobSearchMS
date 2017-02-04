@@ -33,22 +33,22 @@ public class CronJob {
 		//过期n天前的数据，当前n为90，可以不执行这一步，而是设定处理的数据都在过期日期之后
 		System.out.println("info:	开始 数据过期	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		zl.expireRecruitObject();
+		zl.expirePositionObject();
 		System.out.println("info:	完成 数据过期	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		*/
 		
-		//爬取招聘页面保存到本地
-		System.out.println("info:	开始 数据抓取	"
-				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		zl.crawlRecruitPageBatch(zc);
-		System.out.println("info:	完成 数据抓取	"
-				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+//		//爬取招聘页面保存到本地
+//		System.out.println("info:	开始 数据抓取	"
+//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+//		zl.crawlPositionPageBatch(zc);
+//		System.out.println("info:	完成 数据抓取	"
+//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		
 		//解析本地的招聘页面，保存到服务器的mysql，重复数据不保存
 		System.out.println("info:	开始 数据保存	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		zl.parseRecruitPageBatch(zc);
+		zl.parsePositionPageBatch(zc);
 		System.out.println("info:	完成 数据保存	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		
@@ -60,7 +60,7 @@ public class CronJob {
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 	}
 	
-	@Scheduled(cron = "30 51 4 * * ?")
+	@Scheduled(cron = "20 46 13 * * ?")
 	public void IndexJob() {
 		//执行智联招聘数据的处理
 		zhiLianJob();

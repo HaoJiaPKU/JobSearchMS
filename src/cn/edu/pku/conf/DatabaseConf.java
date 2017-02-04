@@ -6,6 +6,7 @@ public class DatabaseConf {
 			+ "user=root&password=seke1726&useUnicode=true&characterEncoding=UTF-8";
 	private static final String ClassName = "com.mysql.jdbc.Driver";
 	private static final String PositionTable = "position";
+	private static final String PositionJobpopoTable = "position_jobpopo";
 	private static final String PositionTagTable = "position_tag";
 	private static final String RelevanceTable = "relevance";
 	
@@ -27,6 +28,12 @@ public class DatabaseConf {
 	
 	public static String getPositiontagtable() {
 		return PositionTagTable;
+	}
+
+	
+	
+	public static String getPositionjobpopotable() {
+		return PositionJobpopoTable;
 	}
 
 	public static String getRelevancetable() {

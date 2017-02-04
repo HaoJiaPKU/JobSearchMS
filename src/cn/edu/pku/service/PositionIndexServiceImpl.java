@@ -92,7 +92,7 @@ public class PositionIndexServiceImpl implements PositionIndexService{
 				writer.addDocument(doc);
 			}
 
-			sql = "select * from recruitment";
+			sql = "select * from " + DatabaseConf.getPositionjobpopotable();
 			rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				Document doc = new Document();

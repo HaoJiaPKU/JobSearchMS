@@ -149,16 +149,16 @@ public class Zhilian {
 				continue;
 			}
 			String date = td.text().toString();
-			crawlRecruitPage(link, saveDir + "/" + date + "-" + link.substring(ZhilianConf.getHosturl().length()));
+			crawlPositionPage(link, saveDir + "/" + date + "-" + link.substring(ZhilianConf.getHosturl().length()));
 		}
 	}
 	
-	public String getRcruitPage(String url) {
+	public String getPositionPage(String url) {
 		return HttpClientUtil.httpGetRequest(url);
 	}
 	
-	public void crawlRecruitPage(String url, String path) {
-		String content = getRcruitPage(url);
+	public void crawlPositionPage(String url, String path) {
+		String content = getPositionPage(url);
 		FileOutput fo = new FileOutput(path);
 		try {
 			if (fo.t3 != null) {
@@ -171,11 +171,12 @@ public class Zhilian {
 		fo.closeOutput();
 	}
 	
-	public void crawlRecruitPageBatch(ZhilianConf zc) {
+	public void crawlPositionPageBatch(ZhilianConf zc) {
 		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
 			String date = TimeUtil.getDate(DatabaseConf.getCrawldate());
 			String dataDir = zc.getDataDir() + "/" + zc.getIndustryDir().get(i)
 				+ "/" + date;
+			System.out.println(dataDir);
 			makeDirs(dataDir);
 			for (int j = 1; j <= zc.getMaxPageNumber(); j ++) {
 				String content = getIndexPage(zc.getIndustryUrl().get(i) + String.valueOf(j));
@@ -184,7 +185,7 @@ public class Zhilian {
 		}
 	}
 	
-	public void parseRecruitPage(String inputPath, String outputPath) {
+	public void parsePositionPage(String inputPath, String outputPath) {
 		FileInput fi = new FileInput(inputPath);
 		FileOutput fo = new FileOutput(outputPath);
 		
@@ -315,7 +316,7 @@ public class Zhilian {
 		fi.closeInput();
 	}
 		
-	public void parseRecruitPageBatch(ZhilianConf zc) {
+	public void parsePositionPageBatch(ZhilianConf zc) {
 		ZhilianObj.loadVirtualView();
 		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
 			System.out.println("parsing into " + zc.getIndustryDir().get(i));
@@ -333,7 +334,7 @@ public class Zhilian {
 				if (f.getName().contains(".DS_Store")) {
 					continue;
 				}
-				parseRecruitPage(f.getAbsolutePath(),
+				parsePositionPage(f.getAbsolutePath(),
 						descriptionDir + "/" + f.getName());
 			}
 		}
@@ -342,7 +343,7 @@ public class Zhilian {
 	}
 	
 	//过期不一定要删除数据
-	public void expireRecruitObject() {
+	public void expirePositionObject() {
 //		String date = TimeUtil.getDate(DatabaseConf.getExpiredate());
 //		ZhilianObj.deleteZhilianObjs("pos_publish_date", date);
 	}

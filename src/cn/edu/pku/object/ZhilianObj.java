@@ -174,7 +174,7 @@ public class ZhilianObj extends AbstractObj {
 				for (String key : newData.keySet()) {
 					ZhilianObj zlobj = newData.get(key);
 					String sql = "insert into "
-							+ DatabaseConf.getPositiontable() + "("
+							+ DatabaseConf.getPositiontable() + " ("
 							+ "pos_title,"
 							+ "pos_salary,"
 							+ "pos_location,"
@@ -216,6 +216,7 @@ public class ZhilianObj extends AbstractObj {
 							+ "'" + ZhilianConf.Source + "',"
 							+ "'" + zlobj.snapshotUrl + "',"
 							+ "'" + zlobj.displayContent + "');";
+					System.out.println(sql);
 	
 					PreparedStatement stmt;
 					try {
@@ -377,7 +378,7 @@ public class ZhilianObj extends AbstractObj {
 				sql = "delete from "
 						+ DatabaseConf.getPositiontagtable()
 						+ " where "
-						+ "recruitment_id = " + id + ";";
+						+ "position_id = " + id + ";";
 
 				try {
 					stmt = conn.prepareStatement(sql);
@@ -396,7 +397,7 @@ public class ZhilianObj extends AbstractObj {
 				sql = "delete from "
 						+ DatabaseConf.getRelevancetable()
 						+ " where "
-						+ "recruitment_id = " + id + ";";
+						+ "position_id = " + id + ";";
 
 				try {
 					stmt = conn.prepareStatement(sql);
