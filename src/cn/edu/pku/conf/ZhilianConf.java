@@ -12,7 +12,7 @@ public class ZhilianConf {
 	public static final String Source = "智联招聘";
 	public static final String ConfFile = "../../../../workspace/jrs-backend/conf/zhilian.conf";
 		
-	public int MaxPageNumber = 30;
+	public int MaxPageNumber = 90;
 	public String dataDir = "data";
 	public String descriptionDir = "description";
 	public ArrayList<String> industryUrl = new ArrayList<String>();

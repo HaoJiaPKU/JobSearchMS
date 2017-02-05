@@ -1,4 +1,4 @@
-package cn.edu.pku.crontab;
+package cn.edu.pku.cronjob;
 
 import javax.annotation.Resource;
 
@@ -11,20 +11,20 @@ import cn.edu.pku.service.PositionIndexService;
 import cn.edu.pku.util.TimeUtil;
 
 @Component
-public class CronJob {
-	
-	PositionIndexService positionIndexservice;
-
-	public PositionIndexService getPositionIndexservice() {
-		return positionIndexservice;
-	}
-
-	@Resource
-	public void setPositionIndexservice(PositionIndexService positionIndexservice) {
-		this.positionIndexservice = positionIndexservice;
-	}
-	
-	public void zhiLianJob() {
+public class ZhilianJob {
+//	
+//	PositionIndexService positionIndexservice;
+//
+//	public PositionIndexService getPositionIndexservice() {
+//		return positionIndexservice;
+//	}
+//
+//	@Resource
+//	public void setPositionIndexservice(PositionIndexService positionIndexservice) {
+//		this.positionIndexservice = positionIndexservice;
+//	}
+//	
+	public void executePipeline() {
 		ZhilianConf zc = new ZhilianConf();
 		zc.run();
 		Zhilian zl = new Zhilian();
@@ -38,12 +38,12 @@ public class CronJob {
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		*/
 		
-//		//爬取招聘页面保存到本地
-//		System.out.println("info:	开始 数据抓取	"
-//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-//		zl.crawlPositionPageBatch(zc);
-//		System.out.println("info:	完成 数据抓取	"
-//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+		//爬取招聘页面保存到本地
+		System.out.println("info:	开始 数据抓取	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+		zl.crawlPositionPageBatch(zc);
+		System.out.println("info:	完成 数据抓取	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		
 		//解析本地的招聘页面，保存到服务器的mysql，重复数据不保存
 		System.out.println("info:	开始 数据保存	"
@@ -60,16 +60,16 @@ public class CronJob {
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 	}
 	
-	@Scheduled(cron = "20 46 13 * * ?")
-	public void IndexJob() {
-		//执行智联招聘数据的处理
-		zhiLianJob();
-		
-		//构建索引
-		System.out.println("info:	开始 构建索引	"
-				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		positionIndexservice.create();
-		System.out.println("info:	完成 构建索引	"
-				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-	}
+//	@Scheduled(cron = "30 27 10 * * ?")
+//	public void IndexJob() {
+//		//执行智联招聘数据的处理
+//		zhiLianJob();
+//		
+//		//构建索引
+//		System.out.println("info:	开始 构建索引	"
+//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+//		positionIndexservice.create();
+//		System.out.println("info:	完成 构建索引	"
+//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+//	}
 }

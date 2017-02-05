@@ -216,7 +216,7 @@ public class ZhilianObj extends AbstractObj {
 							+ "'" + ZhilianConf.Source + "',"
 							+ "'" + zlobj.snapshotUrl + "',"
 							+ "'" + zlobj.displayContent + "');";
-					System.out.println(sql);
+//					System.out.println(sql);
 	
 					PreparedStatement stmt;
 					try {

@@ -22,7 +22,7 @@
 	<!-- @Autowired,@Resource,@PostConstruct,@PreDestroy,@PersistenceContext,@Required -->
 	<context:annotation-config /> 
 	<context:component-scan base-package="cn.edu.pku.service" />
-	<context:component-scan base-package="cn.edu.pku.crontab" />
+	<context:component-scan base-package="cn.edu.pku.cronjob" />
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
     <mvc:annotation-driven />
