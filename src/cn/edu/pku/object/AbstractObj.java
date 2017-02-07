@@ -34,6 +34,7 @@ public class AbstractObj {
 	protected String posDescription = new String ();
 	protected String posUrl = new String ();
 	
+	protected String comName = new String ();
 	protected String comScale = new String ();
 	protected String comType = new String ();
 	protected String comIndustry = new String ();
@@ -358,6 +359,14 @@ public class AbstractObj {
 		this.posUrl = posUrl;
 	}
 	
+	public String getComName() {
+		return comName;
+	}
+
+	public void setComName(String comName) {
+		this.comName = comName;
+	}
+
 	public String getComScale() {
 		return comScale;
 	}
@@ -430,6 +439,7 @@ public class AbstractObj {
 		this.displayContent = displayContent;
 	}
 
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -437,6 +447,7 @@ public class AbstractObj {
 		result = prime * result + ((comHost == null) ? 0 : comHost.hashCode());
 		result = prime * result + ((comIndustry == null) ? 0 : comIndustry.hashCode());
 		result = prime * result + ((comLocation == null) ? 0 : comLocation.hashCode());
+		result = prime * result + ((comName == null) ? 0 : comName.hashCode());
 		result = prime * result + ((comScale == null) ? 0 : comScale.hashCode());
 		result = prime * result + ((comType == null) ? 0 : comType.hashCode());
 		result = prime * result + ((displayContent == null) ? 0 : displayContent.hashCode());
@@ -457,6 +468,7 @@ public class AbstractObj {
 		return result;
 	}
 
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -480,6 +492,11 @@ public class AbstractObj {
 			if (other.comLocation != null)
 				return false;
 		} else if (!comLocation.equals(other.comLocation))
+			return false;
+		if (comName == null) {
+			if (other.comName != null)
+				return false;
+		} else if (!comName.equals(other.comName))
 			return false;
 		if (comScale == null) {
 			if (other.comScale != null)
@@ -565,5 +582,6 @@ public class AbstractObj {
 			return false;
 		return true;
 	}
+
 	
 }

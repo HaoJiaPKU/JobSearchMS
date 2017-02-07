@@ -275,16 +275,31 @@ public class Zhilian {
 			}
 		}
 		
-		//职位标题部分
+		
 		divs = doc.select(".inner-left");
 		if (divs != null) {
 			Element div = divs.first();
 			if (div != null) {
+				//职位标题部分
 				Elements h1s = div.select("h1");
 				if (h1s != null) {
 					Element h1 = h1s.first();
 					if (h1 != null) {
 						zlobj.setPostitle(h1.text().trim());
+					}
+				}
+				//公司名称部分
+				Elements h2s = div.select("h2");
+				if (h2s != null) {
+					Element h2 = h2s.first();
+					if (h2 != null) {
+						Elements as = h2.select("a");
+						if (as != null) {
+							Element a = as.first();
+							if (a != null) {
+								zlobj.setComName(a.text().trim());
+							}
+						}
 					}
 				}
 			}
