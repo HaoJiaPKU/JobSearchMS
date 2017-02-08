@@ -298,6 +298,7 @@ public class Zhilian {
 							Element a = as.first();
 							if (a != null) {
 								zlobj.setComName(a.text().trim());
+//								System.out.println(zlobj.getComName());
 							}
 						}
 					}
@@ -316,6 +317,7 @@ public class Zhilian {
 		
 		//存储到数据库视图缓存
 		zlobj.preStore();
+//		System.out.println(zlobj.getComName());
 		
 		try {
 			fo.t3.write(zlobj.getPostitle()

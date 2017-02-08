@@ -36,7 +36,7 @@ public class ZhilianObj extends AbstractObj {
 	
 	public ZhilianObj(String postitle, String posSalary, String posLocation, String posPublishDate, String posType,
 			String posExperience, String posDegree, String posRecruitNum, String posCategory, String posDescription,
-			String posUrl, String comScale, String comType, String comIndustry, String comHost, String comLocation,
+			String posUrl, String comName, String comScale, String comType, String comIndustry, String comHost, String comLocation,
 			int hasTag, String source, String snapshotUrl, String displayContent) {
 		super();
 		this.postitle = postitle;
@@ -50,6 +50,7 @@ public class ZhilianObj extends AbstractObj {
 		this.posCategory = posCategory;
 		this.posDescription = posDescription;
 		this.posUrl = posUrl;
+		this.comName = comName;
 		this.comScale = comScale;
 		this.comType = comType;
 		this.comIndustry = comIndustry;
@@ -73,6 +74,7 @@ public class ZhilianObj extends AbstractObj {
 		this.posCategory = z.posCategory;
 		this.posDescription = z.posDescription;
 		this.posUrl = z.posUrl;
+		this.comName = z.comName;
 		this.comScale = z.comScale;
 		this.comType = z.comType;
 		this.comIndustry = z.comIndustry;
@@ -173,6 +175,7 @@ public class ZhilianObj extends AbstractObj {
 				conn = DriverManager.getConnection(url);
 				for (String key : newData.keySet()) {
 					ZhilianObj zlobj = newData.get(key);
+//					System.out.println(zlobj.getComName());
 					String sql = "insert into "
 							+ DatabaseConf.getPositiontable() + " ("
 							+ "pos_title,"
@@ -218,8 +221,11 @@ public class ZhilianObj extends AbstractObj {
 							+ "'" + ZhilianConf.Source + "',"
 							+ "'" + zlobj.snapshotUrl + "',"
 							+ "'" + zlobj.displayContent + "');";
-//					System.out.println(sql);
-	
+					
+//					if (zlobj.comName.length() > 0) {
+//						System.out.println(sql);
+//					}
+					
 					PreparedStatement stmt;
 					try {
 						stmt = conn.prepareStatement(sql);
@@ -552,7 +558,7 @@ public class ZhilianObj extends AbstractObj {
 		String key = this.posUrl.substring(ZhilianConf.HostUrl.length());
 		String value = this.posPublishDate + " -1";//-1为了后面的index判断
 //		System.out.println(key + " " + value);
-		//如果没有当前的数据，直接加入到试图缓存和待插入的新数据中
+		//如果没有当前的数据，直接加入到视图缓存和待插入的新数据中
 		if (!virtualView.containsKey(key)) {
 			virtualView.put(key, value);
 			newData.put(key, new ZhilianObj(this));

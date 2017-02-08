@@ -223,7 +223,7 @@ public class AbstractObj {
 	
 	public AbstractObj(String postitle, String posSalary, String posLocation, String posPublishDate, String posType,
 			String posExperience, String posDegree, String posRecruitNum, String posCategory, String posDescription,
-			String posUrl, String comScale, String comType, String comIndustry, String comHost, String comLocation,
+			String posUrl, String comName, String comScale, String comType, String comIndustry, String comHost, String comLocation,
 			int hasTag, String source, String snapshotUrl, String displayContent) {
 		super();
 		this.postitle = postitle;
@@ -237,6 +237,7 @@ public class AbstractObj {
 		this.posCategory = posCategory;
 		this.posDescription = posDescription;
 		this.posUrl = posUrl;
+		this.comName = comName;
 		this.comScale = comScale;
 		this.comType = comType;
 		this.comIndustry = comIndustry;
@@ -260,6 +261,7 @@ public class AbstractObj {
 		this.posCategory = a.posCategory;
 		this.posDescription = a.posDescription;
 		this.posUrl = a.posUrl;
+		this.comName = a.comName;
 		this.comScale = a.comScale;
 		this.comType = a.comType;
 		this.comIndustry = a.comIndustry;
