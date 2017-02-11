@@ -37,7 +37,7 @@ public class TestAbstractObj {
 //				"com_industry",
 //				"pos_category"
 				};
-		AbstractObj.FeildsToText(FilterConf.ProcessingPath + "text", "	",
+		AbstractObj.feildsToText(FilterConf.ProcessingPath + "text", "	",
 				sources,
 				date,
 				industries,
@@ -47,6 +47,10 @@ public class TestAbstractObj {
 	}
 	
 	public static void main(String [] args) {
-		testFeildsToText();
+//		testFeildsToText();
+		String[] sources = {ZhilianConf.getSource()};
+		String[] date = {TimeUtil.getDate(DatabaseConf.getExpiredate())};
+		AbstractObj.feildsToConf(FilterConf.ProcessingPath + "category.conf",
+				sources, date, "pos_category");
 	}
 }

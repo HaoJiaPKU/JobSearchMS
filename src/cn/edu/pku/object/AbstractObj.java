@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 import cn.edu.pku.conf.DatabaseConf;
 import cn.edu.pku.util.FileInput;
 import cn.edu.pku.util.FileOutput;
+import cn.edu.pku.util.HashMapSorter;
 import cn.edu.pku.util.SegmenterUtil;
 
 public class AbstractObj {
@@ -51,11 +52,279 @@ public class AbstractObj {
 	 * @param outputPath 导入文件路径
 	 * @param sources 数据来源
 	 * @param data 数据时间范围
+	 * @param field 数据域
+	 * */
+	public static void feildsToConf(String outputPath,
+			String[] sources,
+			String[] date,
+			String field
+			) {
+		
+		String sql = "select ";
+		
+		//fields
+		if (field == null || field.length() == 0) {
+			System.out.println("info: no fields selected");
+			return;
+		}
+		sql += field;
+		
+		//sources
+		if (sources == null || sources.length == 0) {
+			System.out.println("info: no sources selected");
+			return;
+		}
+		sql += " from "
+				+ DatabaseConf.getPositiontable()
+				+ " where ("
+				+ "source = '"
+				+ sources[0] + "'";
+		for (int i = 1; i < sources.length; i ++) {
+			sql += " or source = '" + sources[i] + "'";
+		}
+		sql += ")";
+		
+		//date
+		if (date == null || date.length == 0) {
+			System.out.println("info: no date specified");
+			return;
+		}
+		sql += " and (pos_publish_date > '" + date[0] + "'";
+		if (date.length == 2) {
+			sql += " and pos_publish_date <= '" + date[1] + "'";
+		}
+		sql += ");";
+		System.out.println(sql);
+		
+		List list = new ArrayList<>();
+		String url = DatabaseConf.getDatebaseurl();
+		try {
+			Class.forName(DatabaseConf.getClassname());
+			Connection conn;
+			try {
+				conn = DriverManager.getConnection(url);
+
+				PreparedStatement stmt;
+				try {
+					stmt = conn.prepareStatement(sql);
+					ResultSet rs = stmt.executeQuery(sql);
+					try {
+						list = convertList(rs);
+//						System.out.println(list.size());
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		int counter = 0;
+		HashMap<String, Integer> dup = new HashMap<String, Integer> ();
+		FileOutput fo = new FileOutput(outputPath);
+		Iterator it = list.iterator();
+		while(it.hasNext()) {
+		    Map hm = (Map)it.next();
+		    String content = hm.get(field).toString();
+		    if (dup.containsKey(content)) {
+		    	dup.put(content, dup.get(content) + 1);
+		    } else {
+		    	dup.put(content, 1);
+		    }
+		    counter ++;
+		}
+		System.out.println("info : " + counter + " data processed");
+		Map.Entry[] set = HashMapSorter.getSortedHashMapByValue(dup, 0);
+
+		try {
+			if (fo.t3 != null) {
+				for (int i = 0; i < set.length; i ++) {
+					String key = set[i].getKey().toString();
+					int value = (int) set[i].getValue();
+					fo.t3.write(key + "	" + value);
+					fo.t3.newLine();
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		fo.closeOutput();
+	}
+	
+	/**
+	 * 将数据导入到文件中
+	 * @param outputPath 导入文件路径
+	 * @param sources 数据来源
+	 * @param data 数据时间范围
 	 * @param industries 行业类别
 	 * @param fields 数据域
 	 * @param maxLimit 提取的数据最大数目
 	 * */
-	public static void FeildsToText(String outputPath, String outputSeperator,
+	public static void feildsToText(
+			String outputPath,
+			String outputSeperator,
+			String[] sources,
+			String[] date,
+			String key,
+			String value,
+			String[] fields,
+			int maxLimit
+			) {
+		
+		String sql = "select ";
+		
+		//fields
+		if (fields == null || fields.length == 0) {
+			System.out.println("info: no fields selected");
+			return;
+		}
+		sql += fields[0];
+		for (int i = 1; i < fields.length; i ++) {
+			sql += ", " + fields[i];
+		}
+		
+		//sources
+		if (sources == null || sources.length == 0) {
+			System.out.println("info: no sources selected");
+			return;
+		}
+		sql += " from "
+				+ DatabaseConf.getPositiontable()
+				+ " where ("
+				+ "source = '"
+				+ sources[0] + "'";
+		for (int i = 1; i < sources.length; i ++) {
+			sql += " or source = '" + sources[i] + "'";
+		}
+		sql += ")";
+		
+		//key field
+		if (key == null || key.length() == 0) {
+			System.out.println("info: no industries selected");
+			return;
+		}
+		sql += " and (" + key + " = '" + value + "')";
+		
+		//date
+		if (date == null || date.length == 0) {
+			System.out.println("info: no date specified");
+			return;
+		}
+		sql += " and (pos_publish_date > '" + date[0] + "'";
+		if (date.length == 2) {
+			sql += " and pos_publish_date <= '" + date[1] + "'";
+		}
+		sql += ");";
+		System.out.println(sql);
+		
+		List list = new ArrayList<>();
+		String url = DatabaseConf.getDatebaseurl();
+		try {
+			Class.forName(DatabaseConf.getClassname());
+			Connection conn;
+			try {
+				conn = DriverManager.getConnection(url);
+
+				PreparedStatement stmt;
+				try {
+					stmt = conn.prepareStatement(sql);
+					ResultSet rs = stmt.executeQuery(sql);
+					try {
+						list = convertList(rs);
+//						System.out.println(list.size());
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if (maxLimit == -1) {
+			maxLimit = 0x7fffffff;
+		}
+		int counter = 0;
+		HashSet<String> dup = new HashSet<String> ();
+		FileOutput fo = new FileOutput(outputPath);
+		try {
+			if (fo.t3 != null) {
+				Iterator it = list.iterator();
+				while(it.hasNext()) {
+					if (counter >= maxLimit) {
+						break;
+					}
+				    Map hm = (Map)it.next();
+				    String content = new String();
+				    for (int i = 0; i < fields.length; i ++) {
+				    	if (fields[i].equals(fields[fields.length - 1])) {
+					    	String str = hm.get(fields[i]).toString();
+					    	content += str;
+				    	}
+				    }
+				    if (dup.contains(content)) {
+				    	continue;
+				    }
+				    dup.add(content);
+				    for (int i = 0; i < fields.length; i ++) {
+				    	String str = hm.get(fields[i]).toString();
+				    	//这里是一个补丁，由于之前处理的数据没有考虑职位描述
+				    	//最后可能接额外的工作地址、公司网址
+				    	int index = str.indexOf("公司网址：");
+				    	if (index != -1) {
+				    		str = str.substring(0, index);
+				    	}
+				    	index = str.indexOf("工作地址：");
+				    	if (index != -1) {
+				    		str = str.substring(0, index);
+				    	}
+				    	fo.t3.write(str + outputSeperator);
+				    }
+				    fo.t3.newLine();
+				    counter ++;
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		fo.closeOutput();
+		System.out.println("info : " + counter + " data processed");
+	}
+
+	
+	/**
+	 * 将数据导入到文件中
+	 * @param outputPath 导入文件路径
+	 * @param sources 数据来源
+	 * @param data 数据时间范围
+	 * @param industries 行业类别
+	 * @param fields 数据域
+	 * @param maxLimit 提取的数据最大数目
+	 * */
+	public static void feildsToText(String outputPath, String outputSeperator,
 			String[] sources,
 			String[] date,
 			String[] industries,
@@ -195,7 +464,7 @@ public class AbstractObj {
 			e.printStackTrace();
 		}
 		fo.closeOutput();
-		System.out.println("info : " + counter + " pieces of results");
+		System.out.println("info : " + counter + " data processed");
 	}
 	
 	/**
