@@ -168,7 +168,6 @@ public class AbstractObj {
 	 * @param outputPath 导入文件路径
 	 * @param sources 数据来源
 	 * @param data 数据时间范围
-	 * @param industries 行业类别
 	 * @param fields 数据域
 	 * @param maxLimit 提取的数据最大数目
 	 * */
@@ -324,7 +323,9 @@ public class AbstractObj {
 	 * @param fields 数据域
 	 * @param maxLimit 提取的数据最大数目
 	 * */
-	public static void feildsToText(String outputPath, String outputSeperator,
+	public static void feildsToText(
+			String outputPath,
+			String outputSeperator,
 			String[] sources,
 			String[] date,
 			String[] industries,

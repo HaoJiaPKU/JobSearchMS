@@ -34,7 +34,7 @@ public class PositionIndexJob {
 		this.zhilianJob = zhilianJob;
 	}
 
-	@Scheduled(cron = "0 10 11 * * ?")
+	@Scheduled(cron = "0 20 9 * * ?")
 	public void executePipeline() {
 		//执行智联招聘数据的处理
 		zhilianJob.executePipeline();
