@@ -567,7 +567,12 @@ public class ZhilianObj extends AbstractObj {
 			//如果历史数据的日期在当前数据之前
 			if (preValue.compareTo(value) < 0) {
 				//获得数据id
-				long id = Long.parseLong(preValue.substring(11));
+				long id;
+				try {
+					id = Long.parseLong(preValue.substring(11));
+				} catch (Exception e) {
+					return;
+				}
 				//如果是新插入的数据，即数据库中没有这条数据，只需要更新视图缓存和待插入数据
 				if (id == -1) {//-1
 					virtualView.remove(key);

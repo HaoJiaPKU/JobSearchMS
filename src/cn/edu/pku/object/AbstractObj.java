@@ -48,7 +48,7 @@ public class AbstractObj {
 	protected String displayContent = new String ();
 	
 	/**
-	 * 将数据导入到文件中
+	 * 将数据导入到conf文件中
 	 * @param outputPath 导入文件路径
 	 * @param sources 数据来源
 	 * @param data 数据时间范围
@@ -57,7 +57,9 @@ public class AbstractObj {
 	public static void feildsToConf(String outputPath,
 			String[] sources,
 			String[] date,
-			String field
+			String field,
+			String key,
+			String value
 			) {
 		
 		String sql = "select ";
@@ -83,6 +85,14 @@ public class AbstractObj {
 			sql += " or source = '" + sources[i] + "'";
 		}
 		sql += ")";
+		
+		//key field
+		if (key == null || key.length() == 0
+				|| value == null || value.length() == 0) {
+			System.out.println("info: no other key specified");
+		} else {
+			sql += " and (" + key + " = '" + value + "')";
+		}
 		
 		//date
 		if (date == null || date.length == 0) {
@@ -150,9 +160,9 @@ public class AbstractObj {
 		try {
 			if (fo.t3 != null) {
 				for (int i = 0; i < set.length; i ++) {
-					String key = set[i].getKey().toString();
-					int value = (int) set[i].getValue();
-					fo.t3.write(key + "	" + value);
+					String k = set[i].getKey().toString();
+					int v = (int) set[i].getValue();
+					fo.t3.write(k + "	" + v);
 					fo.t3.newLine();
 				}
 			}

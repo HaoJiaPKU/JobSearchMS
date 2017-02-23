@@ -51,6 +51,6 @@ public class TestAbstractObj {
 		String[] sources = {ZhilianConf.getSource()};
 		String[] date = {TimeUtil.getDate(DatabaseConf.getExpiredate())};
 		AbstractObj.feildsToConf(FilterConf.ProcessingPath + "category.conf",
-				sources, date, "pos_category");
+				sources, date, "pos_category", null, null);
 	}
 }
