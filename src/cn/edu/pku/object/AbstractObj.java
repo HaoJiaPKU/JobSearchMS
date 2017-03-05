@@ -323,7 +323,6 @@ public class AbstractObj {
 		System.out.println("info : " + counter + " data processed");
 	}
 
-	
 	/**
 	 * 将数据导入到文件中
 	 * @param outputPath 导入文件路径

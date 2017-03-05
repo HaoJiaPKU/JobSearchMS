@@ -31,7 +31,7 @@ public class PositionIndexServiceImpl implements PositionIndexService{
 	
 	@Override
 	public void create() {
-		String indexPath = "RecruitmentIndex";
+		String indexPath = "PositionIndex";
 		// 以文件的形式创建索引
 		Directory dir;
 		try {
