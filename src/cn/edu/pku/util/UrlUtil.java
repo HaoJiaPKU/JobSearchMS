@@ -15,7 +15,7 @@ public class UrlUtil {
     public static String getHTML(String key) throws IOException  
     {  
         StringBuilder sb=new StringBuilder();  
-        String path="http://www.baidu.com/s?tn=ichuner&lm=-1&word="+URLEncoder.encode(key,"gb2312")+"&rn=100";
+        String path=key;
         URL url=new URL(path);  
         BufferedReader breader=new BufferedReader(new InputStreamReader(url.openStream()));  
         String line=null;  
