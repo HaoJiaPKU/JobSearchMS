@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
+import cn.edu.pku.conf.FilePathConf;
 import edu.stanford.nlp.ie.crf.CRFClassifier;
 import edu.stanford.nlp.ling.CoreLabel;
 
@@ -14,7 +15,7 @@ public class SegmenterUtil {
 	public static final String SegmenterBaseDir = "../stanford-segmenter-2015-12-09/data";
 	
 	public static HashSet<String> stopword = new HashSet<String> ();
-	public static final String StopwordFile = "stopwords.txt";
+	public static String stopwordsFile = FilePathConf.stopwordsFile;
 	public static final String StopSigns = "[\\p{P}~$`^=|<>～｀＄＾＋＝｜＜＞￥× \\s|\t|\r|\n]+";
 
 	/**
@@ -44,7 +45,7 @@ public class SegmenterUtil {
 	 * @throws IOException 找不到停用词、停用符号文件
 	 */
 	public static void loadStopword() {
-		FileInput fi = new FileInput(StopwordFile);
+		FileInput fi = new FileInput(stopwordsFile);
 		String line = new String ();
 		try {
 			while ((line = fi.reader.readLine()) != null) {
