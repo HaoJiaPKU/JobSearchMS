@@ -7,6 +7,7 @@ public class DatabaseConf {
 	private static final String ClassName = "com.mysql.jdbc.Driver";
 	private static final String PositionTable = "position";
 	private static final String PositionJobpopoTable = "position_jobpopo";
+	private static final String PositionBdwmTable = "position_bdwm";
 	private static final String PositionTagTable = "position_tag";
 	private static final String RelevanceTable = "relevance";
 	
@@ -24,6 +25,10 @@ public class DatabaseConf {
 	
 	public static String getPositiontable() {
 		return PositionTable;
+	}
+	
+	public static String getPositionbdwmtable() {
+		return PositionBdwmTable;
 	}
 	
 	public static String getPositiontagtable() {
