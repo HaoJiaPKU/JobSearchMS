@@ -256,7 +256,7 @@ public class Bdwm {
 								if(spans != null) {
 									Element span = spans.first();
 									String pub = span.text().trim();
-									bobj.setPosPublishDate(pub.substring(pub.indexOf("201"),13));
+									bobj.setPosPublishDate(pub.substring(pub.indexOf("201"),pub.indexOf("201")+10));
 								}
 							}
 						}
