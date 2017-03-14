@@ -132,10 +132,11 @@ public class HttpClientUtil {
             HttpEntity entity = response.getEntity();  
             if (entity != null) {  
                 // long len = entity.getContentLength();// -1 表示长度未知  
-                String result = EntityUtils.toString(entity);  
+                byte[] result = EntityUtils.toByteArray(entity);
+                String re = new String(result, UTF_8);
                 response.close();  
                 // httpClient.close();  
-                return result;  
+                return re;  
             }  
         } catch (ClientProtocolException e) {  
             e.printStackTrace();  
