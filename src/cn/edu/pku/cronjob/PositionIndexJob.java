@@ -14,6 +14,7 @@ import cn.edu.pku.util.TimeUtil;
 public class PositionIndexJob {
 	
 	ZhilianJob zhilianJob;
+	BdwmJob bdwmJob;
 	PositionIndexService positionIndexservice;
 
 	public PositionIndexService getPositionIndexservice() {
@@ -25,6 +26,15 @@ public class PositionIndexJob {
 		this.positionIndexservice = positionIndexservice;
 	}
 	
+	public BdwmJob getBdwmJob() {
+		return bdwmJob;
+	}
+
+	@Resource
+	public void setBdwmJob(BdwmJob bdwmJob) {
+		this.bdwmJob = bdwmJob;
+	}
+
 	public ZhilianJob getZhilianJob() {
 		return zhilianJob;
 	}
@@ -34,10 +44,12 @@ public class PositionIndexJob {
 		this.zhilianJob = zhilianJob;
 	}
 
-	@Scheduled(cron = "0 0 11 * * ?")
+	@Scheduled(cron = "30 10 15 * * ?")
 	public void executePipeline() {
 //		//执行智联招聘数据的处理
 //		zhilianJob.executePipeline();
+		
+		bdwmJob.executePipeline();
 		
 		//构建索引
 		System.out.println("info:	开始 构建索引	"
