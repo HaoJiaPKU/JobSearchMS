@@ -15,28 +15,28 @@ import java.util.List;
 import java.util.Map;
 
 import cn.edu.pku.conf.DatabaseConf;
-import cn.edu.pku.conf.BdwmConf;
+import cn.edu.pku.conf.QianchengConf;
 import cn.edu.pku.util.TimeUtil;
 
-public class BdwmObj extends AbstractObj {
+public class QianchengObj extends AbstractObj {
 
 	//pos_url, pos_publish_date + " " + id
 	private static HashMap<String, String> virtualView
 		= new HashMap<String, String>();
 	//pos_url, pos_publish_date + " " + "-1"
-	private static HashMap<String, BdwmObj> newData 
-		= new HashMap<String, BdwmObj>();
+	private static HashMap<String, QianchengObj> newData 
+		= new HashMap<String, QianchengObj>();
 	//pos_url, pos_publish_date + " " + id
 	private static HashMap<String, String> updateData
 		= new HashMap<String, String>();
 	
-	public BdwmObj() {
+	public QianchengObj() {
 		super();
 	}
 	
-	public BdwmObj(String postitle, String posSalary, String posLocation, String posPublishDate, String posType,
+	public QianchengObj(String postitle, String posSalary, String posLocation, String posPublishDate, String posType,
 			String posExperience, String posDegree, String posRecruitNum, String posCategory, String posDescription,
-			String posUrl, String comName, String comScale, String comType, String comIndustry, String comHost, String comLocation,
+			String posUrl, String posKeyword, String comScale, String comType, String comIndustry, String comHost, String comLocation,
 			int hasTag, String source, String snapshotUrl, String displayContent) {
 		super();
 		this.postitle = postitle;
@@ -50,7 +50,7 @@ public class BdwmObj extends AbstractObj {
 		this.posCategory = posCategory;
 		this.posDescription = posDescription;
 		this.posUrl = posUrl;
-		this.comName = comName;
+		this.posKeyword = posKeyword;
 		this.comScale = comScale;
 		this.comType = comType;
 		this.comIndustry = comIndustry;
@@ -62,28 +62,28 @@ public class BdwmObj extends AbstractObj {
 		this.displayContent = displayContent;
 	}
 
-	public BdwmObj(BdwmObj b) {
-		this.postitle = b.postitle;
-		this.posSalary = b.posSalary;
-		this.posLocation = b.posLocation;
-		this.posPublishDate = b.posPublishDate;
-		this.posType = b.posType;
-		this.posExperience = b.posExperience;
-		this.posDegree = b.posDegree;
-		this.posRecruitNum = b.posRecruitNum;
-		this.posCategory = b.posCategory;
-		this.posDescription = b.posDescription;
-		this.posUrl = b.posUrl;
-		this.comName = b.comName;
-		this.comScale = b.comScale;
-		this.comType = b.comType;
-		this.comIndustry = b.comIndustry;
-		this.comHost = b.comHost;
-		this.comLocation = b.comLocation;
-		this.hasTag = b.hasTag;
-		this.source = b.source;
-		this.snapshotUrl = b.snapshotUrl;
-		this.displayContent = b.displayContent;
+	public QianchengObj(QianchengObj qianchengObj) {
+		this.postitle = qianchengObj.postitle;
+		this.posSalary = qianchengObj.posSalary;
+		this.posLocation = qianchengObj.posLocation;
+		this.posPublishDate = qianchengObj.posPublishDate;
+		this.posType = qianchengObj.posType;
+		this.posExperience = qianchengObj.posExperience;
+		this.posDegree = qianchengObj.posDegree;
+		this.posRecruitNum = qianchengObj.posRecruitNum;
+		this.posCategory = qianchengObj.posCategory;
+		this.posDescription = qianchengObj.posDescription;
+		this.posUrl = qianchengObj.posUrl;
+		this.posKeyword = qianchengObj.posKeyword;
+		this.comScale = qianchengObj.comScale;
+		this.comType = qianchengObj.comType;
+		this.comIndustry = qianchengObj.comIndustry;
+		this.comHost = qianchengObj.comHost;
+		this.comLocation = qianchengObj.comLocation;
+		this.hasTag = qianchengObj.hasTag;
+		this.source = qianchengObj.source;
+		this.snapshotUrl = qianchengObj.snapshotUrl;
+		this.displayContent = qianchengObj.displayContent;
 	}
 	
 	/**
@@ -108,7 +108,7 @@ public class BdwmObj extends AbstractObj {
 						+ DatabaseConf.getPositiontable() + " "
 						+ " where "
 						+ "source = '"
-						+ BdwmConf.getSource() + "' "
+						+ QianchengConf.getSource() + "' "
 						+ " and "
 						+ "pos_publish_date > '"
 						+ TimeUtil.getDate(DatabaseConf.getExpiredate()) + "';";
@@ -174,7 +174,7 @@ public class BdwmObj extends AbstractObj {
 			try {
 				conn = DriverManager.getConnection(url);
 				for (String key : newData.keySet()) {
-					BdwmObj blobj = newData.get(key);
+					QianchengObj qcobj = newData.get(key);
 					String sql = "insert into "
 							+ DatabaseConf.getPositiontable() + "("
 							+ "pos_title,"
@@ -188,7 +188,7 @@ public class BdwmObj extends AbstractObj {
 							+ "pos_category,"
 							+ "pos_description,"
 							+ "pos_url,"
-							+ "com_name,"
+							+ "pos_keyword,"
 							+ "com_scale,"
 							+ "com_type,"
 							+ "com_industry,"
@@ -199,27 +199,27 @@ public class BdwmObj extends AbstractObj {
 							+ "snapshot_url,"
 							+ "display_content)"
 							+ " values("
-							+ "'" + blobj.postitle + "',"
-							+ "'" + blobj.posSalary + "',"
-							+ "'" + blobj.posLocation + "',"
-							+ "'" + blobj.posPublishDate + "',"
-							+ "'" + blobj.posType + "',"
-							+ "'" + blobj.posExperience + "',"
-							+ "'" + blobj.posDegree + "',"
-							+ "'" + blobj.posRecruitNum + "',"
-							+ "'" + blobj.posCategory + "',"
-							+ "'" + blobj.posDescription + "',"
-							+ "'" + blobj.posUrl + "',"
-							+ "'" + blobj.comName + "',"
-							+ "'" + blobj.comScale + "',"
-							+ "'" + blobj.comType + "',"
-							+ "'" + blobj.comIndustry + "',"
-							+ "'" + blobj.comHost + "',"
-							+ "'" + blobj.comLocation + "',"
-							+ "'" + blobj.hasTag + "',"
-							+ "'" + BdwmConf.Source + "',"
-							+ "'" + blobj.snapshotUrl + "',"
-							+ "'" + blobj.displayContent + "');";
+							+ "'" + qcobj.postitle + "',"
+							+ "'" + qcobj.posSalary + "',"
+							+ "'" + qcobj.posLocation + "',"
+							+ "'" + qcobj.posPublishDate + "',"
+							+ "'" + qcobj.posType + "',"
+							+ "'" + qcobj.posExperience + "',"
+							+ "'" + qcobj.posDegree + "',"
+							+ "'" + qcobj.posRecruitNum + "',"
+							+ "'" + qcobj.posCategory + "',"
+							+ "'" + qcobj.posDescription + "',"
+							+ "'" + qcobj.posUrl + "',"
+							+ "'" + qcobj.posKeyword + "',"
+							+ "'" + qcobj.comScale + "',"
+							+ "'" + qcobj.comType + "',"
+							+ "'" + qcobj.comIndustry + "',"
+							+ "'" + qcobj.comHost + "',"
+							+ "'" + qcobj.comLocation + "',"
+							+ "'" + qcobj.hasTag + "',"
+							+ "'" + QianchengConf.Source + "',"
+							+ "'" + qcobj.snapshotUrl + "',"
+							+ "'" + qcobj.displayContent + "');";
 	
 					PreparedStatement stmt;
 					try {
@@ -448,7 +448,7 @@ public class BdwmObj extends AbstractObj {
 						+ DatabaseConf.getPositiontable() + " "
 						+ " where "
 						+ "source = '"
-						+ BdwmConf.getSource() + "' "
+						+ QianchengConf.getSource() + "' "
 						+ " and "
 						+ "pos_publish_date > '"
 						+ TimeUtil.getDate(DatabaseConf.getExpiredate()) + "'"
@@ -510,7 +510,7 @@ public class BdwmObj extends AbstractObj {
 						+ DatabaseConf.getPositiontable()
 						+ " where "
 						+ "source = '"
-						+ BdwmConf.getSource() + "' "
+						+ QianchengConf.getSource() + "' "
 						+ " and "
 						+ "pos_publish_date ='" + this.posPublishDate + "' "
 						+ " and "
@@ -550,13 +550,13 @@ public class BdwmObj extends AbstractObj {
 	 * 数据对象预存储到数据库缓存，同时判断数据库与当前数据是否过期
 	 * */
 	public void preStore() {
-		String key = this.posUrl.substring(BdwmConf.HostUrl.length());
+		String key = this.posUrl.substring(QianchengConf.HostUrl.length());
 		String value = this.posPublishDate + " -1";//-1为了后面的index判断
 //		System.out.println(key + " " + value);
 		//如果没有当前的数据，直接加入到试图缓存和待插入的新数据中
 		if (!virtualView.containsKey(key)) {
 			virtualView.put(key, value);
-			newData.put(key, new BdwmObj(this));
+			newData.put(key, new QianchengObj(this));
 		} else {//存在当前的数据
 			String preValue = virtualView.get(key);
 			//如果历史数据的日期在当前数据之前
@@ -568,7 +568,7 @@ public class BdwmObj extends AbstractObj {
 					virtualView.remove(key);
 					newData.remove(key);
 					virtualView.put(key, value);
-					newData.put(key, new BdwmObj(this));
+					newData.put(key, new QianchengObj(this));
 				//如果是原有历史数据，需要更新待更新数据视图和数据库视图缓存
 				} else {
 					//更新待更新数据视图
@@ -636,7 +636,7 @@ public class BdwmObj extends AbstractObj {
 						+ DatabaseConf.getPositiontable() + " "
 						+ " where "
 						+ "source = '"
-						+ BdwmConf.getSource() + "' "
+						+ QianchengConf.getSource() + "' "
 						+ " and "
 						+ "pos_publish_date > '"
 						+ TimeUtil.getDate(DatabaseConf.getExpiredate()) + "';";
@@ -672,7 +672,7 @@ public class BdwmObj extends AbstractObj {
 		Iterator it = list.iterator();   
 		while(it.hasNext()) {   
 		    Map hm = (Map)it.next();
-		    String key = hm.get("pos_url").toString().substring(BdwmConf.HostUrl.length());
+		    String key = hm.get("pos_url").toString().substring(QianchengConf.HostUrl.length());
 		    String value = hm.get("pos_publish_date").toString();
 		    String id = hm.get("id").toString();
 		    value = value + " " + id;
@@ -706,8 +706,8 @@ public class BdwmObj extends AbstractObj {
 		System.out.println(this.posCategory);
 		System.out.println(this.posDescription);
 		System.out.println(this.posUrl);
+		System.out.println(this.posKeyword);
 		
-		System.out.println(this.comName);
 		System.out.println(this.comScale);
 		System.out.println(this.comType);
 		System.out.println(this.comIndustry);

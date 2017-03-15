@@ -42,7 +42,7 @@ public class IndexController {
 	
 	@RequestMapping(value = "/createResumeIndex", method = RequestMethod.POST)
 	public String createResumeIndex() {
-		positionIndexService.create();
+		resumeIndexService.create51Job();
 		return "index.jsp";
 	}
 }

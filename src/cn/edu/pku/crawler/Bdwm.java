@@ -25,62 +25,6 @@ public class Bdwm {
 		
 	}
 	
-	public static void loadStopword() {
-		FileInput fi = new FileInput("stopwords.txt");
-		String line = new String ();
-		try {
-			while ((line = fi.reader.readLine()) != null) {
-				stopword.add(line.trim());
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		fi.closeInput();
-	}
-	
-	public static void proData() {
-		FileOutput fo = new FileOutput("../lda/model/lda.dat");
-		try {
-			fo.t3.write(String.valueOf(41917));
-			fo.t3.newLine();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		File file = new File("../../myFile/智联招聘 训练集_pro");
-		for (File f : file.listFiles()) {
-			if (f.getName().contains(".DS_Store")) {
-				continue;
-			}
-			for (File subFile : f.listFiles()) {
-				if (subFile.getName().contains(".DS_Store")) {
-					continue;
-				}
-				FileInput fi = new FileInput(subFile.getAbsolutePath());
-				String line = new String (), ret = new String();
-				try {
-					while ((line = fi.reader.readLine()) != null) {
-						String token[] = line.split(" +");
-						for (int i = 0; i < token.length; i ++) {
-							token[i] = token[i].trim();
-							if (!stopword.contains(token[i])) {
-								ret += token[i] + " ";
-							}
-						}
-					}
-					fo.t3.write(ret);
-					fo.t3.newLine();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				fi.closeInput();
-			}
-		}
-		fo.closeOutput();
-	}
-	
 	public void makeDirs(String path) {
 		File file = new File(path);
 		if (!file.exists() && !file.isDirectory()) {
@@ -256,7 +200,7 @@ public class Bdwm {
 								if(spans != null) {
 									Element span = spans.first();
 									String pub = span.text().trim();
-									bobj.setPosPublishDate(pub.substring(pub.indexOf("201"),13));
+									bobj.setPosPublishDate(pub.substring(pub.indexOf("201"),pub.indexOf("201")+10));
 								}
 							}
 						}

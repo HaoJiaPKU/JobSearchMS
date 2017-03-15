@@ -34,7 +34,7 @@ public class AbstractObj {
 	protected String posCategory = new String ();
 	protected String posDescription = new String ();
 	protected String posUrl = new String ();
-	
+	protected String posKeyword = new String();
 	protected String comName = new String ();
 	protected String comScale = new String ();
 	protected String comType = new String ();
@@ -502,7 +502,7 @@ public class AbstractObj {
 	
 	public AbstractObj(String postitle, String posSalary, String posLocation, String posPublishDate, String posType,
 			String posExperience, String posDegree, String posRecruitNum, String posCategory, String posDescription,
-			String posUrl, String comName, String comScale, String comType, String comIndustry, String comHost, String comLocation,
+			String posUrl, String posKeyword, String comName, String comScale, String comType, String comIndustry, String comHost, String comLocation,
 			int hasTag, String source, String snapshotUrl, String displayContent) {
 		super();
 		this.postitle = postitle;
@@ -516,6 +516,7 @@ public class AbstractObj {
 		this.posCategory = posCategory;
 		this.posDescription = posDescription;
 		this.posUrl = posUrl;
+		this.posKeyword = posKeyword;
 		this.comName = comName;
 		this.comScale = comScale;
 		this.comType = comType;
@@ -540,6 +541,7 @@ public class AbstractObj {
 		this.posCategory = a.posCategory;
 		this.posDescription = a.posDescription;
 		this.posUrl = a.posUrl;
+		this.posKeyword = a.posKeyword;
 		this.comName = a.comName;
 		this.comScale = a.comScale;
 		this.comType = a.comType;
@@ -638,6 +640,14 @@ public class AbstractObj {
 	
 	public void setPosUrl(String posUrl) {
 		this.posUrl = posUrl;
+	}
+	
+	public String getPosKeyword() {
+		return posKeyword;
+	}
+	
+	public void setPosKeyword(String posKeyword) {
+		this.posKeyword = posKeyword;
 	}
 	
 	public String getComName() {
