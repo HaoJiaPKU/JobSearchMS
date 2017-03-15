@@ -29,7 +29,7 @@ public class BdwmJob {
 		//爬取招聘页面保存到本地
 		System.out.println("info:	" + BdwmConf.getSource() + "开始 数据抓取	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		bdwm.crawlPositionPageBatch(bc);
+		bdwm.crawlPositionPageBatch(bc, "utf-8");
 		System.out.println("info:	" + BdwmConf.getSource() + "完成 数据抓取	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		

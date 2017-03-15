@@ -88,11 +88,11 @@ public class Bdwm {
 		}
 	}
 	
-	public String getIndexPage(String url) {
-		return HttpClientUtil.httpGetRequest(url);
+	public String getIndexPage(String url, String encoding) {
+		return HttpClientUtil.httpGetRequest(url, encoding);
 	}
 	
-	public void parseIndexPage(String content, String saveDir) {
+	public void parseIndexPage(String content, String saveDir, String encoding) {
 		Document doc = Jsoup.parse(content);
 		Elements tables = doc.select(".list-item-topic");
 		if (tables == null) {
@@ -112,16 +112,16 @@ public class Bdwm {
 			System.out.println(saveDir);
 			String itemid = link.substring(link.indexOf("threadid=") + 9);
 			System.out.println(itemid);
-			crawlPositionPage(link, saveDir + "/"  + itemid);
+			crawlPositionPage(link, saveDir + "/"  + itemid, encoding);
 		}
 	}
 	
-	public String getPositionPage(String url) {
-		return HttpClientUtil.httpGetRequest(url);
+	public String getPositionPage(String url, String encoding) {
+		return HttpClientUtil.httpGetRequest(url, encoding);
 	}
 	
-	public void crawlPositionPage(String url, String path) {
-		String content = getPositionPage(url);
+	public void crawlPositionPage(String url, String path, String encoding) {
+		String content = getPositionPage(url, encoding);
 		FileOutput fo = new FileOutput(path);
 		try {
 			if (fo.t3 != null) {
@@ -134,15 +134,15 @@ public class Bdwm {
 		fo.closeOutput();
 	}
 	
-	public void crawlPositionPageBatch(BdwmConf bd) {
+	public void crawlPositionPageBatch(BdwmConf bd, String encoding) {
 		String date = TimeUtil.getDate(DatabaseConf.getCrawldate());
 		String dataDir = bd.getDataDir() + "/" + bd.getIndustryDir().get(0)
 			+ "/" + date;
 		System.out.println(dataDir);
 		makeDirs(dataDir);
 		for (int j = 1; j <= bd.getMaxPageNumber(); j ++) {
-			String content = getIndexPage(bd.getIndustryUrl().get(0) + String.valueOf(j));
-			parseIndexPage(content, dataDir);
+			String content = getIndexPage(bd.getIndustryUrl().get(0) + String.valueOf(j), encoding);
+			parseIndexPage(content, dataDir, encoding);
 		}
 	}
 	

@@ -23,7 +23,7 @@ public class TestCrawler {
 		}
 
 		
-		String str = HttpClientUtil.httpGetRequest("https://bbs.pku.edu.cn/v2/post-read.php?bid=845&threadid=16038054");
+		String str = HttpClientUtil.httpGetRequest("https://bbs.pku.edu.cn/v2/post-read.php?bid=845&threadid=16038054", "utf-8");
 		System.out.println(str);
 		
 		Document doc;

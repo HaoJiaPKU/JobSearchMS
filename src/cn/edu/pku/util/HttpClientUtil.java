@@ -25,8 +25,7 @@ import org.apache.http.util.EntityUtils;
 
 public class HttpClientUtil {  
     private static PoolingHttpClientConnectionManager cm;  
-    private static String EMPTY_STR = "";  
-    private static String UTF_8 = "UTF-8";  
+    private static String EMPTY_STR = ""; 
   
     private static void init() {  
         if (cm == null) {  
@@ -51,12 +50,12 @@ public class HttpClientUtil {
      * @param url 
      * @return 
      */  
-    public static String httpGetRequest(String url) {  
+    public static String httpGetRequest(String url, String encoding) {  
         HttpGet httpGet = new HttpGet(url);  
-        return getResult(httpGet);  
+        return getResult(httpGet, encoding);  
     }  
   
-    public static String httpGetRequest(String url, Map<String, Object> params) throws URISyntaxException {  
+    public static String httpGetRequest(String url, Map<String, Object> params, String encoding) throws URISyntaxException {  
         URIBuilder ub = new URIBuilder();  
         ub.setPath(url);  
   
@@ -64,10 +63,10 @@ public class HttpClientUtil {
         ub.setParameters(pairs);  
   
         HttpGet httpGet = new HttpGet(ub.build());  
-        return getResult(httpGet);  
+        return getResult(httpGet, encoding);  
     }  
   
-    public static String httpGetRequest(String url, Map<String, Object> headers, Map<String, Object> params)  
+    public static String httpGetRequest(String url, Map<String, Object> headers, Map<String, Object> params, String encoding)  
             throws URISyntaxException {  
         URIBuilder ub = new URIBuilder();  
         ub.setPath(url);  
@@ -79,22 +78,22 @@ public class HttpClientUtil {
         for (Map.Entry<String, Object> param : headers.entrySet()) {  
             httpGet.addHeader(param.getKey(), String.valueOf(param.getValue()));  
         }  
-        return getResult(httpGet);  
+        return getResult(httpGet, encoding);  
     }  
   
-    public static String httpPostRequest(String url) {  
+    public static String httpPostRequest(String url, String encoding) {  
         HttpPost httpPost = new HttpPost(url);  
-        return getResult(httpPost);  
+        return getResult(httpPost, encoding);  
     }  
   
-    public static String httpPostRequest(String url, Map<String, Object> params) throws UnsupportedEncodingException {  
+    public static String httpPostRequest(String url, Map<String, Object> params, String encoding) throws UnsupportedEncodingException {  
         HttpPost httpPost = new HttpPost(url);  
         ArrayList<NameValuePair> pairs = covertParams2NVPS(params);  
-        httpPost.setEntity(new UrlEncodedFormEntity(pairs, UTF_8));  
-        return getResult(httpPost);  
+        httpPost.setEntity(new UrlEncodedFormEntity(pairs, encoding));  
+        return getResult(httpPost, encoding);  
     }  
   
-    public static String httpPostRequest(String url, Map<String, Object> headers, Map<String, Object> params)  
+    public static String httpPostRequest(String url, Map<String, Object> headers, Map<String, Object> params, String encoding)  
             throws UnsupportedEncodingException {  
         HttpPost httpPost = new HttpPost(url);  
   
@@ -103,9 +102,9 @@ public class HttpClientUtil {
         }  
   
         ArrayList<NameValuePair> pairs = covertParams2NVPS(params);  
-        httpPost.setEntity(new UrlEncodedFormEntity(pairs, UTF_8));  
+        httpPost.setEntity(new UrlEncodedFormEntity(pairs, encoding));  
   
-        return getResult(httpPost);  
+        return getResult(httpPost, encoding);  
     }  
   
     private static ArrayList<NameValuePair> covertParams2NVPS(Map<String, Object> params) {  
@@ -123,7 +122,7 @@ public class HttpClientUtil {
      * @param request 
      * @return 
      */  
-    private static String getResult(HttpRequestBase request) {  
+    private static String getResult(HttpRequestBase request, String encoding) {  
         // CloseableHttpClient httpClient = HttpClients.createDefault();  
         CloseableHttpClient httpClient = getHttpClient();  
         try {  
@@ -133,7 +132,7 @@ public class HttpClientUtil {
             if (entity != null) {  
                 // long len = entity.getContentLength();// -1 表示长度未知  
                 byte[] result = EntityUtils.toByteArray(entity);
-                String re = new String(result, UTF_8);
+                String re = new String(result, encoding);
                 response.close();  
                 // httpClient.close();  
                 return re;  

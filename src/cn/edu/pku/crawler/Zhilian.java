@@ -88,11 +88,11 @@ public class Zhilian {
 		}
 	}
 	
-	public String getIndexPage(String url) {
-		return HttpClientUtil.httpGetRequest(url);
+	public String getIndexPage(String url, String encoding) {
+		return HttpClientUtil.httpGetRequest(url, encoding);
 	}
 	
-	public void parseIndexPage(String content, String saveDir) {
+	public void parseIndexPage(String content, String saveDir, String encoding) {
 		Document doc = Jsoup.parse(content);
 		Elements tables = doc.select(".newlist");
 		if (tables == null) {
@@ -149,16 +149,16 @@ public class Zhilian {
 				continue;
 			}
 			String date = td.text().toString();
-			crawlPositionPage(link, saveDir + "/" + date + "-" + link.substring(ZhilianConf.getHosturl().length()));
+			crawlPositionPage(link, saveDir + "/" + date + "-" + link.substring(ZhilianConf.getHosturl().length()), encoding);
 		}
 	}
 	
-	public String getPositionPage(String url) {
-		return HttpClientUtil.httpGetRequest(url);
+	public String getPositionPage(String url, String encoding) {
+		return HttpClientUtil.httpGetRequest(url, encoding);
 	}
 	
-	public void crawlPositionPage(String url, String path) {
-		String content = getPositionPage(url);
+	public void crawlPositionPage(String url, String path, String encoding) {
+		String content = getPositionPage(url, encoding);
 		FileOutput fo = new FileOutput(path);
 		try {
 			if (fo.t3 != null) {
@@ -171,7 +171,7 @@ public class Zhilian {
 		fo.closeOutput();
 	}
 	
-	public void crawlPositionPageBatch(ZhilianConf zc) {
+	public void crawlPositionPageBatch(ZhilianConf zc, String encoding) {
 		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
 			String date = TimeUtil.getDate(DatabaseConf.getCrawldate());
 			String dataDir = zc.getDataDir() + "/" + zc.getIndustryDir().get(i)
@@ -179,8 +179,8 @@ public class Zhilian {
 			System.out.println(dataDir);
 			makeDirs(dataDir);
 			for (int j = 1; j <= zc.getMaxPageNumber(); j ++) {
-				String content = getIndexPage(zc.getIndustryUrl().get(i) + String.valueOf(j));
-				parseIndexPage(content, dataDir);
+				String content = getIndexPage(zc.getIndustryUrl().get(i) + String.valueOf(j), encoding);
+				parseIndexPage(content, dataDir, encoding);
 			}
 		}
 	}
