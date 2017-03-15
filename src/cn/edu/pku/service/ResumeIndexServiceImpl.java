@@ -96,7 +96,7 @@ public class ResumeIndexServiceImpl implements ResumeIndexService {
 			Class.forName(DatabaseConf.getClassname());
 			Connection conn = DriverManager.getConnection(url);
 
-			String sql = "select * from resume";
+			String sql = "select * from resume_jobpopo";
 
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
