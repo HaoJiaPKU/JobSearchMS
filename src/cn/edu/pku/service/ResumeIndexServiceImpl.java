@@ -62,6 +62,7 @@ public class ResumeIndexServiceImpl implements ResumeIndexService {
 			}
 			indexMysql(writer);
 			writer.close();
+			System.out.println("简历索引构建完成");
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -103,7 +104,7 @@ public class ResumeIndexServiceImpl implements ResumeIndexService {
 				Document doc = new Document();
 				doc.add(new StringField("path", rs.getString("employee_id"),
 						Field.Store.YES));
-				doc.add(new StringField("source", "popo", Field.Store.YES));
+				doc.add(new StringField("source", "jobpopo", Field.Store.YES));
 				String content = "";
 				for (int i = 1; i < 23; i++) {
 					content += rs.getString(i) + " ";
@@ -118,7 +119,7 @@ public class ResumeIndexServiceImpl implements ResumeIndexService {
 					}
 				}
 				ResultSet rs2 = stmt1
-						.executeQuery("select * from workexperience where employee_id='"
+						.executeQuery("select * from work_experience where employee_id='"
 								+ rs.getString("employee_id") + "'");
 				while (rs2.next()) {
 					for (int i = 1; i < 10; i++) {

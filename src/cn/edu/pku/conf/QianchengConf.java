@@ -6,26 +6,29 @@ import java.util.ArrayList;
 
 import cn.edu.pku.util.FileInput;
 
-public class ZhilianConf {
+public class QianchengConf {
 	
-	public static final String HostUrl = "http://jobs.zhaopin.com/";
-	public static final String Source = "智联招聘";
-	public static final String ConfFile = "../../../git/jrs-backend/conf/zhilian.conf";
+	public static final String HostUrl = "http://jobs.51job.com/beijing";
+	public static final String Source = "前程无忧";
+	public static final String ConfFile = "../../../git/jrs-backend/conf/qiancheng.conf";
 		
 	public int MaxPageNumber = 90;
-	public String dataDir = "data";
-	public String descriptionDir = "description";
+	public String dataDir = new String();
+	public String descriptionDir = new String();
 	public ArrayList<String> industryUrl = new ArrayList<String>();
 	public ArrayList<String> industryDir = new ArrayList<String>();
 	
-	public ZhilianConf() {
+	public QianchengConf() {
+		MaxPageNumber = 90;
+		dataDir = "data";
+		descriptionDir = "description";
 		makeDirs(getDataDir());
 		makeDirs(getDescriptionDir());
 		
 		industryDir.clear();
 		industryUrl.clear();
-		industryDir.add("互联网&电子商务");
-		industryUrl.add("http://sou.zhaopin.com/jobs/searchresult.ashx?bj=160000&in=210500&jl=%E5%8C%97%E4%BA%AC&sm=0&sg=ab99a48943284cd0a2ca8acac91b00d7&p=");
+		industryDir.add("计算机软件");
+		industryUrl.add("http://search.51job.com/jobsearch/search_result.php?fromJs=1&jobarea=010000&industrytype=01&keywordtype=2&lang=c&stype=2&postchannel=0000&fromType=1&confirmdate=9&curr_page=");
 		makeDirs(getDataDir() + "/" + industryDir.get(0));
 		makeDirs(getDescriptionDir() + "/" + industryDir.get(0));
 	}
@@ -119,7 +122,7 @@ public class ZhilianConf {
 	}
 
 	public static void main(String []args) {
-		ZhilianConf zc = new ZhilianConf();
-		zc.run();
+		QianchengConf qc = new QianchengConf();
+		//qc.run();
 	}
 }

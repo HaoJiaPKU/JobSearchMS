@@ -47,8 +47,9 @@ public class PositionIndexServiceImpl implements PositionIndexService{
 			IndexWriter writer = new IndexWriter(dir, iwc);
 			// indexDocs(writer, docDir);
 			indexMysql(writer);
-
 			writer.close();
+			System.out.println("职位索引构建完成");
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -68,7 +69,7 @@ public class PositionIndexServiceImpl implements PositionIndexService{
 					+ DatabaseConf.getPositiontable()
 					+ " where "
 					+ "pos_publish_date > '"
-					+ TimeUtil.getDate(DatabaseConf.getExpiredate()) + "';";
+					+ TimeUtil.getDate(DatabaseConf.getPositionindexexpiredate()) + "';";
 
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);

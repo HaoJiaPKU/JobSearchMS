@@ -7,11 +7,11 @@ public class DatabaseConf {
 	private static final String ClassName = "com.mysql.jdbc.Driver";
 	private static final String PositionTable = "position";
 	private static final String PositionJobpopoTable = "position_jobpopo";
-	private static final String PositionBdwmTable = "position_bdwm";
 	private static final String PositionTagTable = "position_tag";
 	private static final String RelevanceTable = "relevance";
 	
 	private static final int ExpireDate = -90;
+	private static final int PositionIndexExpireDate = -30;
 	private static final int CrawlDate = 0;
 	private static final int ParseDate = 0;
 	
@@ -27,16 +27,10 @@ public class DatabaseConf {
 		return PositionTable;
 	}
 	
-	public static String getPositionbdwmtable() {
-		return PositionBdwmTable;
-	}
-	
 	public static String getPositiontagtable() {
 		return PositionTagTable;
 	}
 
-	
-	
 	public static String getPositionjobpopotable() {
 		return PositionJobpopoTable;
 	}
@@ -47,6 +41,10 @@ public class DatabaseConf {
 
 	public static int getExpiredate() {
 		return ExpireDate;
+	}
+	
+	public static int getPositionindexexpiredate() {
+		return PositionIndexExpireDate;
 	}
 	
 	public static int getCrawldate() {
