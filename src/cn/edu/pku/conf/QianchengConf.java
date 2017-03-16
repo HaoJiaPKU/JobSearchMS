@@ -10,7 +10,7 @@ public class QianchengConf {
 	
 	public static final String HostUrl = "http://jobs.51job.com/beijing";
 	public static final String Source = "前程无忧";
-	public static final String ConfFile = "E:/JobSearchMS/conf/qiancheng.conf";
+	public static final String ConfFile = "../../../git/jrs-backend/conf/qiancheng.conf";
 		
 	public int MaxPageNumber = 90;
 	public String dataDir = new String();

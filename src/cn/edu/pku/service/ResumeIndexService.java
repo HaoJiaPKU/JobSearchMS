@@ -7,7 +7,7 @@ import org.apache.lucene.index.IndexWriter;
 
 public interface ResumeIndexService {
 
-	public void create51Job();
+	public void create();
 	
 	public void indexDoc(IndexWriter writer, Path file) throws IOException;
 	

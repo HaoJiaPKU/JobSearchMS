@@ -78,8 +78,6 @@ public class Qiancheng {
 			}
 			String value = input.attr("value").toString();
 			String link = a.attr("href").toString();
-			System.out.println(link);
-			System.out.println(value);
 			crawlPositionPage(link, saveDir + "/" + value, encoding);
 		}
 	}
@@ -267,7 +265,6 @@ public class Qiancheng {
 								qcobj.setPosRecruitNum(span.text().trim());
 							} 
 							if(span.select(".i4").first() != null) {
-								System.out.println(span.text().trim());
 								qcobj.setPosPublishDate("2017-" + span.text().trim().substring(0,5));
 							}
 						}

@@ -56,18 +56,18 @@ public class PositionIndexJob {
 
 	@Scheduled(cron = "0 0 8 * * ?")
 	public void executePipeline() {
-//		//执行智联招聘数据的处理
+		
 //		zhilianJob.executePipeline();
 		
 //		bdwmJob.executePipeline();
-		
+
 //		qianchengJob.executePipeline();
 		
 		//构建索引
-		System.out.println("info:	开始 构建索引	"
+		System.out.println("info:	开始 构建职位索引	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		positionIndexservice.create();
-		System.out.println("info:	完成 构建索引	"
+		System.out.println("info:	完成 构建职位索引	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 	}
 }

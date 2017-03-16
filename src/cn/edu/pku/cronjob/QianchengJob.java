@@ -17,6 +17,7 @@ public class QianchengJob {
 	
 	public void executePipeline() {
 		QianchengConf bc = new QianchengConf();
+		bc.run();
 		Qiancheng qc = new Qiancheng();
 
 		/**
@@ -31,7 +32,7 @@ public class QianchengJob {
 		//爬取招聘页面保存到本地
 		System.out.println("info:	" + QianchengConf.getSource() + "开始 数据抓取	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		qc.crawlPositionPageBatch(bc, "GB-2312");
+		qc.crawlPositionPageBatch(bc, "GB2312");
 		System.out.println("info:	" + QianchengConf.getSource() + "完成 数据抓取	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		

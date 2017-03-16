@@ -9,16 +9,16 @@ public class BdwmConf {
 	public static final String Source = "北大未名";
 	public static final String ConfFile = "";
 		
-	public int MaxPageNumber = 90;
+	public int MaxPageNumber = 10;
 	public String dataDir = new String();
 	public String descriptionDir = new String();
 	public ArrayList<String> industryUrl = new ArrayList<String>();
 	public ArrayList<String> industryDir = new ArrayList<String>();
 	
 	public BdwmConf() {
-		MaxPageNumber = 90;
-		dataDir = "data";
-		descriptionDir = "description";
+		MaxPageNumber = 10;
+		dataDir = "E:data";
+		descriptionDir = "E:description";
 		makeDirs(getDataDir());
 		makeDirs(getDescriptionDir());
 		

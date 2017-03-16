@@ -52,10 +52,7 @@ public class Bdwm {
 				continue;
 			}
 			String link = "https://bbs.pku.edu.cn/v2/" + a.attr("href").toString().replace("&amp;", "");
-			System.out.println(link);
-			System.out.println(saveDir);
 			String itemid = link.substring(link.indexOf("threadid=") + 9);
-			System.out.println(itemid);
 			crawlPositionPage(link, saveDir + "/"  + itemid, encoding);
 		}
 	}

@@ -34,7 +34,7 @@ import java.sql.Statement;
 @Service
 public class ResumeIndexServiceImpl implements ResumeIndexService {
 
-	public void create51Job() {
+	public void create() {
 		String indexPath = "ResumeIndex";
 
 		try {

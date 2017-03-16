@@ -176,7 +176,7 @@ public class BdwmObj extends AbstractObj {
 				for (String key : newData.keySet()) {
 					BdwmObj blobj = newData.get(key);
 					String sql = "insert into "
-							+ DatabaseConf.getPositiontable() + "("
+							+ DatabaseConf.getPositiontable() + " ("
 							+ "pos_title,"
 							+ "pos_salary,"
 							+ "pos_location,"
