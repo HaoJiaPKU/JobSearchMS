@@ -13,21 +13,18 @@ public class ZhilianConf {
 	public static final String ConfFile = "../../../git/jrs-backend/conf/zhilian.conf";
 		
 	public int MaxPageNumber = 90;
-	public String dataDir = "data";
-	public String descriptionDir = "description";
+	public String dataDir = Source;
 	public ArrayList<String> industryUrl = new ArrayList<String>();
 	public ArrayList<String> industryDir = new ArrayList<String>();
 	
 	public ZhilianConf() {
 		makeDirs(getDataDir());
-		makeDirs(getDescriptionDir());
 		
 		industryDir.clear();
 		industryUrl.clear();
 		industryDir.add("互联网&电子商务");
 		industryUrl.add("http://sou.zhaopin.com/jobs/searchresult.ashx?bj=160000&in=210500&jl=%E5%8C%97%E4%BA%AC&sm=0&sg=ab99a48943284cd0a2ca8acac91b00d7&p=");
 		makeDirs(getDataDir() + "/" + industryDir.get(0));
-		makeDirs(getDescriptionDir() + "/" + industryDir.get(0));
 	}
 	
 	public void makeDirs(String path) {
@@ -46,16 +43,13 @@ public class ZhilianConf {
 				String workspace = line.trim();
 				
 				setDataDir(workspace + "/" + dataDir);
-				setDescriptionDir(workspace + "/" + descriptionDir);
 				makeDirs(getDataDir());
-				makeDirs(getDescriptionDir());
 				
 				industryDir.clear();
 				industryUrl.clear();
 				while((line = fi.reader.readLine()) != null) {
 					String args[] = line.trim().split("	+");
 					makeDirs(getDataDir() + "/" + args[0].trim());
-					makeDirs(getDescriptionDir() + "/" + args[0].trim());
 					industryDir.add(args[0].trim());
 					industryUrl.add(args[1].trim());
 				}
@@ -100,14 +94,6 @@ public class ZhilianConf {
 	
 	public static String getHosturl() {
 		return HostUrl;
-	}
-	
-	public String getDescriptionDir() {
-		return descriptionDir;
-	}
-
-	public void setDescriptionDir(String descriptionDir) {
-		this.descriptionDir = descriptionDir;
 	}
 
 	public static String getSource() {

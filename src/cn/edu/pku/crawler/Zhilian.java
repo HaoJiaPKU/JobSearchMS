@@ -129,9 +129,8 @@ public class Zhilian {
 		}
 	}
 	
-	public void parsePositionPage(String inputPath, String outputPath) {
+	public void parsePositionPage(String inputPath) {
 		FileInput fi = new FileInput(inputPath);
-		FileOutput fo = new FileOutput(outputPath);
 		
 		String content = new String(), line = new String();
 		try {
@@ -159,7 +158,6 @@ public class Zhilian {
 						if (description == null
 								|| description.length() == 0
 								|| description.equals("")) {
-							fo.closeOutput();
 							fi.closeInput();
 							return;
 						}
@@ -263,17 +261,6 @@ public class Zhilian {
 		zlobj.preStore();
 //		System.out.println(zlobj.getComName());
 		
-		try {
-			fo.t3.write(zlobj.getPostitle()
-					+ "	" + zlobj.getPosPublishDate()
-					+ "	" + zlobj.getPosCategory()
-					+ "	" + zlobj.getPosDescription());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		fo.closeOutput();
 		fi.closeInput();
 	}
 		
@@ -282,10 +269,6 @@ public class Zhilian {
 		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
 			System.out.println("parsing into " + zc.getIndustryDir().get(i));
 			String date = TimeUtil.getDate(DatabaseConf.getParsedate());
-			String descriptionDir = zc.getDescriptionDir()
-					+ "/" + zc.getIndustryDir().get(i)
-					+ "/" + date;
-			makeDirs(descriptionDir);
 			String dataDir = zc.getDataDir()
 					+ "/" + zc.getIndustryDir().get(i)
 					+ "/" + date;
@@ -295,8 +278,7 @@ public class Zhilian {
 				if (f.getName().contains(".DS_Store")) {
 					continue;
 				}
-				parsePositionPage(f.getAbsolutePath(),
-						descriptionDir + "/" + f.getName());
+				parsePositionPage(f.getAbsolutePath());
 			}
 		}
 		ZhilianObj.excuteStore();

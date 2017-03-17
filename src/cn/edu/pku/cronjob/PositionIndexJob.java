@@ -54,7 +54,7 @@ public class PositionIndexJob {
 		this.zhilianJob = zhilianJob;
 	}
 
-	@Scheduled(cron = "0 0 8 * * ?")
+	@Scheduled(cron = "0 10 0 * * ?")
 	public void executePipeline() {
 		
 //		zhilianJob.executePipeline();
