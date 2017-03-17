@@ -166,6 +166,9 @@ public class Qiancheng {
 					continue;
 				}
 				Elements fps = div.select(".fp");
+				if (fps == null) {
+					continue;
+				}
 				Element fp = fps.first();
 				if(fp == null) {
 					continue;
@@ -207,37 +210,39 @@ public class Qiancheng {
 		Elements cns = doc.select(".cn");
 		if (cns != null) {
 			Element cn = cns.first();
-			Elements h1s = cn.select("h1");
-			if (h1s != null) {
-				Element h1 = h1s.first();
-				if (h1 != null) {
-					qcobj.setPostitle(h1.text().trim());
+			if (cn != null) {
+				Elements h1s = cn.select("h1");
+				if (h1s != null) {
+					Element h1 = h1s.first();
+					if (h1 != null) {
+						qcobj.setPostitle(h1.text().trim());
+					}
 				}
-			}
-			Elements strongs = cn.select("strong");
-			if (strongs != null) {
-				Element strong = strongs.first();
-				if (strong != null) {
-					qcobj.setPosSalary(strong.text().trim());
+				Elements strongs = cn.select("strong");
+				if (strongs != null) {
+					Element strong = strongs.first();
+					if (strong != null) {
+						qcobj.setPosSalary(strong.text().trim());
+					}
 				}
-			}
-			Elements ps = cn.select("p");
-			if (ps != null) {
-				for (Element p : ps) {
-					if (p != null){
-						Elements as = p.select("a");
-						if (as != null) {
-							Element a = as.first();
-							if (a != null) {
-								qcobj.setComName(a.text().trim());
+				Elements ps = cn.select("p");
+				if (ps != null) {
+					for (Element p : ps) {
+						if (p != null){
+							Elements as = p.select("a");
+							if (as != null) {
+								Element a = as.first();
+								if (a != null) {
+									qcobj.setComName(a.text().trim());
+								}
 							}
-						}
-						else {
-							String text = p.text().replace("&nbsp;", "").trim();
-							String[] list = text.split("|");
-							qcobj.setComType(list[0]);
-							qcobj.setComScale(list[1]);
-							qcobj.setComIndustry(list[2]);
+							else {
+								String text = p.text().replace("&nbsp;", "").trim();
+								String[] list = text.split("|");
+								qcobj.setComType(list[0]);
+								qcobj.setComScale(list[1]);
+								qcobj.setComIndustry(list[2]);
+							}
 						}
 					}
 				}

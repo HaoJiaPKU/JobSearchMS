@@ -123,6 +123,6 @@ public class QianchengConf {
 
 	public static void main(String []args) {
 		QianchengConf qc = new QianchengConf();
-		//qc.run();
+		qc.run();
 	}
 }
