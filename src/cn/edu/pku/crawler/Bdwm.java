@@ -43,6 +43,21 @@ public class Bdwm {
 			return;
 		}
 		for (Element table : tables) {
+			Elements titles = table.select(".title");
+			if (titles == null) {
+				continue;
+			}
+			Element title = titles.first();
+			if(title == null) {
+				continue;
+			}
+			String name = title.text().trim();
+			if (name.indexOf("恢复") != -1 && name.indexOf("发文权力") != -1) {
+				continue;
+			}
+			if (name.indexOf("封禁") != -1 && name.indexOf("发文权力") != -1) {
+				continue;
+			}
 			Elements as = table.select("a");
 			if (as == null) {
 				continue;
