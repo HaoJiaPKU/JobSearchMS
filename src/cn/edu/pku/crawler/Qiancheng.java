@@ -254,20 +254,28 @@ public class Qiancheng {
 						if (spans != null) {
 							for (Element span : spans) {
 								if(span != null) {
-									if(span.select(".i1").first() != null) {
-										//System.out.println(span.text().trim());
-										qcobj.setPosExperience(span.text().trim());
-									} 
-									if(span.select(".i2").first() != null) {
-										//System.out.println(span.text().trim());
-										qcobj.setPosDegree(span.text().trim());
-									} 
-									if(span.select(".i3").first() != null) {
-										//System.out.println(span.text().trim());
-										qcobj.setPosRecruitNum(span.text().trim());
-									} 
-									if(span.select(".i4").first() != null) {
-										qcobj.setPosPublishDate("2017-" + span.text().trim().substring(0,5));
+									if (span.select(".i1") != null) {
+										if (span.select(".i1").first() != null) {
+											//System.out.println(span.text().trim());
+											qcobj.setPosExperience(span.text().trim());
+										} 
+									}
+									if (span.select(".i2") != null) {
+										if (span.select(".i2").first() != null) {
+											//System.out.println(span.text().trim());
+											qcobj.setPosDegree(span.text().trim());
+										}
+									}
+									if (span.select(".i3") != null) {
+										if (span.select(".i3").first() != null) {
+											//System.out.println(span.text().trim());
+											qcobj.setPosRecruitNum(span.text().trim());
+										}
+									}
+									if (span.select(".i4") != null) {
+										if (span.select(".i4").first() != null) {
+											qcobj.setPosPublishDate("2017-" + span.text().trim().substring(0,5));
+										}
 									}
 								}
 							}
