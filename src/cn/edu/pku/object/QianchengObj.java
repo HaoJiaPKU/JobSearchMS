@@ -36,7 +36,7 @@ public class QianchengObj extends AbstractObj {
 	
 	public QianchengObj(String postitle, String posSalary, String posLocation, String posPublishDate, String posType,
 			String posExperience, String posDegree, String posRecruitNum, String posCategory, String posDescription,
-			String posUrl, String posKeyword, String comScale, String comType, String comIndustry, String comHost, String comLocation,
+			String posUrl, String posKeyword, String comName, String comScale, String comType, String comIndustry, String comHost, String comLocation,
 			int hasTag, String source, String snapshotUrl, String displayContent) {
 		super();
 		this.postitle = postitle;
@@ -51,6 +51,7 @@ public class QianchengObj extends AbstractObj {
 		this.posDescription = posDescription;
 		this.posUrl = posUrl;
 		this.posKeyword = posKeyword;
+		this.comName = comName;
 		this.comScale = comScale;
 		this.comType = comType;
 		this.comIndustry = comIndustry;
@@ -75,6 +76,7 @@ public class QianchengObj extends AbstractObj {
 		this.posDescription = qianchengObj.posDescription;
 		this.posUrl = qianchengObj.posUrl;
 		this.posKeyword = qianchengObj.posKeyword;
+		this.comName = qianchengObj.comName;
 		this.comScale = qianchengObj.comScale;
 		this.comType = qianchengObj.comType;
 		this.comIndustry = qianchengObj.comIndustry;
@@ -176,7 +178,7 @@ public class QianchengObj extends AbstractObj {
 				for (String key : newData.keySet()) {
 					QianchengObj qcobj = newData.get(key);
 					String sql = "insert into "
-							+ DatabaseConf.getPositiontable() + " ("
+							+ DatabaseConf.getPositiontable() + "("
 							+ "pos_title,"
 							+ "pos_salary,"
 							+ "pos_location,"
@@ -189,6 +191,7 @@ public class QianchengObj extends AbstractObj {
 							+ "pos_description,"
 							+ "pos_url,"
 							+ "pos_keyword,"
+							+ "com_name,"
 							+ "com_scale,"
 							+ "com_type,"
 							+ "com_industry,"
@@ -211,6 +214,7 @@ public class QianchengObj extends AbstractObj {
 							+ "'" + qcobj.posDescription + "',"
 							+ "'" + qcobj.posUrl + "',"
 							+ "'" + qcobj.posKeyword + "',"
+							+ "'" + qcobj.comName + "',"
 							+ "'" + qcobj.comScale + "',"
 							+ "'" + qcobj.comType + "',"
 							+ "'" + qcobj.comIndustry + "',"
@@ -381,7 +385,7 @@ public class QianchengObj extends AbstractObj {
 				sql = "delete from "
 						+ DatabaseConf.getPositiontagtable()
 						+ " where "
-						+ "position_id = " + id + ";";
+						+ "recruitment_id = " + id + ";";
 
 				try {
 					stmt = conn.prepareStatement(sql);
@@ -400,7 +404,7 @@ public class QianchengObj extends AbstractObj {
 				sql = "delete from "
 						+ DatabaseConf.getRelevancetable()
 						+ " where "
-						+ "position_id = " + id + ";";
+						+ "recruitment_id = " + id + ";";
 
 				try {
 					stmt = conn.prepareStatement(sql);
@@ -708,6 +712,7 @@ public class QianchengObj extends AbstractObj {
 		System.out.println(this.posUrl);
 		System.out.println(this.posKeyword);
 		
+		System.out.println(this.comName);
 		System.out.println(this.comScale);
 		System.out.println(this.comType);
 		System.out.println(this.comIndustry);

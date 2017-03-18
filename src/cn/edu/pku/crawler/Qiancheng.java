@@ -234,15 +234,21 @@ public class Qiancheng {
 							if (as != null) {
 								Element a = as.first();
 								if (a != null) {
+									//System.out.println(a.text().trim());
 									qcobj.setComName(a.text().trim());
+									continue;
 								}
 							}
-							else {
-								String text = p.text().replace("&nbsp;", "").trim();
-								String[] list = text.split("|");
-								qcobj.setComType(list[0]);
-								qcobj.setComScale(list[1]);
-								qcobj.setComIndustry(list[2]);
+							String text = p.text().replace("&nbsp;", "").replace("  ", "").trim();
+							String[] list = text.split("\\|");
+							for (String index : list) {
+								if (index.indexOf("公司") != -1 || index.indexOf("合资") != -1) {
+									qcobj.setComType(index);
+								} else if (index.indexOf("人") != -1) {
+									qcobj.setComScale(index);
+								} else {
+									qcobj.setComIndustry(index);
+								}
 							}
 						}
 					}
