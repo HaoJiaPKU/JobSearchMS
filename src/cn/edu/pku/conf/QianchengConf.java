@@ -13,24 +13,18 @@ public class QianchengConf {
 	public static final String ConfFile = "../../../git/jrs-backend/conf/qiancheng.conf";
 		
 	public int MaxPageNumber = 90;
-	public String dataDir = new String();
-	public String descriptionDir = new String();
+	public String dataDir = Source;
 	public ArrayList<String> industryUrl = new ArrayList<String>();
 	public ArrayList<String> industryDir = new ArrayList<String>();
 	
 	public QianchengConf() {
-		MaxPageNumber = 90;
-		dataDir = "data";
-		descriptionDir = "description";
 		makeDirs(getDataDir());
-		makeDirs(getDescriptionDir());
 		
 		industryDir.clear();
 		industryUrl.clear();
 		industryDir.add("计算机软件");
 		industryUrl.add("http://search.51job.com/jobsearch/search_result.php?fromJs=1&jobarea=010000&industrytype=01&keywordtype=2&lang=c&stype=2&postchannel=0000&fromType=1&confirmdate=9&curr_page=");
 		makeDirs(getDataDir() + "/" + industryDir.get(0));
-		makeDirs(getDescriptionDir() + "/" + industryDir.get(0));
 	}
 	
 	public void makeDirs(String path) {
@@ -49,16 +43,13 @@ public class QianchengConf {
 				String workspace = line.trim();
 				
 				setDataDir(workspace + "/" + dataDir);
-				setDescriptionDir(workspace + "/" + descriptionDir);
 				makeDirs(getDataDir());
-				makeDirs(getDescriptionDir());
 				
 				industryDir.clear();
 				industryUrl.clear();
 				while((line = fi.reader.readLine()) != null) {
 					String args[] = line.trim().split("	+");
 					makeDirs(getDataDir() + "/" + args[0].trim());
-					makeDirs(getDescriptionDir() + "/" + args[0].trim());
 					industryDir.add(args[0].trim());
 					industryUrl.add(args[1].trim());
 				}
@@ -103,14 +94,6 @@ public class QianchengConf {
 	
 	public static String getHosturl() {
 		return HostUrl;
-	}
-	
-	public String getDescriptionDir() {
-		return descriptionDir;
-	}
-
-	public void setDescriptionDir(String descriptionDir) {
-		this.descriptionDir = descriptionDir;
 	}
 
 	public static String getSource() {

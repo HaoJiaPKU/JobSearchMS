@@ -102,9 +102,8 @@ public class Bdwm {
 		}
 	}
 	
-	public void parsePositionPage(String inputPath, String outputPath) {
+	public void parsePositionPage(String inputPath) {
 		FileInput fi = new FileInput(inputPath);
-		FileOutput fo = new FileOutput(outputPath);
 		
 		String content = new String(), line = new String();
 		try {
@@ -142,7 +141,6 @@ public class Bdwm {
 					if (description == null
 							|| description.length() == 0
 							|| description.equals("")) {
-						fo.closeOutput();
 						fi.closeInput();
 						return;
 					}
@@ -236,18 +234,7 @@ public class Bdwm {
 		//存储到数据库视图缓存
 		bobj.preStore();
 //		System.out.println(bobj.getComName());
-		
-		try {
-			fo.t3.write(bobj.getPostitle()
-					+ "	" + bobj.getPosPublishDate()
-					+ "	" + bobj.getPosCategory()
-					+ "	" + bobj.getPosDescription());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		fo.closeOutput();
+
 		fi.closeInput();
 	}
 		
@@ -256,10 +243,6 @@ public class Bdwm {
 		for (int i = 0; i < bd.getIndustryDir().size(); i ++) {
 			System.out.println("parsing into " + bd.getIndustryDir().get(i));
 			String date = TimeUtil.getDate(DatabaseConf.getParsedate());
-			String descriptionDir = bd.getDescriptionDir()
-					+ "\\" + bd.getIndustryDir().get(i)
-					+ "\\" + date;
-			makeDirs(descriptionDir);
 			String dataDir = bd.getDataDir()
 					+ "\\" + bd.getIndustryDir().get(i)
 					+ "\\" + date;
@@ -269,8 +252,7 @@ public class Bdwm {
 				if (f.getName().contains(".DS_Store")) {
 					continue;
 				}
-				parsePositionPage(f.getAbsolutePath(),
-						descriptionDir + "/" + f.getName());
+				parsePositionPage(f.getAbsolutePath());
 			}
 		}
 		BdwmObj.excuteStore();

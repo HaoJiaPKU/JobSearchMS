@@ -10,24 +10,18 @@ public class BdwmConf {
 	public static final String ConfFile = "";
 		
 	public int MaxPageNumber = 10;
-	public String dataDir = new String();
-	public String descriptionDir = new String();
+	public String dataDir = "E:" + Source;
 	public ArrayList<String> industryUrl = new ArrayList<String>();
 	public ArrayList<String> industryDir = new ArrayList<String>();
 	
 	public BdwmConf() {
-		MaxPageNumber = 10;
-		dataDir = "E:data";
-		descriptionDir = "E:description";
 		makeDirs(getDataDir());
-		makeDirs(getDescriptionDir());
 		
 		industryDir.clear();
 		industryUrl.clear();
 		industryDir.add("招聘版");
 		industryUrl.add("https://bbs.pku.edu.cn/v2/thread.php?bid=845&mode=topic&page=");
 		makeDirs(getDataDir() + "/" + industryDir.get(0));
-		makeDirs(getDescriptionDir() + "/" + industryDir.get(0));
 	}
 	
 	public void makeDirs(String path) {
@@ -71,14 +65,6 @@ public class BdwmConf {
 	
 	public static String getHosturl() {
 		return HostUrl;
-	}
-	
-	public String getDescriptionDir() {
-		return descriptionDir;
-	}
-
-	public void setDescriptionDir(String descriptionDir) {
-		this.descriptionDir = descriptionDir;
 	}
 
 	public static String getSource() {

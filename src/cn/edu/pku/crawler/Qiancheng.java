@@ -116,9 +116,8 @@ public class Qiancheng {
 		}
 	}
 	
-	public void parsePositionPage(String inputPath, String outputPath) {
+	public void parsePositionPage(String inputPath) {
 		FileInput fi = new FileInput(inputPath);
-		FileOutput fo = new FileOutput(outputPath);
 		
 		String content = new String(), line = new String();
 		try {
@@ -142,7 +141,6 @@ public class Qiancheng {
 				if (description == null
 						|| description.length() == 0
 						|| description.equals("")) {
-					fo.closeOutput();
 					fi.closeInput();
 					return;
 				}
@@ -313,17 +311,6 @@ public class Qiancheng {
 		//存储到数据库视图缓存
 		qcobj.preStore();
 		
-		try {
-			fo.t3.write(qcobj.getPostitle()
-					+ "	" + qcobj.getPosPublishDate()
-					+ "	" + qcobj.getPosCategory()
-					+ "	" + qcobj.getPosDescription());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		fo.closeOutput();
 		fi.closeInput();
 	}
 		
@@ -332,10 +319,6 @@ public class Qiancheng {
 		for (int i = 0; i < qc.getIndustryDir().size(); i ++) {
 			System.out.println("parsing into " + qc.getIndustryDir().get(i));
 			String date = TimeUtil.getDate(DatabaseConf.getParsedate());
-			String descriptionDir = qc.getDescriptionDir()
-					+ "/" + qc.getIndustryDir().get(i)
-					+ "/" + date;
-			makeDirs(descriptionDir);
 			String dataDir = qc.getDataDir()
 					+ "/" + qc.getIndustryDir().get(i)
 					+ "/" + date;
@@ -345,8 +328,7 @@ public class Qiancheng {
 				if (f.getName().contains(".DS_Store")) {
 					continue;
 				}
-				parsePositionPage(f.getAbsolutePath(),
-						descriptionDir + "/" + f.getName());
+				parsePositionPage(f.getAbsolutePath());
 			}
 		}
 		QianchengObj.excuteStore();
