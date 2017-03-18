@@ -78,6 +78,9 @@ public class Qiancheng {
 			}
 			String value = input.attr("value").toString();
 			String link = a.attr("href").toString();
+			if (link.indexOf("jobs.51job.com") == -1) {
+				continue;
+			}
 			crawlPositionPage(link, saveDir + "/" + value, encoding);
 		}
 	}
