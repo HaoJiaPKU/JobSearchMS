@@ -242,7 +242,7 @@ public class Qiancheng {
 							String text = p.text().replace("&nbsp;", "").replace("  ", "").trim();
 							String[] list = text.split("\\|");
 							for (String index : list) {
-								if (index.indexOf("公司") != -1 || index.indexOf("合资") != -1) {
+								if (index.indexOf("公司") != -1 || index.indexOf("合资") != -1 || index.indexOf("外资") != -1) {
 									qcobj.setComType(index);
 								} else if (index.indexOf("人") != -1) {
 									qcobj.setComScale(index);
