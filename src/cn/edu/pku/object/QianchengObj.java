@@ -178,7 +178,7 @@ public class QianchengObj extends AbstractObj {
 				for (String key : newData.keySet()) {
 					QianchengObj qcobj = newData.get(key);
 					String sql = "insert into "
-							+ DatabaseConf.getPositiontable() + "("
+							+ DatabaseConf.getPositiontable() + " ("
 							+ "pos_title,"
 							+ "pos_salary,"
 							+ "pos_location,"
