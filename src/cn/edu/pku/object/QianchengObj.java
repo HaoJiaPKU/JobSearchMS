@@ -385,7 +385,7 @@ public class QianchengObj extends AbstractObj {
 				sql = "delete from "
 						+ DatabaseConf.getPositiontagtable()
 						+ " where "
-						+ "recruitment_id = " + id + ";";
+						+ "id = " + id + ";";
 
 				try {
 					stmt = conn.prepareStatement(sql);
@@ -404,7 +404,7 @@ public class QianchengObj extends AbstractObj {
 				sql = "delete from "
 						+ DatabaseConf.getRelevancetable()
 						+ " where "
-						+ "recruitment_id = " + id + ";";
+						+ "id = " + id + ";";
 
 				try {
 					stmt = conn.prepareStatement(sql);
