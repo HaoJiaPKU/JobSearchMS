@@ -25,14 +25,14 @@ public class ResumeIndexJob {
 		this.resumeIndexService = resumeIndexService;
 	}
 
-	@Scheduled(cron = "0 30 8 * * ?")
-	public void executePipeline() {
-		
-		//构建索引
-		System.out.println("info:	开始 构建简历索引	"
-				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		resumeIndexService.create();
-		System.out.println("info:	完成 构建简历索引	"
-				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-	}
+//	@Scheduled(cron = "0 30 8 * * ?")
+//	public void executePipeline() {
+//		
+//		//构建索引
+//		System.out.println("info:	开始 构建简历索引	"
+//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+//		resumeIndexService.create();
+//		System.out.println("info:	完成 构建简历索引	"
+//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+//	}
 }

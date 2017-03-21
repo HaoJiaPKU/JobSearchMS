@@ -54,14 +54,14 @@ public class PositionIndexJob {
 		this.zhilianJob = zhilianJob;
 	}
 
-	@Scheduled(cron = "0 10 0 * * ?")
+	@Scheduled(cron = "20 18 10 * * ?")
 	public void executePipeline() {
 		
 //		zhilianJob.executePipeline();
 		
 //		bdwmJob.executePipeline();
 
-//		qianchengJob.executePipeline();
+		qianchengJob.executePipeline();
 		
 		//构建索引
 		System.out.println("info:	开始 构建职位索引	"
