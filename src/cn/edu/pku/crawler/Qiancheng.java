@@ -171,11 +171,13 @@ public class Qiancheng {
 					continue;
 				}
 				Element fp = fps.first();
-				if(fp == null) {
+				if (fp == null) {
 					continue;
 				}
-				String location = fp.text().replace("　", "").substring(5).trim();
-				qcobj.setPosLocation(location);
+				if (fp.text().replace("　", "").trim().length() <= 5) {
+					String location = fp.text().replace("　", "").substring(5).trim();
+					qcobj.setPosLocation(location);
+				}
 			}
 		}
 		divs = doc.select(".tmsg");
