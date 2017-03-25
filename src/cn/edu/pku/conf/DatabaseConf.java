@@ -10,7 +10,7 @@ public class DatabaseConf {
 	private static final String PositionTagTable = "position_tag";
 	private static final String RelevanceTable = "relevance";
 	
-	private static final int ExpireDate = -90;
+	private static final int ExpireDate = -30;
 	private static final int PositionIndexExpireDate = -30;
 	private static final int CrawlDate = 0;
 	private static final int ParseDate = 0;
