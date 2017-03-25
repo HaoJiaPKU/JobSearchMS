@@ -174,7 +174,7 @@ public class Qiancheng {
 				if (fp == null) {
 					continue;
 				}
-				if (fp.text().replace("　", "").trim().length() <= 5) {
+				if (fp.text().replace("　", "").trim().length() > 5) {
 					String location = fp.text().replace("　", "").substring(5).trim();
 					qcobj.setPosLocation(location);
 				}
