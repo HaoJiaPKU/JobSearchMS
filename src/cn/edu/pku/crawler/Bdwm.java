@@ -244,8 +244,8 @@ public class Bdwm {
 			System.out.println("parsing into " + bd.getIndustryDir().get(i));
 			String date = TimeUtil.getDate(DatabaseConf.getParsedate());
 			String dataDir = bd.getDataDir()
-					+ "\\" + bd.getIndustryDir().get(i)
-					+ "\\" + date;
+					+ "/" + bd.getIndustryDir().get(i)
+					+ "/" + date;
 			makeDirs(dataDir);
 			File file = new File(dataDir);
 			for (File f : file.listFiles()) {

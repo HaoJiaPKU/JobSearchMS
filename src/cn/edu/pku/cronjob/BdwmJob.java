@@ -6,7 +6,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import cn.edu.pku.conf.BdwmConf;
+import cn.edu.pku.conf.ZhilianConf;
 import cn.edu.pku.crawler.Bdwm;
+import cn.edu.pku.crawler.Zhilian;
 import cn.edu.pku.service.PositionIndexService;
 import cn.edu.pku.util.TimeUtil;
 
@@ -15,6 +17,7 @@ public class BdwmJob {
 	
 	public void executePipeline() {
 		BdwmConf bc = new BdwmConf();
+		bc.run();
 		Bdwm bdwm = new Bdwm();
 
 		/**

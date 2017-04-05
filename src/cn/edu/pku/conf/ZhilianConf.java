@@ -10,7 +10,7 @@ public class ZhilianConf {
 	
 	public static final String HostUrl = "http://jobs.zhaopin.com/";
 	public static final String Source = "智联招聘";
-	public static final String ConfFile = "../../../git/jrs-backend/conf/zhilian.conf";
+	public static final String ConfFile = "../../../../workspace/jrs-backend/conf/zhilian.conf";
 		
 	public int MaxPageNumber = 90;
 	public String dataDir = Source;

@@ -29,19 +29,19 @@ public class QianchengJob {
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		*/
 		
-		//爬取招聘页面保存到本地
-		System.out.println("info:	" + QianchengConf.getSource() + "开始 数据抓取	"
-				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		qc.crawlPositionPageBatch(bc, "GB2312");
-		System.out.println("info:	" + QianchengConf.getSource() + "完成 数据抓取	"
-				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		
-		//解析本地的招聘页面，保存到服务器的mysql，重复数据不保存
-		System.out.println("info:	" + QianchengConf.getSource() + "开始 数据保存	"
-				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		qc.parsePositionPageBatch(bc);
-		System.out.println("info:	" + QianchengConf.getSource() + "完成 数据保存	"
-				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+//		//爬取招聘页面保存到本地
+//		System.out.println("info:	" + QianchengConf.getSource() + "开始 数据抓取	"
+//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+//		qc.crawlPositionPageBatch(bc, "GB2312");
+//		System.out.println("info:	" + QianchengConf.getSource() + "完成 数据抓取	"
+//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+//		
+//		//解析本地的招聘页面，保存到服务器的mysql，重复数据不保存
+//		System.out.println("info:	" + QianchengConf.getSource() + "开始 数据保存	"
+//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+//		qc.parsePositionPageBatch(bc);
+//		System.out.println("info:	" + QianchengConf.getSource() + "完成 数据保存	"
+//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		
 		//删除重复数据
 		System.out.println("info:	" + QianchengConf.getSource() + "开始 删除重复数据	"

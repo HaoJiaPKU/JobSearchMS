@@ -10,9 +10,9 @@ public class QianchengConf {
 	
 	public static final String HostUrl = "http://jobs.51job.com/beijing";
 	public static final String Source = "前程无忧";
-	public static final String ConfFile = "../../../git/jrs-backend/conf/qiancheng.conf";
+	public static final String ConfFile = "../../../../workspace/jrs-backend/conf/qiancheng.conf";
 		
-	public int MaxPageNumber = 10;
+	public int MaxPageNumber = 90;
 	public String dataDir = Source;
 	public ArrayList<String> industryUrl = new ArrayList<String>();
 	public ArrayList<String> industryDir = new ArrayList<String>();

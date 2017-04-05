@@ -1,16 +1,19 @@
 package cn.edu.pku.conf;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import cn.edu.pku.util.FileInput;
 
 public class BdwmConf {
 	
 	public static final String HostUrl = "http://bbs.pku.edu.cn/";
 	public static final String Source = "北大未名";
-	public static final String ConfFile = "";
+	public static final String ConfFile = "../../../../workspace/jrs-backend/conf/bdwm.conf";
 		
 	public int MaxPageNumber = 10;
-	public String dataDir = "E:" + Source;
+	public String dataDir = Source;
 	public ArrayList<String> industryUrl = new ArrayList<String>();
 	public ArrayList<String> industryDir = new ArrayList<String>();
 	
@@ -28,6 +31,32 @@ public class BdwmConf {
 		File file = new File(path);
 		if (!file.exists() && !file.isDirectory()) {
 			file.mkdirs();    
+		}
+	}
+	
+	public void run() {
+		FileInput fi = new FileInput(ConfFile);
+		if (fi.reader != null) {
+			String line = new String();
+			try {
+				line = fi.reader.readLine();
+				String workspace = line.trim();
+				
+				setDataDir(workspace + "/" + dataDir);
+				makeDirs(getDataDir());
+				
+				industryDir.clear();
+				industryUrl.clear();
+				while((line = fi.reader.readLine()) != null) {
+					String args[] = line.trim().split("	+");
+					makeDirs(getDataDir() + "/" + args[0].trim());
+					industryDir.add(args[0].trim());
+					industryUrl.add(args[1].trim());
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
