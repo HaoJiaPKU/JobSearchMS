@@ -27,12 +27,12 @@ public class ZhilianJob {
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		*/
 		
-//		//爬取招聘页面保存到本地
-//		System.out.println("info:	" + ZhilianConf.getSource() + "开始 数据抓取	"
-//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-//		zl.crawlPositionPageBatch(zc, "utf-8");
-//		System.out.println("info:	" + ZhilianConf.getSource() + "完成 数据抓取	"
-//				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+		//爬取招聘页面保存到本地
+		System.out.println("info:	" + ZhilianConf.getSource() + "开始 数据抓取	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
+		zl.crawlPositionPageBatch(zc, "utf-8");
+		System.out.println("info:	" + ZhilianConf.getSource() + "完成 数据抓取	"
+				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		
 		//解析本地的招聘页面，保存到服务器的mysql，重复数据不保存
 		System.out.println("info:	" + ZhilianConf.getSource() + "开始 数据保存	"
