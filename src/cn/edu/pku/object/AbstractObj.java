@@ -139,6 +139,7 @@ public class AbstractObj {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		sql = new String();
 		
 		int counter = 0;
 		HashMap<String, Integer> dup = new HashMap<String, Integer> ();
@@ -164,6 +165,11 @@ public class AbstractObj {
 					int v = (int) set[i].getValue();
 					fo.t3.write(k + "	" + v);
 					fo.t3.newLine();
+					if (k.length() == 0) {
+						continue;
+					}
+					sql += "insert into industry (industry, num) values('"
+							+ k + "', " + v + ");";
 				}
 			}
 		} catch (IOException e) {
@@ -171,6 +177,34 @@ public class AbstractObj {
 			e.printStackTrace();
 		}
 		fo.closeOutput();
+		
+		//industry-industry-industry-industry-industry
+//		System.out.println(sql);
+//		url = DatabaseConf.getDatebaseurl();
+//		try {
+//			Class.forName(DatabaseConf.getClassname());
+//			Connection conn;
+//			try {
+//				conn = DriverManager.getConnection(url);
+//
+//				PreparedStatement stmt;
+//				try {
+//					stmt = conn.prepareStatement(sql);
+//					stmt.executeUpdate();
+//					stmt.close();
+//				} catch (SQLException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				conn.close();
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		} catch (ClassNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	
 	/**

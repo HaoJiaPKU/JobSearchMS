@@ -108,6 +108,7 @@ public class Qiancheng {
 			String date = TimeUtil.getDate(DatabaseConf.getCrawldate());
 			String dataDir = qc.getDataDir() + "/" + qc.getIndustryDir().get(i)
 				+ "/" + date;
+			System.out.println(dataDir);
 			makeDirs(dataDir);
 			for (int j = 1; j <= qc.getMaxPageNumber(); j ++) {
 				String content = getIndexPage(qc.getIndustryUrl().get(i) + String.valueOf(j), encoding);
