@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import cn.edu.pku.conf.ZhilianConf;
 import cn.edu.pku.crawler.Zhilian;
 import cn.edu.pku.service.PositionIndexService;
+import cn.edu.pku.util.RuntimeLog;
 import cn.edu.pku.util.TimeUtil;
 
 @Component
@@ -27,20 +28,22 @@ public class ZhilianJob {
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		*/
 		
+		RuntimeLog.init("runtimelog.txt");
+		RuntimeLog.write("数据爬取");
 		//爬取招聘页面保存到本地
 		System.out.println("info:	" + ZhilianConf.getSource() + "开始 数据抓取	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		zl.crawlPositionPageBatch(zc, "utf-8");
 		System.out.println("info:	" + ZhilianConf.getSource() + "完成 数据抓取	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		
+		RuntimeLog.write("数据爬取");
 		//解析本地的招聘页面，保存到服务器的mysql，重复数据不保存
 		System.out.println("info:	" + ZhilianConf.getSource() + "开始 数据保存	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
 		zl.parsePositionPageBatch(zc);
 		System.out.println("info:	" + ZhilianConf.getSource() + "完成 数据保存	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));
-		
+		RuntimeLog.close();
 		//删除重复数据
 		System.out.println("info:	" + ZhilianConf.getSource() + "开始 删除重复数据	"
 				+ TimeUtil.getCurrentTime("yyyy/MM/dd HH:mm:ss"));

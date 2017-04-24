@@ -16,6 +16,7 @@ import java.util.Map;
 
 import cn.edu.pku.conf.DatabaseConf;
 import cn.edu.pku.conf.ZhilianConf;
+import cn.edu.pku.util.RuntimeLog;
 import cn.edu.pku.util.TimeUtil;
 
 public class ZhilianObj extends AbstractObj {
@@ -600,9 +601,13 @@ public class ZhilianObj extends AbstractObj {
 	 * */
 	public static void excuteStore() {
 		System.out.println("update database: " + updateData.size());
+		RuntimeLog.write("数据更新" + updateData.size());
 		updateDatebase();
+		RuntimeLog.write("数据更新" + updateData.size());
 		System.out.println("insert new data: " + newData.size());
+		RuntimeLog.write("数据保存" + newData.size());
 		insertVirtualViewData();
+		RuntimeLog.write("数据保存" + newData.size());
 		clearVirtualView();
 	}
 	

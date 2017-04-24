@@ -15,6 +15,7 @@ import cn.edu.pku.object.ZhilianObj;
 import cn.edu.pku.util.FileInput;
 import cn.edu.pku.util.FileOutput;
 import cn.edu.pku.util.HttpClientUtil;
+import cn.edu.pku.util.RuntimeLog;
 import cn.edu.pku.util.TimeUtil;
 
 public class Zhilian {
@@ -266,6 +267,7 @@ public class Zhilian {
 		
 	public void parsePositionPageBatch(ZhilianConf zc) {
 		ZhilianObj.loadVirtualView();
+		RuntimeLog.write("数据解析");
 		for (int i = 0; i < zc.getIndustryDir().size(); i ++) {
 			System.out.println("parsing into " + zc.getIndustryDir().get(i));
 			String date = TimeUtil.getDate(DatabaseConf.getParsedate());
@@ -281,6 +283,7 @@ public class Zhilian {
 				parsePositionPage(f.getAbsolutePath());
 			}
 		}
+		RuntimeLog.write("数据解析");
 		ZhilianObj.excuteStore();
 		ZhilianObj.clearVirtualView();
 	}
