@@ -2,8 +2,8 @@ package cn.edu.pku.conf;
 
 public class DatabaseConf {
 
-	private static final String DateBaseUrl = "jdbc:mysql://localhost:3306/jrs_jobpopo?"
-			+ "user=root&password=111111&useUnicode=true&characterEncoding=UTF-8";
+	private static final String DateBaseUrl = "jdbc:mysql://162.105.30.30:3306/jrs_jobpopo?"
+			+ "user=root&password=seke1726&useUnicode=true&characterEncoding=UTF-8";
 	private static final String ClassName = "com.mysql.jdbc.Driver";
 	private static final String PositionTable = "position";
 	private static final String PositionJobpopoTable = "position_jobpopo";
